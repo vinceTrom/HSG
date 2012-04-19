@@ -13,16 +13,16 @@ public class GLSprite extends Renderable {
     // The OpenGL ES texture handle to draw.
     private int mTextureName;
     // The id of the original resource that mTextureName is based on.
-    private int mResourceId;
+    private String mResourceName;
     // If drawing with verts or VBO verts, the grid object defining those verts.
     private Grid mGrid;
     
-    public GLSprite(int resourceId) {
+    public GLSprite(String resourceName) {
         super();
-        mResourceId = resourceId;
+        mResourceName = resourceName;
     }
     
-    private void setTextureName(int name) {
+    void setTextureName(int name) {
         mTextureName = name;
     }
     
@@ -30,12 +30,12 @@ public class GLSprite extends Renderable {
         return mTextureName;
     }
     
-    public void setResourceId(int id) {
-        mResourceId = id;
+    public void setResourceId(String name) {
+    	mResourceName = name;
     }
     
-    private int getResourceId() {
-        return mResourceId;
+    public String getResourceName() {
+        return mResourceName;
     }
     
     public void setGrid(Grid grid) {

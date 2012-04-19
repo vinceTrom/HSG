@@ -42,7 +42,7 @@ public class OpenglActivity extends Activity {
 	        DisplayMetrics dm = new DisplayMetrics();
 	        getWindowManager().getDefaultDisplay().getMetrics(dm);
 	        
-	        GLSprite background = new GLSprite(R.drawable.bg);
+	        GLSprite background = new GLSprite("abg.png");
 	        BitmapDrawable backgroundImage = (BitmapDrawable)getResources().getDrawable(R.drawable.bg);
 	        Bitmap backgoundBitmap = backgroundImage.getBitmap();
 	        background.width = backgoundBitmap.getWidth()*2;
@@ -81,11 +81,11 @@ public class OpenglActivity extends Activity {
 	            GLSprite robot;
 	            // Our robots come in three flavors.  Split them up accordingly.
 	            if (x < robotBucketSize) {
-	                robot = new GLSprite(R.drawable.skate1);
+	                robot = new GLSprite("askate1.png");
 	            } else if (x < robotBucketSize * 2) {
-	                robot = new GLSprite(R.drawable.skate1);
+	                robot = new GLSprite("askate1.png");
 	            } else {
-	                robot = new GLSprite(R.drawable.skate1);
+	                robot = new GLSprite("askate1.png");
 	            }
 	        
 	            robot.width = SPRITE_WIDTH;
