@@ -11,8 +11,8 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 
 public class OpenglActivity extends Activity {
-	 private final static int SPRITE_WIDTH = 64;
-	    private final static int SPRITE_HEIGHT = 64;
+	 private final static int SPRITE_WIDTH = 256;
+	    private final static int SPRITE_HEIGHT = 256;
 	    
 	    
 	    private GLSurfaceView mGLSurfaceView;
@@ -29,22 +29,21 @@ public class OpenglActivity extends Activity {
 	        
 	        final Intent callingIntent = getIntent();
 	        // Allocate our sprites and add them to an array.
-	        final int robotCount = callingIntent.getIntExtra("spriteCount", 10);
-	        final boolean animate = callingIntent.getBooleanExtra("animate", true);
-	        final boolean useVerts = 
-	            callingIntent.getBooleanExtra("useVerts", false);
+	        final int robotCount = 1;//callingIntent.getIntExtra("spriteCount", 10);
+	        final boolean animate = true;//callingIntent.getBooleanExtra("animate", true);
+	        final boolean useVerts = true;
 	        final boolean useHardwareBuffers = 
 	            callingIntent.getBooleanExtra("useHardwareBuffers", false);
 	        
 	        // Allocate space for the robot sprites + one background sprite.
-	        GLSprite[] spriteArray = new GLSprite[robotCount + 1];    
+	        GLAnim[] spriteArray = new GLAnim[robotCount + 1];    
 	        
 	        // We need to know the width and height of the display pretty soon,
 	        // so grab the information now.
 	        DisplayMetrics dm = new DisplayMetrics();
 	        getWindowManager().getDefaultDisplay().getMetrics(dm);
 	        
-	        GLSprite background = new GLSprite("abg.png");
+	        GLAnim background = new GLAnim("abg.png");
 	       // BitmapDrawable backgroundImage = (BitmapDrawable)getResources().getDrawable(R.drawable.bg);
 	        Bitmap backgoundBitmap = null;
 			try {
@@ -57,26 +56,30 @@ public class OpenglActivity extends Activity {
 	        background.height = backgoundBitmap.getHeight()*2;
 	        if (useVerts) {
 	            // Setup the background grid.  This is just a quad.
+	        	Grid[] backgroundGrids = new Grid[1];
 	            Grid backgroundGrid = new Grid(2, 2, false);
 	            backgroundGrid.set(0, 0,  0.0f, 0.0f, 0.0f, 0.0f, 1.0f, null);
 	            backgroundGrid.set(1, 0, background.width, 0.0f, 0.0f, 1.0f, 1.0f, null);
 	            backgroundGrid.set(0, 1, 0.0f, background.height, 0.0f, 0.0f, 0.0f, null);
 	            backgroundGrid.set(1, 1, background.width, background.height, 0.0f, 
 	                    1.0f, 0.0f, null );
-	            background.setGrid(backgroundGrid);
+	            backgroundGrids[0] = backgroundGrid;
+	            background.setGrids(backgroundGrids);
 	        }
 	        spriteArray[0] = background;
 	        
-	        
+	        Grid[] spriteGrids = new Grid[1];
 	        Grid spriteGrid = null;
 	        if (useVerts) {
 	            // Setup a quad for the sprites to use.  All sprites will use the
 	            // same sprite grid intance.
+	        	float Xratio = 0.5f;
+	        	float Yratio = 1f;
 	            spriteGrid = new Grid(2, 2, false);
-	            spriteGrid.set(0, 0,  0.0f, 0.0f, 0.0f, 0.0f , 1.0f, null);
-	            spriteGrid.set(1, 0, SPRITE_WIDTH, 0.0f, 0.0f, 1.0f, 1.0f, null);
-	            spriteGrid.set(0, 1, 0.0f, SPRITE_HEIGHT, 0.0f, 0.0f, 0.0f, null);
-	            spriteGrid.set(1, 1, SPRITE_WIDTH, SPRITE_HEIGHT, 0.0f, 1.0f, 0.0f, null);
+	            spriteGrid.set(0, 0,  0.0f, 0.0f, 0.0f, 0.0f , 1.0f*Yratio, null);
+	            spriteGrid.set(1, 0, SPRITE_WIDTH*Xratio, 0.0f, 0.0f, 1.0f*Xratio, 1.0f*Yratio, null);
+	            spriteGrid.set(0, 1, 0.0f, SPRITE_HEIGHT*Yratio, 0.0f, 0.0f, 0.0f, null);
+	            spriteGrid.set(1, 1, SPRITE_WIDTH*Xratio, SPRITE_HEIGHT*Yratio, 0.0f, 1.0f*Xratio, 0.0f, null);
 	        }
 	        
 	        
@@ -86,14 +89,14 @@ public class OpenglActivity extends Activity {
 	        Renderable[] renderableArray = new Renderable[robotCount]; 
 	        final int robotBucketSize = robotCount / 3;
 	        for (int x = 0; x < robotCount; x++) {
-	            GLSprite robot;
+	            GLAnim robot;
 	            // Our robots come in three flavors.  Split them up accordingly.
 	            if (x < robotBucketSize) {
-	                robot = new GLSprite("askate1.png");
+	                robot = new GLAnim("aexplo.png");
 	            } else if (x < robotBucketSize * 2) {
-	                robot = new GLSprite("askate1.png");
+	                robot = new GLAnim("aexplo.png");
 	            } else {
-	                robot = new GLSprite("askate1.png");
+	                robot = new GLAnim("aexplo.png");
 	            }
 	        
 	            robot.width = SPRITE_WIDTH;
@@ -105,7 +108,8 @@ public class OpenglActivity extends Activity {
 	            
 	            // All sprites can reuse the same grid.  If we're running the
 	            // DrawTexture extension test, this is null.
-	            robot.setGrid(spriteGrid);
+	            spriteGrids[0] = spriteGrid;
+	            robot.setGrids(spriteGrids);
 	            
 	            // Add this robot to the spriteArray so it gets drawn and to the
 	            // renderableArray so that it gets moved.

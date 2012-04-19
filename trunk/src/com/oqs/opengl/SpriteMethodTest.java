@@ -67,7 +67,8 @@ public class SpriteMethodTest extends Activity {
             RadioGroup group = (RadioGroup)findViewById(R.id.renderMethod);
             Intent i;
             if (group.getCheckedRadioButtonId() == R.id.methodCanvas) {
-                i = new Intent(v.getContext(), CanvasTestActivity.class);
+            	i = null;
+                //i = new Intent(v.getContext(), CanvasTestActivity.class);
             } else {
                 i = new Intent(v.getContext(), OpenglActivity.class);
                 RadioGroup glSettings = 
