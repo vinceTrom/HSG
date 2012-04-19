@@ -1,10 +1,12 @@
 package com.oqs.opengl;
 
 
+import java.io.IOException;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 
@@ -43,8 +45,14 @@ public class OpenglActivity extends Activity {
 	        getWindowManager().getDefaultDisplay().getMetrics(dm);
 	        
 	        GLSprite background = new GLSprite("abg.png");
-	        BitmapDrawable backgroundImage = (BitmapDrawable)getResources().getDrawable(R.drawable.bg);
-	        Bitmap backgoundBitmap = backgroundImage.getBitmap();
+	       // BitmapDrawable backgroundImage = (BitmapDrawable)getResources().getDrawable(R.drawable.bg);
+	        Bitmap backgoundBitmap = null;
+			try {
+				backgoundBitmap = BitmapFactory.decodeStream(getAssets().open("abg.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // backgroundImage.getBitmap();
 	        background.width = backgoundBitmap.getWidth()*2;
 	        background.height = backgoundBitmap.getHeight()*2;
 	        if (useVerts) {
