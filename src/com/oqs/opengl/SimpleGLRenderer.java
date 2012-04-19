@@ -10,6 +10,7 @@ import javax.microedition.khronos.opengles.GL11;
 import javax.microedition.khronos.opengles.GL11Ext;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
@@ -164,11 +165,11 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 			// app would probably have another level of texture management, 
 			// like a texture hash.
 
-			int lastLoadedResource = -1;
+			String lastLoadedResource = "";
 			int lastTextureId = -1;
 
 			for (int x = 0; x < mSprites.length; x++) {
-				int resource = mSprites[x].getResourceId();
+				String resource = mSprites[x].getResourceName();
 				if (resource != lastLoadedResource) {
 					lastTextureId = loadBitmap(mContext, gl, resource);
 					lastLoadedResource = resource;
@@ -193,11 +194,11 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 	public void shutdown(GL10 gl) {
 		if (mSprites != null) {
 
-			int lastFreedResource = -1;
+			String lastFreedResource = "";
 			int[] textureToDelete = new int[1];
 
 			for (int x = 0; x < mSprites.length; x++) {
-				int resource = mSprites[x].getResourceId();
+				String resource = mSprites[x].getResourceName();
 				if (resource != lastFreedResource) {
 					textureToDelete[0] = mSprites[x].getTextureName();
 					gl.glDeleteTextures(1, textureToDelete, 0);
@@ -214,7 +215,7 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 	 * Loads a bitmap into OpenGL and sets up the common parameters for 
 	 * 2D texture maps. 
 	 */
-	protected int loadBitmap(Context context, GL10 gl, int resourceId) {
+	protected int loadBitmap(Context context, GL10 gl, String resourceName) {
 		int textureName = -1;
 		if (context != null && gl != null) {
 			gl.glGenTextures(1, mTextureNameWorkspace, 0);
@@ -233,10 +234,17 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 			if (error != GL10.GL_NO_ERROR) {
 				Log.e("SpriteMethodTest", "Texture Load GLError1: " + error);
 			}
-			Log.d("", "resourceID: "+resourceId);
-			InputStream is = context.getResources().openRawResource(resourceId);
+			Log.d("", "resourceID: "+resourceName);
+			//InputStream is = context.getResources().openRawResource(resourceId);
+			InputStream is = null;
 			Bitmap bitmap;
 			try {
+				try {
+					is = mContext.getAssets().open(resourceName);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				bitmap = BitmapFactory.decodeStream(is, null, sBitmapOptions);
 			} finally {
 				try {
