@@ -27,7 +27,7 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 	private static BitmapFactory.Options sBitmapOptions
 	= new BitmapFactory.Options();
 	// An array of things to draw every frame.
-	private GLSprite[] mSprites;
+	private GLAnim[] mSprites;
 	// Pre-allocated arrays to use at runtime so that allocation during the
 	// test can be avoided.
 	private int[] mTextureNameWorkspace;
@@ -58,7 +58,7 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 		return configSpec;
 	}
 
-	public void setSprites(GLSprite[] sprites) {
+	public void setSprites(GLAnim[] sprites) {
 		mSprites = sprites;
 	}
 
@@ -154,7 +154,9 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 			if (mUseHardwareBuffers) {
 				for (int x = 0; x < mSprites.length; x++) {
 					// Ditch old buffer indexes.
-					mSprites[x].getGrid().invalidateHardwareBuffers();
+					for(int j =0;j<mSprites[x].getGrids().length;j++){
+						mSprites[x].getGrids()[j].invalidateHardwareBuffers();
+					}
 				}
 			}
 
@@ -176,9 +178,11 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 				}
 				mSprites[x].setTextureName(lastTextureId);
 				if (mUseHardwareBuffers) {
-					Grid currentGrid = mSprites[x].getGrid();
-					if (!currentGrid.usingHardwareBuffers()) {
-						currentGrid.generateHardwareBuffers(gl);
+					for(int j =0;j<mSprites[x].getGrids().length;j++){
+						Grid currentGrid = mSprites[x].getGrids()[j];
+						if (!currentGrid.usingHardwareBuffers()) {
+							currentGrid.generateHardwareBuffers(gl);
+						}
 					}
 					//mSprites[x].getGrid().generateHardwareBuffers(gl);
 				}
@@ -205,7 +209,9 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 					mSprites[x].setTextureName(0);
 				}
 				if (mUseHardwareBuffers) {
-					mSprites[x].getGrid().releaseHardwareBuffers(gl);
+					for(int j =0;j<mSprites[x].getGrids().length;j++){
+					mSprites[x].getGrids()[j].releaseHardwareBuffers(gl);
+					}
 				}
 			}
 		}
@@ -252,7 +258,7 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 				} catch (IOException e) {
 					e.printStackTrace();
 					Log.e("",e.getMessage());
-				// Ignore.
+					// Ignore.
 				}
 			}
 
@@ -260,23 +266,23 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 			if (error != GL10.GL_NO_ERROR) {
 				Log.e("SpriteMethodTest", "Texture Load GLError1.5: " + error);
 			}
-			
+
 			Log.d("", "width: "+bitmap.getWidth());
 			Log.d("", "height: "+bitmap.getHeight()+"   "+GL10.GL_MAX_TEXTURE_SIZE);
-			
+
 			int[] tmp = new int[1];
 			gl.glGenTextures(1, tmp, 0);
 			int id = tmp[0];
-			
+
 			gl.glBindTexture(GL10.GL_TEXTURE_2D, textureName);
-			
+
 			GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
 
 
 			//gl.glBlendFunc(GL10.GL_ONE, GL10.GL_ONE_MINUS_SRC_ALPHA);
 
 			//gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-			
+
 			error = gl.glGetError();
 			if (error != GL10.GL_NO_ERROR) {
 				Log.e("SpriteMethodTest", "Texture Load GLError2: " + error);

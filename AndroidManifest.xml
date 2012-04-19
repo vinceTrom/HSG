@@ -3,15 +3,17 @@
     package="com.oqs.opengl">
     <application android:icon="@drawable/ic_launcher" android:label="@string/app_name">
         <activity android:name=".SpriteMethodTest" android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
     	<activity android:name="OpenglActivity" 
     			  android:screenOrientation="portrait" 
 	              android:configChanges="keyboardHidden|orientation" 
-	              android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"></activity>
+	              android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+    	    <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+    	</activity>
 		<activity android:name="CanvasTestActivity"
 				  android:screenOrientation="portrait" 
 	              android:configChanges="keyboardHidden|orientation" 
