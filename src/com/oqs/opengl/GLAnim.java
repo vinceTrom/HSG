@@ -57,15 +57,19 @@ public class GLAnim extends Renderable {
 		// Draw using verts or VBO verts.
 		gl.glPushMatrix();
 		gl.glLoadIdentity();
-		
-		
-		
+
+		if(mResourceName.contains("explo")){
+			gl.glTranslatef(
+					50, 
+					50, 
+					z);
+			/*
 			gl.glTranslatef(
 					x, 
 					y, 
 					z);
-		 
-		
+			 */
+		}
 		mGrid[currentindex].draw(gl, true, false);
 
 		gl.glPopMatrix();
