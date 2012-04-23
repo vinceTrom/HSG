@@ -266,9 +266,10 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 			if (error != GL10.GL_NO_ERROR) {
 				Log.e("SpriteMethodTest", "Texture Load GLError1.5: " + error);
 			}
-
+			int[] maxTextureSize = new int[1];
+			gl.glGetIntegerv(GL10.GL_MAX_TEXTURE_SIZE, maxTextureSize, 0);
 			Log.d("", "width: "+bitmap.getWidth());
-			Log.d("", "height: "+bitmap.getHeight()+"   "+GL10.GL_MAX_TEXTURE_SIZE);
+			Log.d("", "height: "+bitmap.getHeight()+"   max:"+maxTextureSize[0]);
 
 			int[] tmp = new int[1];
 			gl.glGenTextures(1, tmp, 0);
