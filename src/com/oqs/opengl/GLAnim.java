@@ -1,6 +1,10 @@
 package com.oqs.opengl;
 
+import java.util.ArrayList;
+
 import javax.microedition.khronos.opengles.GL10;
+
+import android.util.Log;
 
 
 /**
@@ -18,14 +22,22 @@ public class GLAnim extends Renderable {
 	// If drawing with verts or VBO verts, the grid object defining those verts.
 	private Grid[] mGrid;
 	private int currentindex = 0;
+	private long lastDraw=0;
+	private boolean _tiled = true;
+	private ArrayList<Picture> _frames = null;
+	private float _picsize = 1;
 
-	public GLAnim(String resourceName) {
+	public GLAnim(String resourceName, boolean tiled) {
 		super();
 		mResourceName = resourceName;
+		this._tiled = tiled;
 	}
 
 	void setTextureName(int name) {
 		mTextureName = name;
+	}
+	public void setPictures(ArrayList<Picture> ls){
+		_frames = ls;
 	}
 
 	public int getTextureName() {
@@ -47,21 +59,25 @@ public class GLAnim extends Renderable {
 	public Grid[] getGrids() {
 		return mGrid;
 	}
-	float textureCoordinates[] = {0.0f, 0.5f,
-			0.5f, 0.5f,
-			0.0f, 0.0f,
-			0.5f, 0.0f };
 
+
+	private static final int PERIOD = 20;
 	public void draw(GL10 gl) {
+		
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureName);
 		// Draw using verts or VBO verts.
 		gl.glPushMatrix();
 		gl.glLoadIdentity();
 
-		if(mResourceName.contains("explo")){
+		if(_tiled){
+			if(System.currentTimeMillis()-PERIOD >lastDraw){
+				lastDraw = System.currentTimeMillis();
+				currentindex = (currentindex+1)%mGrid.length;
+				//Log.d("", "currentindex: "+currentindex+"  length: "+mGrid.length);
+			}
 			gl.glTranslatef(
-					50, 
-					50, 
+					600f - _frames.get(currentindex).anchor.first*1, 
+					50f +18,// _frames.get(currentindex).anchor.second*1, 
 					z);
 			/*
 			gl.glTranslatef(
@@ -74,5 +90,10 @@ public class GLAnim extends Renderable {
 
 		gl.glPopMatrix();
 
+	}
+
+	public void setPictureSizeOnScreen(float picSizeOnScreen) {
+		this._picsize = picSizeOnScreen;
+		
 	}
 }
