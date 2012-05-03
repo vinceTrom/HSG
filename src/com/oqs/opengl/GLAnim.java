@@ -26,6 +26,8 @@ public class GLAnim extends Renderable {
 	private boolean _tiled = true;
 	private ArrayList<Picture> _frames = null;
 	private float _picsize = 1;
+	private int _period = 80;
+
 
 	public GLAnim(String resourceName, boolean tiled) {
 		super();
@@ -61,7 +63,6 @@ public class GLAnim extends Renderable {
 	}
 
 
-	private static final int PERIOD = 20;
 	public void draw(GL10 gl) {
 		
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureName);
@@ -70,14 +71,14 @@ public class GLAnim extends Renderable {
 		gl.glLoadIdentity();
 
 		if(_tiled){
-			if(System.currentTimeMillis()-PERIOD >lastDraw){
+			if(System.currentTimeMillis()- _period >lastDraw){
 				lastDraw = System.currentTimeMillis();
 				currentindex = (currentindex+1)%mGrid.length;
-				//Log.d("", "currentindex: "+currentindex+"  length: "+mGrid.length);
+				Log.d("", "currentindex: "+currentindex+"  length: "+mGrid.length);
 			}
 			gl.glTranslatef(
-					600f - _frames.get(currentindex).anchor.first*1, 
-					50f +18,// _frames.get(currentindex).anchor.second*1, 
+					600f - _picsize*_frames.get(currentindex).anchor.first*1, 
+					50f + _picsize*_frames.get(currentindex).anchor.second*1, 
 					z);
 			/*
 			gl.glTranslatef(
@@ -93,7 +94,10 @@ public class GLAnim extends Renderable {
 	}
 
 	public void setPictureSizeOnScreen(float picSizeOnScreen) {
-		this._picsize = picSizeOnScreen;
-		
+		this._picsize = picSizeOnScreen;	
+	}
+	
+	public void setAnimPeriod(int period) {
+		this._period = period;	
 	}
 }
