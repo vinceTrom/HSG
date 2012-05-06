@@ -27,11 +27,16 @@ public class OpenglActivity extends Activity {
 
 	private GLSurfaceView mGLSurfaceView;
 	private static  String ANIM = "explo2";
+	private int _screenHeight;
 
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		DisplayMetrics displaymetrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+		 _screenHeight = displaymetrics.heightPixels;
+		
 		ANIM = getIntent().getStringExtra("anim");
 		mGLSurfaceView = new GLSurfaceView(this);
 		SimpleGLRenderer spriteRenderer = new SimpleGLRenderer(this);
@@ -41,7 +46,7 @@ public class OpenglActivity extends Activity {
 
 		final Intent callingIntent = getIntent();
 		// Allocate our sprites and add them to an array.
-		final int robotCount = 1;//callingIntent.getIntExtra("spriteCount", 10);
+		final int robotCount = 12;//callingIntent.getIntExtra("spriteCount", 10);
 		final boolean animate = true;//callingIntent.getBooleanExtra("animate", true);
 		final boolean useVerts = true;
 		final boolean useHardwareBuffers = 
@@ -84,9 +89,10 @@ public class OpenglActivity extends Activity {
 		// sprite list except for the background.
 		Renderable[] renderableArray = new Renderable[robotCount]; 
 		for (int x = 0; x < robotCount; x++) {
-			GLAnim robot;
+			ANIM = x%2==0?"walk":"explo";
+			GLAnim tiledSprite;
 			// Our robots come in three flavors.  Split them up accordingly.
-			robot = new GLAnim(ANIM+".png", true);
+			tiledSprite = new GLAnim(ANIM+".png", true);
 
 			BitmapFactory.Options opt = new Options();
 			opt.inJustDecodeBounds = true;
@@ -97,12 +103,17 @@ public class OpenglActivity extends Activity {
 			SPRITE_WIDTH = opt.outWidth;
 			SPRITE_HEIGHT = opt.outHeight;
 
-			robot.width = SPRITE_WIDTH;
-			robot.height = SPRITE_HEIGHT;
+			tiledSprite.width = SPRITE_WIDTH;
+			tiledSprite.height = SPRITE_HEIGHT;
+			
+			
+			
+			tiledSprite._x = (int) (0.15f*_screenHeight+ 0.27f*_screenHeight*(x<6?x:x-6));
+			tiledSprite._y = (int) (0.3*_screenHeight+ ((x/6)*0.5*_screenHeight));
 
-			robot.setGrids(createGrids(robot, ANIM));
-			spriteArray[x + 1] = robot;
-			renderableArray[x] = robot;
+			tiledSprite.setGrids(createGrids(tiledSprite, ANIM));
+			spriteArray[x + 1] = tiledSprite;
+			renderableArray[x] = tiledSprite;
 		}
 
 
@@ -129,10 +140,8 @@ public class OpenglActivity extends Activity {
 
 
 	private Grid[] createGrids(GLAnim glanim, String animName){
-		DisplayMetrics displaymetrics = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-		int screenHeight = displaymetrics.heightPixels;
-		float picSizeOnScreenRatio = 0.8f;//relative à la hauteur de l'écran
+		
+		float picSizeOnScreenRatio = 0.3f;//relative à la hauteur de l'écran
 		float maxheightPic = 0f;
 
 		ArrayList<Picture> pictures = new ArrayList<Picture>();
@@ -184,7 +193,7 @@ public class OpenglActivity extends Activity {
 			 */
 
 
-			int textureheight = (int) ((pictures.get(frameindex).height/maxheightPic)*picSizeOnScreenRatio*screenHeight);
+			int textureheight = (int) ((pictures.get(frameindex).height/maxheightPic)*picSizeOnScreenRatio*_screenHeight);
 			float ratio = (textureheight/(float)pictures.get(frameindex).height);
 			int texturewidth = (int) (ratio*pictures.get(frameindex).width);
 		

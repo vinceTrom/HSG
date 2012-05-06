@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <player xmlns="">
     <animations>
-        <animation name="explo" period="60">
+        <animation name="explo" period="40">
             <image x="3" y="90" width="22" height="16" anchorX="11" anchorY="14"/>
             <image x="24" y="89" width="27" height="19" anchorX="14" anchorY="15"/>
             <image x="51" y="84" width="30" height="26" anchorX="15" anchorY="20"/>
@@ -100,7 +100,7 @@
             <image x="434" y="0" width="216" height="112" anchorX="39" anchorY="56"/>
             <image x="654" y="0" width="216" height="87" anchorX="34" anchorY="58"/>
         </animation>
-        <animation name="walk" period="70">
+        <animation name="walk" period="60">
             <image x="3" y="72" width="68" height="69" anchorX="33" anchorY="6"/>
             <image x="71" y="72" width="68" height="69" anchorX="32" anchorY="7"/>
             <image x="139" y="72" width="68" height="69" anchorX="33" anchorY="7"/>
