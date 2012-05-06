@@ -25,8 +25,10 @@ public class GLAnim extends Renderable {
 	private long lastDraw=0;
 	private boolean _tiled = true;
 	private ArrayList<Picture> _frames = null;
-	private float _picsize = 1;
 	private int _period = 80;
+	
+	public int _x = 0;
+	public int _y = 0;
 
 
 	public GLAnim(String resourceName, boolean tiled) {
@@ -78,8 +80,8 @@ public class GLAnim extends Renderable {
 			}
 			
 			gl.glTranslatef(
-					450f - _frames.get(currentindex).anchor.first, 
-					600f - _frames.get(currentindex).anchor.second, 
+					_x - _frames.get(currentindex).anchor.first, 
+					_y - _frames.get(currentindex).anchor.second, 
 					z);
 			/*
 			gl.glTranslatef(
@@ -94,9 +96,6 @@ public class GLAnim extends Renderable {
 
 	}
 
-	public void setPictureSizeOnScreen(float picSizeOnScreen) {
-		this._picsize = picSizeOnScreen;	
-	}
 	
 	public void setAnimPeriod(int period) {
 		this._period = period;	
