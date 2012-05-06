@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <player xmlns="">
     <animations>
-        <animation name="explo" period="60">
+        <animation name="explo" period="60" >
             <image x="3" y="90" width="22" height="16" anchorX="11" anchorY="14"/>
             <image x="24" y="89" width="27" height="19" anchorX="14" anchorY="15"/>
             <image x="51" y="84" width="30" height="26" anchorX="15" anchorY="20"/>
@@ -100,26 +100,24 @@
             <image x="434" y="0" width="216" height="112" anchorX="39" anchorY="56"/>
             <image x="654" y="0" width="216" height="87" anchorX="34" anchorY="58"/>
         </animation>
-        <animation name="walk" period="70">
-            <image x="3" y="72" width="68" height="69" anchorX="33" anchorY="6"/>
-            <image x="71" y="72" width="68" height="69" anchorX="32" anchorY="7"/>
-            <image x="139" y="72" width="68" height="69" anchorX="33" anchorY="7"/>
-            <image x="208" y="72" width="68" height="69" anchorX="33" anchorY="7"/>
-            <image x="276" y="72" width="68" height="69" anchorX="35" anchorY="7"/>
-            <image x="345" y="72" width="68" height="69" anchorX="35" anchorY="7"/>
-            <image x="413" y="72" width="70" height="69" anchorX="36" anchorY="7"/>
-            <image x="3" y="140" width="70" height="69" anchorX="37" anchorY="7"/>
-            <image x="73" y="139" width="69" height="69" anchorX="36" anchorY="7"/>
-            <image x="142" y="139" width="69" height="69" anchorX="36" anchorY="8"/>
-            <image x="212" y="141" width="68" height="69" anchorX="35" anchorY="6"/>
-            <image x="280" y="139" width="69" height="69" anchorX="36" anchorY="8"/>
-            <image x="350" y="139" width="67" height="69" anchorX="33" anchorY="8"/>
-            <image x="418" y="140" width="70" height="69" anchorX="33" anchorY="7"/>
-            <image x="4" y="207" width="67" height="69" anchorX="32" anchorY="7"/>
-            <image x="71" y="207" width="70" height="69" anchorX="32" anchorY="7"/>
+        <animation name="walk" period="100">
+            <image x="3" y="72" width="70" height="69" anchorX="33" anchorY="8"/>
+            <image x="71" y="72" width="68" height="69" anchorX="33" anchorY="8"/>
+            <image x="139" y="72" width="68" height="69" anchorX="33" anchorY="8"/>
+            <image x="208" y="72" width="68" height="69" anchorX="33" anchorY="8"/>
+            <image x="276" y="72" width="68" height="69" anchorX="35" anchorY="8"/>
+            <image x="345" y="72" width="68" height="69" anchorX="35" anchorY="8"/>
+            <image x="413" y="72" width="70" height="69" anchorX="36" anchorY="8"/>
+            <image x="3" y="140" width="70" height="69" anchorX="37" anchorY="8"/>
+            <image x="73" y="139" width="69" height="69" anchorX="36" anchorY="8"/>
+            <image x="142" y="139" width="69" height="69" anchorX="36" anchorY="9"/>
+            <image x="212" y="141" width="68" height="69" anchorX="35" anchorY="8"/>
+            <image x="280" y="139" width="69" height="69" anchorX="36" anchorY="10"/>
+            <image x="350" y="139" width="67" height="69" anchorX="34" anchorY="8"/>
+            <image x="418" y="140" width="70" height="69" anchorX="33" anchorY="8"/>
+            <image x="4" y="207" width="67" height="69" anchorX="32" anchorY="9"/>
+            <image x="71" y="207" width="70" height="69" anchorX="32" anchorY="9"/>
         </animation>
-
-
         <animation name="jump">
             <image x="25" y="0" width="195" height="250" anchorX="93" anchorY="23"/>
             <image x="226" y="0" width="196" height="250" anchorX="93" anchorY="23"/>

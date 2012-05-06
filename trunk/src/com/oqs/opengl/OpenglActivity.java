@@ -18,6 +18,7 @@ import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.Pair;
 
 public class OpenglActivity extends Activity {
 	private  static float SPRITE_WIDTH = 0;
@@ -126,10 +127,13 @@ public class OpenglActivity extends Activity {
 		setContentView(mGLSurfaceView);
 	}
 
-	//float[] offsets = {33,256,472,638,846,1050,1266,1479,1710,1915,2120,2340,2450,2744,2935,3120};
 
 	private Grid[] createGrids(GLAnim glanim, String animName){
-		float picSizeOnScreen = 4;
+		DisplayMetrics displaymetrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+		int screenHeight = displaymetrics.heightPixels;
+		float picSizeOnScreenRatio = 0.8f;//relative à la hauteur de l'écran
+		float maxheightPic = 0f;
 
 		ArrayList<Picture> pictures = new ArrayList<Picture>();
 		InputStream ss = null;
@@ -150,12 +154,16 @@ public class OpenglActivity extends Activity {
 			int y = Integer.parseInt(anim.getElement(i).getAttributes().get("y"));
 			int width = Integer.parseInt(anim.getElement(i).getAttributes().get("width"));
 			int height = Integer.parseInt(anim.getElement(i).getAttributes().get("height"));
-			int anchorx = width - Integer.parseInt(anim.getElement(i).getAttributes().get("anchorX"));
-			int anchory = height - Integer.parseInt(anim.getElement(i).getAttributes().get("anchorY"));
+			int anchorx = Integer.parseInt(anim.getElement(i).getAttributes().get("anchorX"));//(int) ((height/(float) h/picSizeOnScreen)*(width - Integer.parseInt(anim.getElement(i).getAttributes().get("anchorX"))));
+			int anchory = height-Integer.parseInt(anim.getElement(i).getAttributes().get("anchorY"));//(int) ((height/(float)h/picSizeOnScreen)*(height - Integer.parseInt(anim.getElement(i).getAttributes().get("anchorY"))));
 			pictures.add(new Picture((int)(x),(int)(y),(int)(width),(int)(height),(int)(anchorx),(int)(anchory)));
+			if(height > maxheightPic)
+				maxheightPic = height;
 		}
+
 		glanim.setPictures(pictures);
-		glanim.setPictureSizeOnScreen(picSizeOnScreen);
+		//glanim.setPictureSizeOnScreen(picSizeOnScreen);
+
 		glanim.setAnimPeriod(Integer.parseInt(anim.getAttributes().get("period")));
 
 
@@ -163,16 +171,31 @@ public class OpenglActivity extends Activity {
 
 		for(int frameindex = 0;frameindex<nbframes;frameindex++){
 			// Setup a quad for the sprites to use.
-			float Xoffset = 0.0f+pictures.get(frameindex).orig.first/SPRITE_WIDTH;
-			float Yoffset = 0.0f+pictures.get(frameindex).orig.second/SPRITE_HEIGHT;
-			float Xratio = 1.0f*pictures.get(frameindex).width/SPRITE_WIDTH;
-			float Yratio = 1.0f*pictures.get(frameindex).height/SPRITE_HEIGHT;
+			float Xoffset = pictures.get(frameindex).orig.first/SPRITE_WIDTH;
+			float Yoffset = pictures.get(frameindex).orig.second/SPRITE_HEIGHT;
+			float Xratio = pictures.get(frameindex).width/SPRITE_WIDTH;
+			float Yratio = pictures.get(frameindex).height/SPRITE_HEIGHT;
 			Grid picGrid = new Grid(2, 2, false);
+			/*
 			picGrid.set(0, 0,  0.0f, 0.0f, 0.0f, Xoffset+0.0f , 1.0f*Yratio+Yoffset, null);
 			picGrid.set(1, 0, picSizeOnScreen*SPRITE_WIDTH*Xratio, 0.0f, 0.0f, Xoffset+1.0f*Xratio, 1.0f*Yratio+Yoffset, null);
 			picGrid.set(0, 1, 0.0f, picSizeOnScreen*SPRITE_HEIGHT*Yratio, 0.0f, Xoffset+0.0f, 0.0f+Yoffset, null);
 			picGrid.set(1, 1,picSizeOnScreen*SPRITE_WIDTH*Xratio,picSizeOnScreen* SPRITE_HEIGHT*Yratio, 0.0f, Xoffset+1.0f*Xratio, 0.0f+Yoffset, null);
+			 */
 
+
+			int textureheight = (int) ((pictures.get(frameindex).height/maxheightPic)*picSizeOnScreenRatio*screenHeight);
+			float ratio = (textureheight/(float)pictures.get(frameindex).height);
+			int texturewidth = (int) (ratio*pictures.get(frameindex).width);
+		
+			
+			picGrid.set(0, 0,  0.0f, 0.0f, 0.0f, Xoffset+0.0f , 1.0f*Yratio+Yoffset, null);
+			picGrid.set(1, 0, texturewidth, 0.0f, 0.0f, Xoffset+1.0f*Xratio, 1.0f*Yratio+Yoffset, null);
+			picGrid.set(0, 1, 0.0f, textureheight, 0.0f, Xoffset+0.0f, 0.0f+Yoffset, null);
+			picGrid.set(1, 1, texturewidth, textureheight, 0.0f, Xoffset+1.0f*Xratio, 0.0f+Yoffset, null);
+
+			pictures.get(frameindex).anchor = new Pair<Integer, Integer>((int) (pictures.get(frameindex).anchor.first*ratio), (int) (pictures.get(frameindex).anchor.second*ratio));
+			
 			grids[frameindex] = picGrid;
 		}
 		return grids;
