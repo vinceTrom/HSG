@@ -76,9 +76,10 @@ public class GLAnim extends Renderable {
 				currentindex = (currentindex+1)%mGrid.length;
 				Log.d("", "currentindex: "+currentindex+"  length: "+mGrid.length);
 			}
+			
 			gl.glTranslatef(
-					600f - _picsize*_frames.get(currentindex).anchor.first*1, 
-					50f + _picsize*_frames.get(currentindex).anchor.second*1, 
+					450f - _frames.get(currentindex).anchor.first, 
+					600f - _frames.get(currentindex).anchor.second, 
 					z);
 			/*
 			gl.glTranslatef(
