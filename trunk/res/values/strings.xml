@@ -13,7 +13,10 @@
 <string name="RunTestTitle">Run Test</string>
 
 <string-array name="anims_array">
+    	<item>all</item>
         <item>walk</item>
         <item>explo</item>
+        <item>jump</item>
+        <item>fall</item>
     </string-array>
 </resources>

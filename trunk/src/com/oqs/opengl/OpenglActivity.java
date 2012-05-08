@@ -26,7 +26,7 @@ public class OpenglActivity extends Activity {
 
 
 	private GLSurfaceView mGLSurfaceView;
-	private static  String ANIM = "explo2";
+	private static  String ANIM = "";
 	private int _screenHeight;
 
 
@@ -35,8 +35,8 @@ public class OpenglActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		DisplayMetrics displaymetrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-		 _screenHeight = displaymetrics.heightPixels;
-		
+		_screenHeight = displaymetrics.heightPixels;
+
 		ANIM = getIntent().getStringExtra("anim");
 		mGLSurfaceView = new GLSurfaceView(this);
 		SimpleGLRenderer spriteRenderer = new SimpleGLRenderer(this);
@@ -46,7 +46,7 @@ public class OpenglActivity extends Activity {
 
 		final Intent callingIntent = getIntent();
 		// Allocate our sprites and add them to an array.
-		final int robotCount = 12;//callingIntent.getIntExtra("spriteCount", 10);
+		final int robotCount = ANIM.equals("all")?12:1;//callingIntent.getIntExtra("spriteCount", 10);
 		final boolean animate = true;//callingIntent.getBooleanExtra("animate", true);
 		final boolean useVerts = true;
 		final boolean useHardwareBuffers = 
@@ -89,29 +89,30 @@ public class OpenglActivity extends Activity {
 		// sprite list except for the background.
 		Renderable[] renderableArray = new Renderable[robotCount]; 
 		for (int x = 0; x < robotCount; x++) {
-			ANIM = x%2==0?"walk":"explo";
+			String[] array = getResources().getStringArray(R.array.anims_array);
+			String LOCAL_ANIM = ANIM.equals("all")?array[((x)%(array.length-1))+1]:ANIM;//x%2==0?"walk":"explo";
 			GLAnim tiledSprite;
 			// Our robots come in three flavors.  Split them up accordingly.
-			tiledSprite = new GLAnim(ANIM+".png", true);
+			tiledSprite = new GLAnim(LOCAL_ANIM+".png", true);
 
 			BitmapFactory.Options opt = new Options();
 			opt.inJustDecodeBounds = true;
 
 			try {
-				BitmapFactory.decodeStream(getAssets().open(ANIM+".png"),null,opt);
+				BitmapFactory.decodeStream(getAssets().open(LOCAL_ANIM+".png"),null,opt);
 			} catch (IOException e) {e.printStackTrace();}
 			SPRITE_WIDTH = opt.outWidth;
 			SPRITE_HEIGHT = opt.outHeight;
 
 			tiledSprite.width = SPRITE_WIDTH;
 			tiledSprite.height = SPRITE_HEIGHT;
-			
-			
-			
+
+
+
 			tiledSprite._x = (int) (0.15f*_screenHeight+ 0.27f*_screenHeight*(x<6?x:x-6));
 			tiledSprite._y = (int) (0.3*_screenHeight+ ((x/6)*0.5*_screenHeight));
 
-			tiledSprite.setGrids(createGrids(tiledSprite, ANIM));
+			tiledSprite.setGrids(createGrids(tiledSprite, LOCAL_ANIM));
 			spriteArray[x + 1] = tiledSprite;
 			renderableArray[x] = tiledSprite;
 		}
@@ -140,7 +141,7 @@ public class OpenglActivity extends Activity {
 
 
 	private Grid[] createGrids(GLAnim glanim, String animName){
-		
+
 		float picSizeOnScreenRatio = 0.3f;//relative à la hauteur de l'écran
 		float maxheightPic = 0f;
 
@@ -173,7 +174,9 @@ public class OpenglActivity extends Activity {
 		glanim.setPictures(pictures);
 		//glanim.setPictureSizeOnScreen(picSizeOnScreen);
 
-		glanim.setAnimPeriod(Integer.parseInt(anim.getAttributes().get("period")));
+		try{
+			glanim.setAnimPeriod(Integer.parseInt(anim.getAttributes().get("period")));
+		}catch(Exception e){}
 
 
 		Grid[] grids = new Grid[nbframes];
@@ -196,15 +199,15 @@ public class OpenglActivity extends Activity {
 			int textureheight = (int) ((pictures.get(frameindex).height/maxheightPic)*picSizeOnScreenRatio*_screenHeight);
 			float ratio = (textureheight/(float)pictures.get(frameindex).height);
 			int texturewidth = (int) (ratio*pictures.get(frameindex).width);
-		
-			
+
+
 			picGrid.set(0, 0,  0.0f, 0.0f, 0.0f, Xoffset+0.0f , 1.0f*Yratio+Yoffset, null);
 			picGrid.set(1, 0, texturewidth, 0.0f, 0.0f, Xoffset+1.0f*Xratio, 1.0f*Yratio+Yoffset, null);
 			picGrid.set(0, 1, 0.0f, textureheight, 0.0f, Xoffset+0.0f, 0.0f+Yoffset, null);
 			picGrid.set(1, 1, texturewidth, textureheight, 0.0f, Xoffset+1.0f*Xratio, 0.0f+Yoffset, null);
 
 			pictures.get(frameindex).anchor = new Pair<Integer, Integer>((int) (pictures.get(frameindex).anchor.first*ratio), (int) (pictures.get(frameindex).anchor.second*ratio));
-			
+
 			grids[frameindex] = picGrid;
 		}
 		return grids;
