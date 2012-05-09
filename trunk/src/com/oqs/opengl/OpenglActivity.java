@@ -200,6 +200,7 @@ public class OpenglActivity extends Activity {
 		glanim.setPictures(pictures);
 		if(anim.getAttributes().get("Xvelocity") != null){
 			glanim.setXVelocity(Float.parseFloat(anim.getAttributes().get("Xvelocity")));
+			glanim.x = 0;
 		}
 
 		if(anim.getAttributes().get("size") != null){
