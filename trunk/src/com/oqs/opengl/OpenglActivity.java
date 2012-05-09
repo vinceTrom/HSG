@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import com.momac.mmlib.xml.MMXMLElement;
 import com.momac.mmlib.xml.MMXMLParser;
 import com.momac.mmlib.xml.MMXMLElement.MMXMLElements;
-import com.momac.mmlib.xml.MMXMLParser.MMXMLParserDelegate;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,7 +16,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.Pair;
 
 public class OpenglActivity extends Activity {
@@ -27,7 +25,8 @@ public class OpenglActivity extends Activity {
 
 	private GLSurfaceView mGLSurfaceView;
 	private static  String ANIM = "";
-	private int _screenHeight;
+	public static int _screenHeight;
+	public static int _screenWidth;
 
 
 	@Override
@@ -36,6 +35,7 @@ public class OpenglActivity extends Activity {
 		DisplayMetrics displaymetrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 		_screenHeight = displaymetrics.heightPixels;
+		_screenWidth = displaymetrics.widthPixels;
 
 		ANIM = getIntent().getStringExtra("anim");
 		mGLSurfaceView = new GLSurfaceView(this);
@@ -46,7 +46,7 @@ public class OpenglActivity extends Activity {
 
 		final Intent callingIntent = getIntent();
 		// Allocate our sprites and add them to an array.
-		final int robotCount = ANIM.equals("all")?12:1;//callingIntent.getIntExtra("spriteCount", 10);
+		final int robotCount = 4;//ANIM.equals("all")?12:2;//callingIntent.getIntExtra("spriteCount", 10);
 		final boolean animate = true;//callingIntent.getBooleanExtra("animate", true);
 		final boolean useVerts = true;
 		final boolean useHardwareBuffers = 
@@ -87,13 +87,26 @@ public class OpenglActivity extends Activity {
 
 		// This list of things to move. It points to the same content as the
 		// sprite list except for the background.
+		int levelsprites = 2;
 		Renderable[] renderableArray = new Renderable[robotCount]; 
 		for (int x = 0; x < robotCount; x++) {
-			String[] array = getResources().getStringArray(R.array.anims_array);
-			String LOCAL_ANIM = ANIM.equals("all")?array[((x)%(array.length-1))+1]:ANIM;//x%2==0?"walk":"explo";
-			GLAnim tiledSprite;
+			//String[] array = getResources().getStringArray(R.array.anims_array);
+			String LOCAL_ANIM ;//= ANIM.equals("all")?array[((x)%(array.length-1))+1]:ANIM;//x%2==0?"walk":"explo";
+			if(x==0)
+				LOCAL_ANIM = "back";
+			else if(x==1)
+				LOCAL_ANIM = "mainback";
+			else if(x == 2)
+				LOCAL_ANIM = "walk";
+			else 
+				LOCAL_ANIM = "first";
+			
+			GLAnim tiledSprite = null;
 			// Our robots come in three flavors.  Split them up accordingly.
-			tiledSprite = new GLAnim(LOCAL_ANIM+".png", true);
+			if(LOCAL_ANIM.equals("mainback") || LOCAL_ANIM.equals("back") || LOCAL_ANIM.equals("first")){
+				tiledSprite = new GLLayerLoop(LOCAL_ANIM+".png", true);
+			}else
+				tiledSprite = new GLAnim(LOCAL_ANIM+".png", true);
 
 			BitmapFactory.Options opt = new Options();
 			opt.inJustDecodeBounds = true;
@@ -107,10 +120,8 @@ public class OpenglActivity extends Activity {
 			tiledSprite.width = SPRITE_WIDTH;
 			tiledSprite.height = SPRITE_HEIGHT;
 
-
-
-			tiledSprite._x = (int) (0.15f*_screenHeight+ 0.27f*_screenHeight*(x<6?x:x-6));
-			tiledSprite._y = (int) (0.3*_screenHeight+ ((x/6)*0.5*_screenHeight));
+			tiledSprite.x = (int) (0.15f*_screenHeight+ 0.27f*_screenHeight*(x<6?x:x-6));
+			tiledSprite.y = (int) (0.3*_screenHeight+ ((x/6)*0.5*_screenHeight));
 
 			tiledSprite.setGrids(createGrids(tiledSprite, LOCAL_ANIM));
 			spriteArray[x + 1] = tiledSprite;
@@ -133,7 +144,6 @@ public class OpenglActivity extends Activity {
 			Mover simulationRuntime = new Mover();
 			simulationRuntime.setRenderables(renderableArray);
 
-			simulationRuntime.setViewSize(dm.widthPixels, dm.heightPixels);
 			mGLSurfaceView.setEvent(simulationRuntime);
 		}
 		setContentView(mGLSurfaceView);
@@ -143,6 +153,14 @@ public class OpenglActivity extends Activity {
 	private Grid[] createGrids(GLAnim glanim, String animName){
 
 		float picSizeOnScreenRatio = 0.3f;//relative à la hauteur de l'écran
+		/*
+		if(animName.equals("mainback")){
+			picSizeOnScreenRatio = 1;
+			glanim.x = 0;
+			glanim.y = _screenHeight;
+			glanim.setXVelocity(-0.5f);
+		}
+		 */
 		float maxheightPic = 0f;
 
 		ArrayList<Picture> pictures = new ArrayList<Picture>();
@@ -151,11 +169,19 @@ public class OpenglActivity extends Activity {
 			ss = getAssets().open("gunner.xml");
 		} catch (IOException e1) {e1.printStackTrace();}
 		MMXMLParser parser = MMXMLParser.createMMXMLParser(ss,null);
-		MMXMLElements elems = parser.parseSynchronously().getElementForKey("player").getElementForKey("animations").getElementsForKey("animation");
 		MMXMLElement anim = null;
+		MMXMLElement elem = parser.parseSynchronously();
+		MMXMLElements elems = elem.getElementForKey("player").getElementForKey("animations").getElementsForKey("animation");
 		for(int i=0;i<elems.size();i++){
 			if(elems.get(i).getAttributes().get("name").equals(animName))
 				anim = elems.get(i);
+		}
+		if(anim == null){
+			elems = elem.getElementForKey("player").getElementForKey("animations").getElementsForKey("background");
+			for(int i=0;i<elems.size();i++){
+				if(elems.get(i).getAttributes().get("name").equals(animName))
+					anim = elems.get(i);
+			}
 		}
 		int nbframes = anim.getElementsForKey("image").size();
 
@@ -172,7 +198,24 @@ public class OpenglActivity extends Activity {
 		}
 
 		glanim.setPictures(pictures);
-		//glanim.setPictureSizeOnScreen(picSizeOnScreen);
+		if(anim.getAttributes().get("Xvelocity") != null){
+			glanim.setXVelocity(Float.parseFloat(anim.getAttributes().get("Xvelocity")));
+		}
+
+		if(anim.getAttributes().get("size") != null){
+			picSizeOnScreenRatio = Float.parseFloat(anim.getAttributes().get("size"));
+		}
+
+		if(anim.getAttributes().get("y") != null){
+			glanim.y = Float.parseFloat(anim.getAttributes().get("y"))*_screenHeight;
+		}
+
+		/*
+		glanim.x=200;
+		glanim.y=200;
+		glanim.setXVelocity(0.33f);
+		glanim.setYVelocity(0.1f);
+		 */
 
 		try{
 			glanim.setAnimPeriod(Integer.parseInt(anim.getAttributes().get("period")));
@@ -188,18 +231,13 @@ public class OpenglActivity extends Activity {
 			float Xratio = pictures.get(frameindex).width/SPRITE_WIDTH;
 			float Yratio = pictures.get(frameindex).height/SPRITE_HEIGHT;
 			Grid picGrid = new Grid(2, 2, false);
-			/*
-			picGrid.set(0, 0,  0.0f, 0.0f, 0.0f, Xoffset+0.0f , 1.0f*Yratio+Yoffset, null);
-			picGrid.set(1, 0, picSizeOnScreen*SPRITE_WIDTH*Xratio, 0.0f, 0.0f, Xoffset+1.0f*Xratio, 1.0f*Yratio+Yoffset, null);
-			picGrid.set(0, 1, 0.0f, picSizeOnScreen*SPRITE_HEIGHT*Yratio, 0.0f, Xoffset+0.0f, 0.0f+Yoffset, null);
-			picGrid.set(1, 1,picSizeOnScreen*SPRITE_WIDTH*Xratio,picSizeOnScreen* SPRITE_HEIGHT*Yratio, 0.0f, Xoffset+1.0f*Xratio, 0.0f+Yoffset, null);
-			 */
-
 
 			int textureheight = (int) ((pictures.get(frameindex).height/maxheightPic)*picSizeOnScreenRatio*_screenHeight);
 			float ratio = (textureheight/(float)pictures.get(frameindex).height);
 			int texturewidth = (int) (ratio*pictures.get(frameindex).width);
-
+			try{
+				((GLLayerLoop)glanim).setTextureWidth(texturewidth);
+			}catch(Exception e){}
 
 			picGrid.set(0, 0,  0.0f, 0.0f, 0.0f, Xoffset+0.0f , 1.0f*Yratio+Yoffset, null);
 			picGrid.set(1, 0, texturewidth, 0.0f, 0.0f, Xoffset+1.0f*Xratio, 1.0f*Yratio+Yoffset, null);

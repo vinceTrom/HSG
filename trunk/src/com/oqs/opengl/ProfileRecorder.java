@@ -24,7 +24,7 @@ public class ProfileRecorder {
     
     public static ProfileRecorder sSingleton = new ProfileRecorder();
     
-    public ProfileRecorder() {
+    private ProfileRecorder() {
         mProfiles = new ProfileRecord[PROFILE_COUNT];
         for (int x = 0; x < PROFILE_COUNT; x++) {
             mProfiles[x] = new ProfileRecord();
