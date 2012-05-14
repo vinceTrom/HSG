@@ -17,6 +17,7 @@ import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Pair;
+import android.view.Menu;
 
 public class OpenglActivity extends Activity {
 	private  static float SPRITE_WIDTH = 0;
@@ -152,7 +153,7 @@ public class OpenglActivity extends Activity {
 
 	private Grid[] createGrids(GLAnim glanim, String animName){
 
-		float picSizeOnScreenRatio = 0.3f;//relative à la hauteur de l'écran
+		float picSizeOnScreenRatio = 0.3f;//relative ï¿½ la hauteur de l'ï¿½cran
 		/*
 		if(animName.equals("mainback")){
 			picSizeOnScreenRatio = 1;
@@ -170,7 +171,7 @@ public class OpenglActivity extends Activity {
 		} catch (IOException e1) {e1.printStackTrace();}
 		MMXMLParser parser = MMXMLParser.createMMXMLParser(ss,null);
 		MMXMLElement anim = null;
-		MMXMLElement elem = parser.parseSynchronously();
+		MMXMLElement elem = parser.parseSynchronously().getRootElement();
 		MMXMLElements elems = elem.getElementForKey("player").getElementForKey("animations").getElementsForKey("animation");
 		for(int i=0;i<elems.size();i++){
 			if(elems.get(i).getAttributes().get("name").equals(animName))
@@ -250,6 +251,11 @@ public class OpenglActivity extends Activity {
 			grids[frameindex] = picGrid;
 		}
 		return grids;
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		return false;
 	}
 
 }
