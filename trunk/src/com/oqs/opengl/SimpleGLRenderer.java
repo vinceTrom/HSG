@@ -246,8 +246,11 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 				try {
 					is = mContext.getAssets().open(resourceName);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					try {
+						is = mContext.getAssets().open(resourceName+".png");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 				}
 				bitmap = BitmapFactory.decodeStream(is, null, sBitmapOptions);
 			} finally {
