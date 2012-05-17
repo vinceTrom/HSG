@@ -18,11 +18,15 @@ public class GLLayerLoop extends GLAnim{
 		if(x+textureWidth<OpenglActivity._screenWidth){
 			grid.draw(gl, true, false);
 
-			Log.d("", "TOOOP");
 			float tx = x;
 			x = textureWidth;
 			gl.glTranslatef(x, 0, 0);
 			grid.draw(gl, true, false);
+			if(tx+2*textureWidth<OpenglActivity._screenWidth){
+				x = textureWidth;
+				gl.glTranslatef(x, 0, 0);
+				grid.draw(gl, true, false);
+			}
 			x = tx;
 			if(x+textureWidth<0){
 				x =0 ;

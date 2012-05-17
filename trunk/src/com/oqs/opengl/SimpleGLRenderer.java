@@ -26,6 +26,9 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 	= new BitmapFactory.Options();
 	// An array of things to draw every frame.
 	private GLAnim[] mSprites;
+	private GLAnim[] mbackgrounds;
+	private GLAnim[] mplayer;
+	private GLAnim[] mforegrounds;
 	// Pre-allocated arrays to use at runtime so that allocation during the
 	// test can be avoided.
 	private int[] mTextureNameWorkspace;
@@ -56,8 +59,11 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 		return configSpec;
 	}
 
-	public void setSprites(GLAnim[] sprites) {
-		mSprites = sprites;
+	public void setSprites(GLAnim[] backs, GLAnim[] player, GLAnim[] foreground, GLAnim[] total) {
+		mbackgrounds = backs;
+		mplayer = player;
+		mforegrounds = foreground;
+		mSprites = total;
 	}
 
 	/** 
@@ -82,11 +88,21 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 			if (mUseVerts) {
 				Grid.beginDrawing(gl, true, false);
 			}
-
+			
+			for (int x = 0; x < mbackgrounds.length; x++) {
+				mbackgrounds[x].draw(gl);
+			}			
+			for (int x = 0; x < mplayer.length; x++) {
+				mplayer[x].draw(gl);
+			}			
+			for (int x = 0; x < mforegrounds.length; x++) {
+				mforegrounds[x].draw(gl);
+			}
+/*
 			for (int x = 0; x < mSprites.length; x++) {
 				mSprites[x].draw(gl);
 			}
-
+*/
 			if (mUseVerts) {
 				Grid.endDrawing(gl);
 			}
