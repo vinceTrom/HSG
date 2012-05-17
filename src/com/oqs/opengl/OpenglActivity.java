@@ -28,7 +28,9 @@ public class OpenglActivity extends Activity {
 	private static  String ANIM = "";
 	public static int _screenHeight;
 	public static int _screenWidth;
-	public ArrayList<GLAnim> spriteList = new ArrayList<GLAnim>();
+	public ArrayList<GLAnim> backsSprites = new ArrayList<GLAnim>();
+	public ArrayList<GLAnim> playerSprites = new ArrayList<GLAnim>();
+	public ArrayList<GLAnim> foregroundSprites = new ArrayList<GLAnim>();
 
 
 	@Override
@@ -115,25 +117,30 @@ public class OpenglActivity extends Activity {
 		// allocation during the test, the GC should stay dormant and not
 		// influence our results.
 		Runtime r = Runtime.getRuntime();
-		r.gc();
-		GLAnim[] spriteArray = new GLAnim[spriteList.size() + 1];    
-		spriteArray[0] = background;
+		r.gc(); 
+		//spriteArray[0] = background;
+		/*
 		Renderable[] renderableArray = new Renderable[spriteList.size()]; 
 
 
-		for(int j = 0; j<spriteList.size(); j++){
-			spriteArray[j+1] = spriteList.get(j);
-			renderableArray[j] = spriteList.get(j);
+		for(int j = 0; j<backsSprites.size(); j++){
+			spriteArray[j+1] = backsSprites.get(j);
+			renderableArray[j] = backsSprites.get(j);
 		}
-
-		spriteRenderer.setSprites(spriteArray);
+		 */
+		ArrayList<GLAnim> all = new ArrayList<GLAnim>();
+		all.addAll(backsSprites);
+		all.addAll(playerSprites);
+		all.addAll(foregroundSprites);
+		GLAnim[] gl = new GLAnim[0];
+		spriteRenderer.setSprites(backsSprites.toArray(gl), playerSprites.toArray(gl), foregroundSprites.toArray(gl), all.toArray(gl));
 		spriteRenderer.setVertMode(useVerts, useHardwareBuffers);
 
 		mGLSurfaceView.setRenderer(spriteRenderer);
 
 		if (animate) {
 			Mover simulationRuntime = new Mover();
-			simulationRuntime.setRenderables(renderableArray);
+			simulationRuntime.setRenderables(all.toArray(gl));
 
 			mGLSurfaceView.setEvent(simulationRuntime);
 		}
@@ -150,7 +157,12 @@ public class OpenglActivity extends Activity {
 		MMXMLElements elems = elem.getElementForKey("player").getElementForKey("animations").getElementsForKey("background");
 		for(int i=0;i<elems.size();i++){
 			String anim_name = elems.get(i).getAttributes().get("name");
-			createAnim(new GLLayerLoop(anim_name, true), elems.get(i));
+			GLAnim anim = new GLLayerLoop(anim_name, true);
+			createAnim(anim, elems.get(i));
+			if(elems.get(i).getAttributes().containsKey("foreground") && elems.get(i).getAttributes().get("foreground").equals("true"))
+				foregroundSprites.add(anim);
+			else
+				backsSprites.add(anim);
 		}		
 	}
 
@@ -165,7 +177,9 @@ public class OpenglActivity extends Activity {
 		MMXMLElements elems = elem.getElementForKey("player").getElementForKey("animations").getElementsForKey("animation");
 		for(int i=0;i<elems.size();i++){
 			String anim_name = elems.get(i).getAttributes().get("name");
-			createAnim(new GLAnim(anim_name, true), elems.get(i));
+			GLAnim anim = new GLAnim(anim_name, true);
+			createAnim(anim, elems.get(i));
+			playerSprites.add(anim);
 		}
 	}
 
@@ -182,11 +196,11 @@ public class OpenglActivity extends Activity {
 		sprite.width = SPRITE_WIDTH;
 		sprite.height = SPRITE_HEIGHT;
 
-		sprite.x = 200;//(int) (0.15f*_screenHeight+ 0.27f*_screenHeight*(x<6?x:x-6));
-		sprite.y = 120;//(int) (0.3*_screenHeight+ ((x/6)*0.5*_screenHeight));
+		sprite.x = (int) (0.22f*_screenHeight);
+		sprite.y = (int) (0.3*_screenHeight);
 
 		sprite.setGrids(createGrids(sprite, animElem.getName(), animElem));
-		spriteList.add(sprite);
+		//spriteList.add(sprite);
 	}
 
 	private Grid[] createGrids(GLAnim glanim, String animName, MMXMLElement anim){
