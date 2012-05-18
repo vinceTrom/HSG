@@ -19,7 +19,7 @@
             <image x="4" y="207" width="67" height="69" anchorX="32" anchorY="7" />
             <image x="71" y="207" width="70" height="69" anchorX="32" anchorY="7" />
         </animation>
-        <!--  <animation name="explo" >
+          <animation name="explo" >
             <image x="3" y="90" width="22" height="16" anchorX="11" anchorY="14"/>
             <image x="24" y="89" width="27" height="19" anchorX="14" anchorY="15"/>
             <image x="51" y="84" width="30" height="26" anchorX="15" anchorY="20"/>
@@ -68,6 +68,6 @@
             <image x="340" y="20" width="66" height="75" anchorX="31" anchorY="8"/>
             <image x="407" y="20" width="66" height="72" anchorX="31" anchorY="8"/>
         </animation>
-        -->
+      
     </animations>
 </player>
