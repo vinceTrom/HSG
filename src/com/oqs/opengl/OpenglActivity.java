@@ -97,6 +97,7 @@ private RelativeLayout _mainLayout;
 		// sprite list except for the background.
 		createLevelAnims();
 		createPlayerAnims();
+		initAnims();
 		/*
 		for (int x = 0; x < robotCount; x++) {
 			//String[] array = getResources().getStringArray(R.array.anims_array);
@@ -154,21 +155,47 @@ private RelativeLayout _mainLayout;
 		
 		_mainLayout.addView(mGLSurfaceView, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		
+		addButtons();
+		
+		setContentView(_mainLayout);
+	}
+
+	private void initAnims() {
+		for(int i = 0;i<playerSprites.size();i++){
+			if(playerSprites.get(i).getResourceName().equals("walk"))
+				playerSprites.get(i).mustDraw = true;
+		}
+		
+	}
+
+	private void addButtons() {
 		ImageView img = new ImageView(this);
-		img.setImageResource(R.drawable.skate1);
-		img.setOnClickListener(new OnClickListener() {
-			
+		img.setImageResource(R.drawable.jumpbutt);
+		img.setOnClickListener(new OnClickListener() {			
 			@Override
-			public void onClick(View v) {
-				Log.d("", "JUMP ARROUND");
-				
-			}
+			public void onClick(View v) {Log.d("", "JUMP ARROUND");}
 		});
 		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		lp.topMargin = 200;
+		BitmapFactory.Options opt = new BitmapFactory.Options();
+		opt.inJustDecodeBounds = true;
+		BitmapFactory.decodeResource(getResources(), R.drawable.jumpbutt, opt);
+		lp.topMargin = _screenHeight- opt.outHeight;
 		lp.leftMargin = 100;
 		_mainLayout.addView(img, lp);
-		setContentView(_mainLayout);
+		
+		ImageView img2 = new ImageView(this);
+		img2.setImageResource(R.drawable.shootbutt);
+		img2.setOnClickListener(new OnClickListener() {		
+			@Override
+			public void onClick(View v) {Log.d("", "SHOOOOOOT");}
+		});
+		RelativeLayout.LayoutParams lp2 = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		BitmapFactory.Options opt2 = new BitmapFactory.Options();
+		opt2.inJustDecodeBounds = true;
+		BitmapFactory.decodeResource(getResources(), R.drawable.shootbutt, opt2);
+		lp2.topMargin = _screenHeight- opt2.outHeight;
+		lp2.leftMargin = _screenWidth-opt2.outWidth;
+		_mainLayout.addView(img2, lp2);
 	}
 
 	private void createLevelAnims(){
@@ -203,6 +230,7 @@ private RelativeLayout _mainLayout;
 			String anim_name = elems.get(i).getAttributes().get("name");
 			GLAnim anim = new GLAnim(anim_name, true);
 			createAnim(anim, elems.get(i));
+			anim.mustDraw = false;
 			playerSprites.add(anim);
 		}
 	}
