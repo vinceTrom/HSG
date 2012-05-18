@@ -16,14 +16,20 @@ import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 
 public class OpenglActivity extends Activity {
 	private  static float SPRITE_WIDTH = 0;
 	private static float SPRITE_HEIGHT = 0;
 
-
+private RelativeLayout _mainLayout;
 	private GLSurfaceView mGLSurfaceView;
 	private static  String ANIM = "";
 	public static int _screenHeight;
@@ -42,6 +48,7 @@ public class OpenglActivity extends Activity {
 		_screenWidth = displaymetrics.widthPixels;
 
 		ANIM = getIntent().getStringExtra("anim");
+		_mainLayout = new RelativeLayout(this);
 		mGLSurfaceView = new GLSurfaceView(this);
 		SimpleGLRenderer spriteRenderer = new SimpleGLRenderer(this);
 
@@ -144,7 +151,24 @@ public class OpenglActivity extends Activity {
 
 			mGLSurfaceView.setEvent(simulationRuntime);
 		}
-		setContentView(mGLSurfaceView);
+		
+		_mainLayout.addView(mGLSurfaceView, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		
+		ImageView img = new ImageView(this);
+		img.setImageResource(R.drawable.skate1);
+		img.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Log.d("", "JUMP ARROUND");
+				
+			}
+		});
+		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		lp.topMargin = 200;
+		lp.leftMargin = 100;
+		_mainLayout.addView(img, lp);
+		setContentView(_mainLayout);
 	}
 
 	private void createLevelAnims(){
