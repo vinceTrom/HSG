@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <player xmlns="">
     <animations>
-        <animation name="walk" period="70">
+        <animation name="walk" period="70" size="0.3">
             <image x="3" y="72" width="68" height="69" anchorX="33" anchorY="6" />
             <image x="71" y="72" width="68" height="69" anchorX="32" anchorY="7" />
             <image x="139" y="72" width="68" height="69" anchorX="33" anchorY="7" />
@@ -49,7 +49,7 @@
             <image x="53" y="216" width="53" height="107" anchorX="24" anchorY="104"/>
         </animation>
         
-        <animation name="fall">
+        <animation name="fall" size="0.35">
             <image x="5" y="0" width="67" height="74" anchorX="31" anchorY="8"/>
             <image x="72" y="0" width="67" height="75" anchorX="31" anchorY="8"/>
             <image x="139" y="0" width="67" height="75" anchorX="31" anchorY="8"/>
@@ -59,7 +59,7 @@
             <image x="409" y="0" width="70" height="70" anchorX="31" anchorY="8"/>
         </animation>
         
-        <animation name="jump">
+        <animation name="jump" size="0.4">
             <image x="5" y="18" width="67" height="88" anchorX="31" anchorY="10"/>
             <image x="72" y="19" width="67" height="85" anchorX="31" anchorY="9"/>
             <image x="139" y="22" width="67" height="78" anchorX="31" anchorY="6"/>

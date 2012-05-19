@@ -29,7 +29,7 @@ public class OpenglActivity extends Activity {
 	private  static float SPRITE_WIDTH = 0;
 	private static float SPRITE_HEIGHT = 0;
 
-private RelativeLayout _mainLayout;
+	private RelativeLayout _mainLayout;
 	private GLSurfaceView mGLSurfaceView;
 	private static  String ANIM = "";
 	public static int _screenHeight;
@@ -37,6 +37,15 @@ private RelativeLayout _mainLayout;
 	public ArrayList<GLAnim> backsSprites = new ArrayList<GLAnim>();
 	public ArrayList<GLAnim> playerSprites = new ArrayList<GLAnim>();
 	public ArrayList<GLAnim> foregroundSprites = new ArrayList<GLAnim>();
+	private SimpleGLRenderer spriteRenderer;
+
+	public static int GROUND_LEVEL;
+
+	private int playerState=1;
+	private static int WALK = 1;
+	private static int JUMP = 2;
+	private static int FALL = 3;
+	private static int EXPLO = 4;
 
 
 	@Override
@@ -50,7 +59,8 @@ private RelativeLayout _mainLayout;
 		ANIM = getIntent().getStringExtra("anim");
 		_mainLayout = new RelativeLayout(this);
 		mGLSurfaceView = new GLSurfaceView(this);
-		SimpleGLRenderer spriteRenderer = new SimpleGLRenderer(this);
+		spriteRenderer = new SimpleGLRenderer(this);
+		GLAnim.activity = this;
 
 		// Clear out any old profile results.
 		ProfileRecorder.sSingleton.resetAll();
@@ -95,6 +105,7 @@ private RelativeLayout _mainLayout;
 
 		// This list of things to move. It points to the same content as the
 		// sprite list except for the background.
+		GROUND_LEVEL = (int) (0.3*_screenHeight);
 		createLevelAnims();
 		createPlayerAnims();
 		initAnims();
@@ -147,16 +158,16 @@ private RelativeLayout _mainLayout;
 		mGLSurfaceView.setRenderer(spriteRenderer);
 
 		if (animate) {
-			Mover simulationRuntime = new Mover();
+			Mover simulationRuntime = new Mover(_screenHeight);
 			simulationRuntime.setRenderables(all.toArray(gl));
 
 			mGLSurfaceView.setEvent(simulationRuntime);
 		}
-		
+
 		_mainLayout.addView(mGLSurfaceView, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-		
+
 		addButtons();
-		
+
 		setContentView(_mainLayout);
 	}
 
@@ -164,8 +175,18 @@ private RelativeLayout _mainLayout;
 		for(int i = 0;i<playerSprites.size();i++){
 			if(playerSprites.get(i).getResourceName().equals("walk"))
 				playerSprites.get(i).mustDraw = true;
+			if(playerSprites.get(i).getResourceName().equals("jump")){
+				playerSprites.get(i).loop = false;
+				//playerSprites.get(i).applyGravity = true;
+			}
+			if(playerSprites.get(i).getResourceName().equals("fall")){
+				playerSprites.get(i).loop = false;
+				//playerSprites.get(i).applyGravity = true;
+			}
+			if(playerSprites.get(i).getResourceName().equals("explo"))
+				playerSprites.get(i).loop = false;
 		}
-		
+
 	}
 
 	private void addButtons() {
@@ -173,7 +194,7 @@ private RelativeLayout _mainLayout;
 		img.setImageResource(R.drawable.jumpbutt);
 		img.setOnClickListener(new OnClickListener() {			
 			@Override
-			public void onClick(View v) {Log.d("", "JUMP ARROUND");}
+			public void onClick(View v) {jump();Log.d("", "JUMP ARROUND");}		
 		});
 		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		BitmapFactory.Options opt = new BitmapFactory.Options();
@@ -182,7 +203,7 @@ private RelativeLayout _mainLayout;
 		lp.topMargin = _screenHeight- opt.outHeight;
 		lp.leftMargin = 100;
 		_mainLayout.addView(img, lp);
-		
+
 		ImageView img2 = new ImageView(this);
 		img2.setImageResource(R.drawable.shootbutt);
 		img2.setOnClickListener(new OnClickListener() {		
@@ -232,6 +253,16 @@ private RelativeLayout _mainLayout;
 			createAnim(anim, elems.get(i));
 			anim.mustDraw = false;
 			playerSprites.add(anim);
+
+			if(anim.equals("walk"))
+				WALK = i;
+			else if(anim.equals("jump"))
+				JUMP = i;
+			else
+				if(anim.equals("fall"))
+					FALL = i;
+				else if(anim.equals("explo"))
+					EXPLO = i;			
 		}
 	}
 
@@ -249,7 +280,7 @@ private RelativeLayout _mainLayout;
 		sprite.height = SPRITE_HEIGHT;
 
 		sprite.x = (int) (0.22f*_screenHeight);
-		sprite.y = (int) (0.3*_screenHeight);
+		sprite.y = GROUND_LEVEL;
 
 		sprite.setGrids(createGrids(sprite, animElem.getName(), animElem));
 		//spriteList.add(sprite);
@@ -342,6 +373,40 @@ private RelativeLayout _mainLayout;
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		return false;
+	}
+
+	private void jump() {
+		if(playerState==WALK){
+			playerState = JUMP;
+			spriteRenderer.getAnim("walk").mustDraw = false;
+			spriteRenderer.getAnim("jump").mustDraw = true;
+			spriteRenderer.getAnim("jump").y=GROUND_LEVEL;
+			spriteRenderer.getAnim("jump").applyGravity = true;
+			spriteRenderer.getAnim("jump").setYVelocity(0.9f);
+		}
+	}
+
+	public void fall() {
+		playerState = FALL;
+		spriteRenderer.getAnim("jump").initAnim();
+		spriteRenderer.getAnim("jump").mustDraw = false;
+		spriteRenderer.getAnim("fall").mustDraw = true;
+		spriteRenderer.getAnim("fall").y = spriteRenderer.getAnim("jump").y;
+		spriteRenderer.getAnim("fall").applyGravity = true;
+		//spriteRenderer.getAnim("fa").setYVelocity(0.5f);
+	}
+
+	public void fallFinished() {
+		playerState = WALK;
+		spriteRenderer.getAnim("fall").initAnim();
+		spriteRenderer.getAnim("fall").mustDraw = false;
+		spriteRenderer.getAnim("walk").mustDraw = true;
+		spriteRenderer.getAnim("fall").applyGravity = false;
+	}
+
+	private void shoot() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

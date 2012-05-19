@@ -88,7 +88,7 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 			if (mUseVerts) {
 				Grid.beginDrawing(gl, true, false);
 			}
-			
+
 			for (int x = 0; x < mbackgrounds.length; x++) {
 				mbackgrounds[x].draw(gl);
 			}			
@@ -98,11 +98,11 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 			for (int x = 0; x < mforegrounds.length; x++) {
 				mforegrounds[x].draw(gl);
 			}
-/*
+			/*
 			for (int x = 0; x < mSprites.length; x++) {
 				mSprites[x].draw(gl);
 			}
-*/
+			 */
 			if (mUseVerts) {
 				Grid.endDrawing(gl);
 			}
@@ -224,7 +224,7 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 				}
 				if (mUseHardwareBuffers) {
 					for(int j =0;j<mSprites[x].getGrids().length;j++){
-					mSprites[x].getGrids()[j].releaseHardwareBuffers(gl);
+						mSprites[x].getGrids()[j].releaseHardwareBuffers(gl);
 					}
 				}
 			}
@@ -325,6 +325,29 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 		}
 
 		return textureName;
+	}
+
+	public void disableDrawing(String animName) {
+		for(int i=0;i<mplayer.length;i++){
+			if(mplayer[i].getResourceName().equals(animName))
+				mplayer[i].mustDraw = false;
+		}	
+	}
+
+	public void enableDrawing(String animName) {
+		for(int i=0;i<mplayer.length;i++){
+			if(mplayer[i].getResourceName().equals(animName))
+				mplayer[i].mustDraw = true;
+		}
+	}
+
+	public GLAnim getAnim(String animName) {
+		for(int i=0;i<mplayer.length;i++){
+			if(mplayer[i].getResourceName().equals(animName))
+				return mplayer[i];
+		}
+		return null;
+		
 	}
 
 
