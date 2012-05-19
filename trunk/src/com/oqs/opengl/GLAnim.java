@@ -4,9 +4,6 @@ import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.util.Log;
-
-
 /**
  * This is the OpenGL ES version of a sprite.  It is more complicated than the
  * CanvasSprite class because it can be used in more than one way.  This class
@@ -17,10 +14,13 @@ import android.util.Log;
 public class GLAnim extends Renderable {
 	// The OpenGL ES texture handle to draw.
 	protected int mTextureName;
+	
+	public static OpenglActivity activity;
 	// The id of the original resource that mTextureName is based on.
 	private String mResourceName;
 	protected Grid[] mGrid;
 	private int currentindex = 0;
+	public boolean loop = true;
 	private long lastDraw=0;
 	private boolean _tiled = true;
 	private ArrayList<Picture> _frames = null;
@@ -46,7 +46,10 @@ public class GLAnim extends Renderable {
 			if(_tiled){
 				if(System.currentTimeMillis()- _period >lastDraw){
 					lastDraw = System.currentTimeMillis();
-					currentindex = (currentindex+1)%mGrid.length;
+					if(loop)
+						currentindex = (currentindex+1)%mGrid.length;
+					else
+						currentindex = Math.min(currentindex+1,mGrid.length-1);
 					//Log.d("", "currentindex: "+currentindex+"  length: "+mGrid.length+" posX= "+x);
 				}
 
@@ -103,4 +106,9 @@ public class GLAnim extends Renderable {
 	protected void finalDraw(GL10 gl, Grid grid){
 		grid.draw(gl, true, false);
 	}
+	
+	public void initAnim(){
+		currentindex = 0;
+	}
+
 }

@@ -10,6 +10,8 @@ public abstract class Renderable {
 	public float x;
 	public float y;
 	public float z;
+	
+	public boolean applyGravity = false;
 
 	public void setXVelocity(float velocity){
 		velocityX = OpenglActivity._screenHeight*velocity;
