@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <player xmlns="">
     <animations>
+        <animation name="bullet" period="70" size="0.03">
+            <image x="0" y="0" width="96" height="21" anchorX="0" anchorY="0" />
+        </animation>
         <animation name="walk" period="70" size="0.3">
             <image x="3" y="72" width="68" height="69" anchorX="33" anchorY="6" />
             <image x="71" y="72" width="68" height="69" anchorX="32" anchorY="7" />

@@ -19,6 +19,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -42,10 +43,11 @@ public class OpenglActivity extends Activity {
 	public static int GROUND_LEVEL;
 
 	private int playerState=1;
-	private static int WALK = 1;
-	private static int JUMP = 2;
-	private static int FALL = 3;
-	private static int EXPLO = 4;
+	private static final int WALK = 1;
+	private static final int JUMP = 2;
+	private static final int JUMP_TWO = 5;
+	private static final int FALL = 3;
+	private static final int EXPLO = 4;
 
 
 	@Override
@@ -185,6 +187,8 @@ public class OpenglActivity extends Activity {
 			}
 			if(playerSprites.get(i).getResourceName().equals("explo"))
 				playerSprites.get(i).loop = false;
+			if(playerSprites.get(i).getResourceName().equals("bullet"))
+				playerSprites.get(i).loop = false;
 		}
 
 	}
@@ -206,9 +210,12 @@ public class OpenglActivity extends Activity {
 
 		ImageView img2 = new ImageView(this);
 		img2.setImageResource(R.drawable.shootbutt);
-		img2.setOnClickListener(new OnClickListener() {		
+		img2.setOnTouchListener(new View.OnTouchListener() {			
 			@Override
-			public void onClick(View v) {Log.d("", "SHOOOOOOT");}
+			public boolean onTouch(View v, MotionEvent event) {
+				shoot();
+				return true;
+			}
 		});
 		RelativeLayout.LayoutParams lp2 = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		BitmapFactory.Options opt2 = new BitmapFactory.Options();
@@ -249,20 +256,14 @@ public class OpenglActivity extends Activity {
 		MMXMLElements elems = elem.getElementForKey("player").getElementForKey("animations").getElementsForKey("animation");
 		for(int i=0;i<elems.size();i++){
 			String anim_name = elems.get(i).getAttributes().get("name");
-			GLAnim anim = new GLAnim(anim_name, true);
+			GLAnim anim;
+			if(anim_name.equals("bullet"))
+				anim = new GLBullet(anim_name, true);
+			else
+				anim = new GLAnim(anim_name, true);
 			createAnim(anim, elems.get(i));
 			anim.mustDraw = false;
-			playerSprites.add(anim);
-
-			if(anim.equals("walk"))
-				WALK = i;
-			else if(anim.equals("jump"))
-				JUMP = i;
-			else
-				if(anim.equals("fall"))
-					FALL = i;
-				else if(anim.equals("explo"))
-					EXPLO = i;			
+			playerSprites.add(anim);			
 		}
 	}
 
@@ -278,9 +279,13 @@ public class OpenglActivity extends Activity {
 
 		sprite.width = SPRITE_WIDTH;
 		sprite.height = SPRITE_HEIGHT;
+		sprite.x = 0;
+		sprite.y = 0;
 
-		sprite.x = (int) (0.22f*_screenHeight);
-		sprite.y = GROUND_LEVEL;
+		if(sprite.getResourceName().equals("walk") || sprite.getResourceName().equals("jump")||sprite.getResourceName().equals("fall")){
+			sprite.x = (int) (0.22f*_screenHeight);
+			sprite.y = GROUND_LEVEL;
+		}
 
 		sprite.setGrids(createGrids(sprite, animElem.getName(), animElem));
 		//spriteList.add(sprite);
@@ -354,9 +359,7 @@ public class OpenglActivity extends Activity {
 			int textureheight = (int) ((pictures.get(frameindex).height/maxheightPic)*picSizeOnScreenRatio*_screenHeight);
 			float ratio = (textureheight/(float)pictures.get(frameindex).height);
 			int texturewidth = (int) (ratio*pictures.get(frameindex).width);
-			try{
-				((GLLayerLoop)glanim).setTextureWidth(texturewidth);
-			}catch(Exception e){}
+			glanim.setTextureDimensions(texturewidth, textureheight);
 
 			picGrid.set(0, 0,  0.0f, 0.0f, 0.0f, Xoffset+0.0f , 1.0f*Yratio+Yoffset, null);
 			picGrid.set(1, 0, texturewidth, 0.0f, 0.0f, Xoffset+1.0f*Xratio, 1.0f*Yratio+Yoffset, null);
@@ -383,6 +386,11 @@ public class OpenglActivity extends Activity {
 			spriteRenderer.getAnim("jump").y=GROUND_LEVEL;
 			spriteRenderer.getAnim("jump").applyGravity = true;
 			spriteRenderer.getAnim("jump").setYVelocity(0.9f);
+		}else{
+			if(playerState==JUMP){
+				playerState = JUMP_TWO;
+				spriteRenderer.getAnim("jump").setYVelocity(0.9f);
+			}
 		}
 	}
 
@@ -404,9 +412,40 @@ public class OpenglActivity extends Activity {
 		spriteRenderer.getAnim("fall").applyGravity = false;
 	}
 
+	private long lastshoot=0;
 	private void shoot() {
-		// TODO Auto-generated method stub
+		long current = System.currentTimeMillis();
+		if(current - lastshoot>170){
+			lastshoot = current;
 
+			Log.d("", "SHOOOOOOT");
+			spriteRenderer.getAnim("bullet").mustDraw = true;
+			spriteRenderer.getAnim("bullet").setXVelocity(4f);
+			GLAnim player = getCurrentPlayerAnim();
+			((GLBullet)spriteRenderer.getAnim("bullet")).newBullet((int) (player.x-player.getAnchor().first+player.textureWidth*1),(int) (player.y-player.getAnchor().second+player.textureHeight*0.4+Math.random()*_screenHeight/15));
+		}
 	}
+
+	private GLAnim getCurrentPlayerAnim(){
+		switch (playerState) {
+		case WALK:
+			return spriteRenderer.getAnim("walk");
+		case JUMP:
+			return spriteRenderer.getAnim("jump");
+		case JUMP_TWO:
+			return spriteRenderer.getAnim("jump");
+		case FALL:
+			return spriteRenderer.getAnim("fall");
+		default:
+			spriteRenderer.getAnim("walk");
+			break;
+		}
+		return null;
+	}
+	private GLAnim getWalkAnim(){
+		return spriteRenderer.getAnim("walk");
+	}
+	
+	
 
 }

@@ -35,6 +35,12 @@ public class Mover implements Runnable {
 						object.x = object.x + (object.velocityX * timeDeltaSeconds);
 						object.y = object.y + (object.velocityY * timeDeltaSeconds);
 						object.z = object.z + (object.velocityZ * timeDeltaSeconds);
+						try{
+							if(((GLAnim)object).getResourceName().equals("bullet")){
+								object.x = object.x - (object.velocityX * timeDeltaSeconds);
+								((GLBullet)object).updateBulletPos((int) (object.velocityX * timeDeltaSeconds));
+							}
+						}catch(Exception e){}
 
 						// Apply Gravity.
 						if(object.applyGravity){

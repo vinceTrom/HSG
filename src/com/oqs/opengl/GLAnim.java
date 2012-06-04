@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.util.Pair;
+
 /**
  * This is the OpenGL ES version of a sprite.  It is more complicated than the
  * CanvasSprite class because it can be used in more than one way.  This class
@@ -26,12 +28,20 @@ public class GLAnim extends Renderable {
 	private ArrayList<Picture> _frames = null;
 	private int _period = 80;
 	public boolean mustDraw = true;
+	
+	public int textureWidth = 0;
+	public int textureHeight = 0;
 
 
 	public GLAnim(String resourceName, boolean tiled) {
 		super();
 		this.mResourceName = resourceName;
 		this._tiled = tiled;
+	}
+	
+	public void setTextureDimensions(int w, int h){
+		textureWidth = w;
+		textureHeight = h;
 	}
 
 
@@ -61,6 +71,17 @@ public class GLAnim extends Renderable {
 			finalDraw(gl, mGrid[currentindex]);
 			gl.glPopMatrix();
 		}
+	}
+	
+	public Pair<Integer, Integer> getAnchor(){
+		int moyX = 0;
+		int moyY = 0;
+		for(int i = 0;i<_frames.size();i++){
+			moyX = moyX + _frames.get(i).anchor.first;
+			moyY = moyY + _frames.get(i).anchor.second;
+		}
+		Pair p = new Pair<Integer, Integer>(moyX/_frames.size(), moyY/_frames.size());
+		return p;
 	}
 
 

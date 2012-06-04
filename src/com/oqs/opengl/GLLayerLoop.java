@@ -6,8 +6,6 @@ import android.util.Log;
 
 public class GLLayerLoop extends GLAnim{
 
-	private int textureWidth=0;
-
 	public GLLayerLoop(String resourceName, boolean tiled) {
 		super(resourceName, tiled);
 	}
@@ -36,8 +34,6 @@ public class GLLayerLoop extends GLAnim{
 
 	}
 
-	public void setTextureWidth(int w){
-		textureWidth = w;
-	}
+	
 
 }
