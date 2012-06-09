@@ -71,6 +71,31 @@
             <image x="340" y="20" width="66" height="75" anchorX="31" anchorY="8"/>
             <image x="407" y="20" width="66" height="72" anchorX="31" anchorY="8"/>
         </animation>
+        <animation name="leftarm" period="70">
+            <image x="2" y="0" width="41" height="18" anchorX="12" anchorY="11"/>
+            <image x="44" y="0" width="41" height="18" anchorX="12" anchorY="11"/>
+            <image x="85" y="0" width="41" height="18" anchorX="12" anchorY="11"/>
+            <image x="126" y="0" width="38" height="18" anchorX="10" anchorY="11"/>
+            <image x="164" y="0" width="39" height="18" anchorX="11" anchorY="11"/>
+            <image x="204" y="0" width="38" height="18" anchorX="10" anchorY="11"/>
+            <image x="242" y="0" width="36" height="18" anchorX="9" anchorY="11"/>
+            <image x="279" y="0" width="38" height="18" anchorX="11" anchorY="11"/>
+            <image x="319" y="0" width="36" height="18" anchorX="9" anchorY="11"/>
+            <image x="356" y="0" width="38" height="18" anchorX="11" anchorY="11"/>
+            <image x="395" y="0" width="39" height="18" anchorX="12" anchorY="11"/>
+            <image x="434" y="0" width="37" height="18" anchorX="9" anchorY="11"/>
+            <image x="471" y="0" width="39" height="18" anchorX="10" anchorY="11"/>
+            <image x="2" y="19" width="38" height="18" anchorX="10" anchorY="11"/>
+            <image x="41" y="19" width="39" height="18" anchorX="11" anchorY="11"/>
+            <image x="81" y="18" width="41" height="18" anchorX="12" anchorY="12"/>
+            <image x="123" y="19" width="41" height="18" anchorX="12" anchorY="11"/>
+        </animation>
+        <animation name="armfire" period="30">
+            <image x="6" y="3" width="63" height="38" anchorX="13" anchorY="19"/>
+            <image x="70" y="7" width="74" height="24" anchorX="10" anchorY="15"/>
+            <image x="145" y="3" width="72" height="37" anchorX="12" anchorY="19"/>
+            <image x="217" y="10" width="74" height="20" anchorX="12" anchorY="11"/>
+        </animation>
       
     </animations>
 </player>
