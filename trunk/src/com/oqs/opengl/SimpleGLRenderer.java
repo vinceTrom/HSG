@@ -91,10 +91,15 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 
 			for (int x = 0; x < mbackgrounds.length; x++) {
 				mbackgrounds[x].draw(gl);
-			}			
+			}		
+
+			//getAnim("leftarm").draw(gl);
 			for (int x = 0; x < mplayer.length; x++) {
-				mplayer[x].draw(gl);
-			}			
+				if(!mplayer[x].getResourceName().equals("leftarm") &&  !mplayer[x].getResourceName().equals("armfire"))
+					mplayer[x].draw(gl);
+			}	
+			getAnim("armfire").draw(gl);
+
 			for (int x = 0; x < mforegrounds.length; x++) {
 				mforegrounds[x].draw(gl);
 			}
@@ -347,7 +352,7 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 				return mplayer[i];
 		}
 		return null;
-		
+
 	}
 
 

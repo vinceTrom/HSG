@@ -45,9 +45,9 @@ public class Mover implements Runnable {
 						// Apply Gravity.
 						if(object.applyGravity){
 							object.velocityY -= SPEED_OF_GRAVITY * timeDeltaSeconds;  
-							if(object.velocityY<0)
+							if(object.velocityY<0  && ((GLAnim)object).getResourceName().equals("jump"))
 								((GLAnim)object).activity.fall();
-							if(object.y < OpenglActivity.GROUND_LEVEL)
+							if(object.y < OpenglActivity.GROUND_LEVEL && ((GLAnim)object).getResourceName().equals("fall"))
 								((GLAnim)object).activity.fallFinished();
 						}
 					}
