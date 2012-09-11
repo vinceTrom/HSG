@@ -404,6 +404,7 @@ public class OpenglActivity extends Activity {
 			if(playerState==JUMP){
 				playerState = JUMP_TWO;
 				spriteRenderer.getAnim("jump").setYVelocity(0.9f);
+				spriteRenderer.getAnim("armfire").setYVelocity(0.9f);
 			}
 		}
 	}
