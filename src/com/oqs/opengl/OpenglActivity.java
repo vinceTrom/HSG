@@ -15,6 +15,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Pair;
@@ -29,6 +30,8 @@ import android.widget.RelativeLayout.LayoutParams;
 public class OpenglActivity extends Activity {
 	private  static float SPRITE_WIDTH = 0;
 	private static float SPRITE_HEIGHT = 0;
+
+	private Handler _handler = new Handler();
 
 	private RelativeLayout _mainLayout;
 	private GLSurfaceView mGLSurfaceView;
@@ -177,6 +180,10 @@ public class OpenglActivity extends Activity {
 		for(int i = 0;i<playerSprites.size();i++){
 			if(playerSprites.get(i).getResourceName().equals("walk"))
 				playerSprites.get(i).mustDraw = true;
+			if(playerSprites.get(i).getResourceName().equals("armfire")){
+				playerSprites.get(i).x = getWalkAnim().x + getWalkAnim().textureWidth*0.07f;
+				playerSprites.get(i).y = GROUND_LEVEL - getWalkAnim().textureHeight*0.55f;
+			}
 			if(playerSprites.get(i).getResourceName().equals("jump")){
 				playerSprites.get(i).loop = false;
 				//playerSprites.get(i).applyGravity = true;
@@ -189,6 +196,11 @@ public class OpenglActivity extends Activity {
 				playerSprites.get(i).loop = false;
 			if(playerSprites.get(i).getResourceName().equals("bullet"))
 				playerSprites.get(i).loop = false;
+
+			if(playerSprites.get(i).getResourceName().equals("walk") || playerSprites.get(i).getResourceName().equals("jump")||playerSprites.get(i).getResourceName().equals("fall")){
+				playerSprites.get(i).x = (int) (0.22f*_screenHeight);
+				playerSprites.get(i).y = GROUND_LEVEL;
+			}
 		}
 
 	}
@@ -213,7 +225,12 @@ public class OpenglActivity extends Activity {
 		img2.setOnTouchListener(new View.OnTouchListener() {			
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				shoot();
+				if(event.getAction() == MotionEvent.ACTION_UP){
+					stopShoot();
+				}else{
+					if(event.getAction() == MotionEvent.ACTION_DOWN)
+						shoot();
+				}
 				return true;
 			}
 		});
@@ -281,11 +298,6 @@ public class OpenglActivity extends Activity {
 		sprite.height = SPRITE_HEIGHT;
 		sprite.x = 0;
 		sprite.y = 0;
-
-		if(sprite.getResourceName().equals("walk") || sprite.getResourceName().equals("jump")||sprite.getResourceName().equals("fall")){
-			sprite.x = (int) (0.22f*_screenHeight);
-			sprite.y = GROUND_LEVEL;
-		}
 
 		sprite.setGrids(createGrids(sprite, animElem.getName(), animElem));
 		//spriteList.add(sprite);
@@ -386,6 +398,8 @@ public class OpenglActivity extends Activity {
 			spriteRenderer.getAnim("jump").y=GROUND_LEVEL;
 			spriteRenderer.getAnim("jump").applyGravity = true;
 			spriteRenderer.getAnim("jump").setYVelocity(0.9f);
+			spriteRenderer.getAnim("armfire").applyGravity = true;
+			spriteRenderer.getAnim("armfire").setYVelocity(0.9f);
 		}else{
 			if(playerState==JUMP){
 				playerState = JUMP_TWO;
@@ -398,32 +412,48 @@ public class OpenglActivity extends Activity {
 		playerState = FALL;
 		spriteRenderer.getAnim("jump").initAnim();
 		spriteRenderer.getAnim("jump").mustDraw = false;
+		spriteRenderer.getAnim("jump").applyGravity = false;
 		spriteRenderer.getAnim("fall").mustDraw = true;
 		spriteRenderer.getAnim("fall").y = spriteRenderer.getAnim("jump").y;
 		spriteRenderer.getAnim("fall").applyGravity = true;
-		//spriteRenderer.getAnim("fa").setYVelocity(0.5f);
+		spriteRenderer.getAnim("fall").setYVelocity(0f);
 	}
 
 	public void fallFinished() {
 		playerState = WALK;
 		spriteRenderer.getAnim("fall").initAnim();
 		spriteRenderer.getAnim("fall").mustDraw = false;
+		spriteRenderer.getAnim("walk").initAnim();
 		spriteRenderer.getAnim("walk").mustDraw = true;
 		spriteRenderer.getAnim("fall").applyGravity = false;
+		spriteRenderer.getAnim("armfire").applyGravity = false;
+		spriteRenderer.getAnim("armfire").setYVelocity(0f);
+
 	}
 
-	private long lastshoot=0;
+	//private long lastshoot=0;
 	private void shoot() {
-		long current = System.currentTimeMillis();
-		if(current - lastshoot>170){
-			lastshoot = current;
-
-			Log.d("", "SHOOOOOOT");
-			spriteRenderer.getAnim("bullet").mustDraw = true;
-			spriteRenderer.getAnim("bullet").setXVelocity(4f);
+		spriteRenderer.getAnim("armfire").mustDraw = true;
+		
+		spriteRenderer.getAnim("bullet").mustDraw = true;
+		spriteRenderer.getAnim("bullet").setXVelocity(4f);
+		_handler.post(shootRun);
+	}
+	
+	private Runnable shootRun = new Runnable() {
+		
+		@Override
+		public void run() {
 			GLAnim player = getCurrentPlayerAnim();
-			((GLBullet)spriteRenderer.getAnim("bullet")).newBullet((int) (player.x-player.getAnchor().first+player.textureWidth*1),(int) (player.y-player.getAnchor().second+player.textureHeight*0.4+Math.random()*_screenHeight/15));
+			((GLBullet)spriteRenderer.getAnim("bullet")).newBullet((int) (player.x-player.getAnchor().first+player.textureWidth*1),(int) (player.y-player.getAnchor().second+player.textureHeight*0.38+Math.random()*_screenHeight/20));
+				_handler.postDelayed(this, 170);
 		}
+	};
+
+	private void stopShoot(){
+		_handler.removeCallbacks(shootRun);
+		spriteRenderer.getAnim("armfire").mustDraw = false;
+
 	}
 
 	private GLAnim getCurrentPlayerAnim(){
@@ -442,10 +472,13 @@ public class OpenglActivity extends Activity {
 		}
 		return null;
 	}
+
 	private GLAnim getWalkAnim(){
-		return spriteRenderer.getAnim("walk");
+		for(int i=0;i<playerSprites.size();i++){
+			if(playerSprites.get(i).getResourceName().equals("walk"))
+				return playerSprites.get(i);
+		}
+		return null;
 	}
-	
-	
 
 }
