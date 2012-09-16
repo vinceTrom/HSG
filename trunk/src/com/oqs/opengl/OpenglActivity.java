@@ -5,9 +5,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import com.momac.mmlib.xml.MMXMLElement;
-import com.momac.mmlib.xml.MMXMLParser;
-import com.momac.mmlib.xml.MMXMLElement.MMXMLElements;
+import com.oqs.opengl.lib.MMXMLElement;
+import com.oqs.opengl.lib.MMXMLElement.MMXMLElements;
+import com.oqs.opengl.lib.MMXMLParser;
+
 
 import android.app.Activity;
 import android.content.Intent;
