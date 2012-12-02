@@ -1,7 +1,11 @@
 package com.oqs.opengl;
 
 import android.util.Pair;
-
+/**
+ * Used to define a pic in an animation
+ * @author Vince
+ *
+ */
 public class Picture {
 
 	public Pair<Integer,Integer> orig;
