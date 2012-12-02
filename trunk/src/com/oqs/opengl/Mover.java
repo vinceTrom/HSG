@@ -12,8 +12,6 @@ public class Mover implements Runnable {
 	private long mLastTime;
 
 	static float SPEED_OF_GRAVITY = 150.0f;
-	static final long JUMBLE_EVERYTHING_DELAY = 15 * 1000;
-	static final float MAX_VELOCITY = 8000.0f;
 
 	public Mover(int _screenHeight) {
 		SPEED_OF_GRAVITY = (float) (0.9*_screenHeight);
@@ -38,7 +36,7 @@ public class Mover implements Runnable {
 						try{
 							if(((GLAnim)object).getResourceName().equals("bullet")){
 								object.x = object.x - (object.velocityX * timeDeltaSeconds);
-								((GLBullet)object).updateBulletPos((int) (object.velocityX * timeDeltaSeconds));
+								((GLBullets)object).updateBulletPos((int) (object.velocityX * timeDeltaSeconds));
 							}
 						}catch(Exception e){}
 
