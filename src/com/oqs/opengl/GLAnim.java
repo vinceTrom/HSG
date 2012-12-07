@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.graphics.Rect;
 import android.util.Pair;
 
 /**
@@ -16,8 +17,8 @@ import android.util.Pair;
 public class GLAnim extends Renderable {
 	// The OpenGL ES texture handle to draw.
 	protected int mTextureName;
-	
-	public static OpenglActivity activity;
+
+	private Character _character;
 	// The id of the original resource that mTextureName is based on.
 	private String mResourceName;
 	protected Grid[] mGrid;
@@ -28,7 +29,8 @@ public class GLAnim extends Renderable {
 	private ArrayList<Picture> _frames = null;
 	private int _period = 80;
 	public boolean mustDraw = true;
-	
+
+
 	public int textureWidth = 0;
 	public int textureHeight = 0;
 
@@ -38,7 +40,14 @@ public class GLAnim extends Renderable {
 		this.mResourceName = resourceName;
 		this._tiled = tiled;
 	}
-	
+
+	public GLAnim(String resourceName, boolean tiled, Character character) {
+		super();
+		this.mResourceName = resourceName;
+		this._tiled = tiled;	
+		this._character = character;
+	}
+
 	public void setTextureDimensions(int w, int h){
 		textureWidth = w;
 		textureHeight = h;
@@ -72,7 +81,7 @@ public class GLAnim extends Renderable {
 			gl.glPopMatrix();
 		}
 	}
-	
+
 	public Pair<Integer, Integer> getAnchor(){
 		int moyX = 0;
 		int moyY = 0;
@@ -127,9 +136,17 @@ public class GLAnim extends Renderable {
 	protected void finalDraw(GL10 gl, Grid grid){
 		grid.draw(gl, true, false);
 	}
-	
+
 	public void initAnim(){
 		currentindex = 0;
+	}
+
+	public Rect getBoundRect() {
+		return new Rect((int)x, (int)(y-height), (int)(x+width),(int) (y));
+	}
+
+	public Character getCharacter() {
+		return _character;
 	}
 
 }

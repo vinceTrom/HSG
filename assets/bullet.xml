@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<player xmlns="">
+    <animations>
+        
+        <animation name="bullet" period="70" size="0.03">
+            <image x="0" y="0" width="96" height="21" anchorX="0" anchorY="0" />
+        </animation>
+        
+       
+    </animations>
+</player>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<player xmlns="">
+    <animations>
+        <!--  
+        <animation name="bullet" period="70" size="0.03">
+            <image x="0" y="0" width="96" height="21" anchorX="0" anchorY="0" />
+        </animation>
+        -->
+        <animation name="walk" period="70" size="0.3">
+            <image x="3" y="72" width="68" height="69" anchorX="33" anchorY="6" />
+            <image x="71" y="72" width="68" height="69" anchorX="32" anchorY="7" />
+            <image x="139" y="72" width="68" height="69" anchorX="33" anchorY="7" />
+            <image x="208" y="72" width="68" height="69" anchorX="33" anchorY="7" />
+            <image x="276" y="72" width="68" height="69" anchorX="35" anchorY="7" />
+            <image x="345" y="72" width="68" height="69" anchorX="35" anchorY="7" />
+            <image x="413" y="72" width="70" height="69" anchorX="36" anchorY="7" />
+            <image x="3" y="140" width="70" height="69" anchorX="37" anchorY="7" />
+            <image x="73" y="139" width="69" height="69" anchorX="36" anchorY="7" />
+            <image x="142" y="139" width="69" height="69" anchorX="36" anchorY="8" />
+            <image x="212" y="141" width="68" height="69" anchorX="35" anchorY="6" />
+            <image x="280" y="139" width="69" height="69" anchorX="36" anchorY="8" />
+            <image x="350" y="139" width="67" height="69" anchorX="33" anchorY="8" />
+            <image x="418" y="140" width="70" height="69" anchorX="33" anchorY="7" />
+            <image x="4" y="207" width="67" height="69" anchorX="32" anchorY="7" />
+            <image x="71" y="207" width="70" height="69" anchorX="32" anchorY="7" />
+        </animation>
+          <animation name="explo" >
+            <image x="3" y="90" width="22" height="16" anchorX="11" anchorY="14"/>
+            <image x="24" y="89" width="27" height="19" anchorX="14" anchorY="15"/>
+            <image x="51" y="84" width="30" height="26" anchorX="15" anchorY="20"/>
+            <image x="81" y="93" width="31" height="13" anchorX="15" anchorY="11"/>
+            <image x="114" y="77" width="38" height="30" anchorX="18" anchorY="28"/>
+            <image x="152" y="60" width="40" height="49" anchorX="20" anchorY="47"/>
+            <image x="193" y="19" width="37" height="90" anchorX="19" anchorY="87"/>
+            <image x="230" y="6" width="43" height="102" anchorX="21" anchorY="100"/>
+            <image x="274" y="6" width="50" height="101" anchorX="26" anchorY="99"/>
+            <image x="324" y="6" width="50" height="102" anchorX="26" anchorY="100"/>
+            <image x="374" y="3" width="52" height="104" anchorX="25" anchorY="102"/>
+            <image x="425" y="0" width="51" height="109" anchorX="26" anchorY="106"/>
+            <image x="476" y="0" width="50" height="109" anchorX="24" anchorY="105"/>
+            <image x="527" y="0" width="52" height="109" anchorX="24" anchorY="106"/>
+            <image x="3" y="110" width="50" height="109" anchorX="23" anchorY="106"/>
+            <image x="54" y="110" width="50" height="107" anchorX="24" anchorY="102"/>
+            <image x="104" y="110" width="50" height="107" anchorX="24" anchorY="102"/>
+            <image x="154" y="110" width="51" height="107" anchorX="24" anchorY="102"/>
+            <image x="206" y="110" width="50" height="107" anchorX="24" anchorY="102"/>
+            <image x="256" y="110" width="51" height="107" anchorX="24" anchorY="102"/>
+            <image x="308" y="110" width="50" height="107" anchorX="24" anchorY="102"/>
+            <image x="359" y="110" width="50" height="107" anchorX="24" anchorY="102"/>
+            <image x="409" y="110" width="50" height="107" anchorX="24" anchorY="102"/>
+            <image x="461" y="110" width="50" height="107" anchorX="24" anchorY="102"/>
+            <image x="511" y="110" width="51" height="109" anchorX="23" anchorY="106"/>
+            <image x="2" y="217" width="51" height="107" anchorX="24" anchorY="102"/>
+            <image x="53" y="216" width="53" height="107" anchorX="24" anchorY="104"/>
+        </animation>
+        
+        <animation name="fall" size="0.35">
+            <image x="5" y="0" width="67" height="74" anchorX="31" anchorY="8"/>
+            <image x="72" y="0" width="67" height="75" anchorX="31" anchorY="8"/>
+            <image x="139" y="0" width="67" height="75" anchorX="31" anchorY="8"/>
+            <image x="206" y="0" width="67" height="76" anchorX="31" anchorY="8"/>
+            <image x="273" y="1" width="67" height="75" anchorX="31" anchorY="7"/>
+            <image x="341" y="0" width="67" height="72" anchorX="30" anchorY="8"/>
+            <image x="409" y="0" width="70" height="70" anchorX="31" anchorY="8"/>
+        </animation>
+        
+        <animation name="jump" size="0.4">
+            <image x="5" y="18" width="67" height="88" anchorX="31" anchorY="10"/>
+            <image x="72" y="19" width="67" height="85" anchorX="31" anchorY="9"/>
+            <image x="139" y="22" width="67" height="78" anchorX="31" anchorY="6"/>
+            <image x="207" y="21" width="65" height="75" anchorX="30" anchorY="7"/>
+            <image x="273" y="21" width="66" height="75" anchorX="31" anchorY="7"/>
+            <image x="340" y="20" width="66" height="75" anchorX="31" anchorY="8"/>
+            <image x="407" y="20" width="66" height="72" anchorX="31" anchorY="8"/>
+        </animation>
+        <animation name="armfire" period="50" size="0.18">
+            <image x="6" y="3" width="63" height="38" anchorX="13" anchorY="19"/>
+            <image x="70" y="7" width="74" height="24" anchorX="10" anchorY="15"/>
+            <image x="145" y="3" width="72" height="37" anchorX="12" anchorY="19"/>
+            <image x="217" y="10" width="74" height="20" anchorX="12" anchorY="11"/>
+        </animation>
+      
+    </animations>
+</player>

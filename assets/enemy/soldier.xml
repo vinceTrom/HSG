@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<player xmlns="">
+    <animations>
+        <animation name="enemy/walk" period="80" size="0.2">
+            <image x="2" y="0" width="37" height="41" anchorX="14" anchorY="5"/>
+            <image x="39" y="0" width="39" height="44" anchorX="14" anchorY="5"/>
+            <image x="79" y="0" width="44" height="37" anchorX="16" anchorY="6"/>
+            <image x="124" y="1" width="44" height="41" anchorX="18" anchorY="6"/>
+            <image x="168" y="0" width="41" height="43" anchorX="18" anchorY="6"/>
+            <image x="208" y="0" width="39" height="42" anchorX="17" anchorY="5"/>
+            <image x="247" y="0" width="36" height="41" anchorX="14" anchorY="5"/>
+            <image x="284" y="0" width="40" height="39" anchorX="13" anchorY="5"/>
+            <image x="325" y="0" width="43" height="37" anchorX="14" anchorY="6"/>
+            <image x="368" y="0" width="40" height="39" anchorX="14" anchorY="7"/>
+            <image x="409" y="0" width="39" height="40" anchorX="15" anchorY="6"/>
+            <image x="449" y="0" width="40" height="44" anchorX="15" anchorY="5"/>
+        </animation>
+    </animations>
+</player>
