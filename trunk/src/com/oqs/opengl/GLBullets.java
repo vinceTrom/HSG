@@ -27,15 +27,18 @@ public class GLBullets extends GLAnim{
 		}
 	}
 
-	public void updateBulletPos(int deltaX){
+	public void updateBulletsPos(int deltaX){
 		//Log.d("", "updatebulletpos:"+deltaX);
 		for(int i = 0;i<_posList.size();i++){
 			_posList.get(i)[0] = _posList.get(i)[0] + deltaX;
 		}
 	}
+	public ArrayList<Integer[]> getPosList(){
+		return _posList;
+	}
 
 	public void newBullet(int x, int y){
-		Log.d("", "new bullet:"+x + "  "+y);
+		Log.d("", "new bullet:"+x + "  "+y+" bulletNB:"+(_posList.size()+1));
 		Integer[] tab = {x,y};
 		_posList.add(tab);
 	}

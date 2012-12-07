@@ -2,6 +2,7 @@ package com.oqs.opengl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.opengles.GL10;
@@ -28,6 +29,7 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 	private GLAnim[] mSprites;
 	private GLAnim[] mbackgrounds;
 	private GLAnim[] mplayer;
+	private ArrayList<Enemy> _enemies; //We have a tab of ennemies,so a tab of ennemies of tab of anims 
 	private GLAnim[] mforegrounds;
 	// Pre-allocated arrays to use at runtime so that allocation during the
 	// test can be avoided.
@@ -59,11 +61,14 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 		return configSpec;
 	}
 
-	public void setSprites(GLAnim[] backs, GLAnim[] player, GLAnim[] foreground, GLAnim[] total) {
+	public void setSprites(GLAnim[] backs, Player _player,ArrayList<Enemy> _enemies2, GLAnim[] foreground, GLAnim[] total) {
+		GLAnim[] gl = new GLAnim[0];
 		mbackgrounds = backs;
-		mplayer = player;
+		mplayer =  _player.getSprites().toArray(gl);
+		_enemies = _enemies2;
 		mforegrounds = foreground;
 		mSprites = total;
+		
 	}
 
 	/** 
@@ -99,8 +104,14 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 			}	
 			getAnim("armfire").draw(gl);
 
+			
+			for(int x = 0; x < _enemies.size(); x++) {
+				for(int y =0;y<_enemies.get(x).getSprites().size();y++)
+					_enemies.get(x).getSprites().get(y).draw(gl);
+			}
+
 			for (int x = 0; x < mforegrounds.length; x++) {
-				mforegrounds[x].draw(gl);
+				//mforegrounds[x].draw(gl);
 			}
 
 			if (mUseVerts) {

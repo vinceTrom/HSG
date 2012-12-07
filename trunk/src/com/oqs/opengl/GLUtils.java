@@ -38,14 +38,7 @@ public class GLUtils {
 	public static Grid[] createGrids(GLAnim glanim, String animName, MMXMLElement anim){
 
 		float picSizeOnScreenRatio = 0.3f;//relative � la hauteur de l'�cran
-		/*
-		if(animName.equals("mainback")){
-			picSizeOnScreenRatio = 1;
-			glanim.x = 0;
-			glanim.y = _screenHeight;
-			glanim.setXVelocity(-0.5f);
-		}
-		 */
+
 		float maxheightPic = 0f;
 
 		ArrayList<Picture> pictures = new ArrayList<Picture>();
