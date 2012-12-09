@@ -78,14 +78,7 @@ public class Player extends Character {
 
 	}
 
-	public GLAnim getAnim(String animName) {
-		for(int i=0;i<_sprites.size();i++){
-			if(_sprites.get(i).getResourceName().equals(animName))
-				return _sprites.get(i);
-		}
-		return null;
-
-	}
+	
 
 	public void jump() {
 		if(playerState==WALK){

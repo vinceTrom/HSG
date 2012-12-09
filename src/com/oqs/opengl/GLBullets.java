@@ -38,7 +38,7 @@ public class GLBullets extends GLAnim{
 	}
 
 	public void newBullet(int x, int y){
-		Log.d("", "new bullet:"+x + "  "+y+" bulletNB:"+(_posList.size()+1));
+		//Log.d("", "new bullet:"+x + "  "+y+" bulletNB:"+(_posList.size()+1));
 		Integer[] tab = {x,y};
 		_posList.add(tab);
 	}

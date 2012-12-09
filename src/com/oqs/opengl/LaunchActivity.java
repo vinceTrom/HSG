@@ -31,8 +31,7 @@ public class LaunchActivity extends Activity{
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				currentAnim = (String) ((TextView)arg1).getText();
-				
+				currentAnim = (String) ((TextView)arg1).getText();				
 			}
 
 			@Override

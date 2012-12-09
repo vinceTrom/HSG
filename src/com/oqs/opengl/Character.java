@@ -43,4 +43,27 @@ public abstract class Character {
 
 	public abstract void isTouchedByBullet();
 	
+	public GLAnim getAnim(String animName) {
+		for(int i=0;i<_sprites.size();i++){
+			if(_sprites.get(i).getResourceName().equals(animName))
+				return _sprites.get(i);
+		}
+		return null;
+
+	}
+	
+	@Override
+	public String toString(){
+		ArrayList<String> descs = new ArrayList<String>();
+		for(GLAnim anim :_sprites)
+			if(anim.mustDraw){
+				descs.add("currentAnim: "+anim.getResourceName() +" width:"+anim.width+" height:"+anim.height+ "x:"+anim.x+" y:"+anim.y+" speedX:"+anim.velocityX+" speedy"+anim.velocityY);
+			}
+		String result = "";
+		for(int i=0;i<descs.size();i++){
+			result = result+"\n"+descs.get(i);
+		}
+		return result;
+	}
+	
 }
