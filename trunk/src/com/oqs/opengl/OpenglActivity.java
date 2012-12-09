@@ -96,6 +96,23 @@ private ArrayList<Enemy> _enemies = new ArrayList<Enemy>();
 		createLevelAnims();
 		_player = new Player(this);
 		_enemies.add(new Enemy(this));
+		/*
+		_enemies.add(new Enemy(OpenglActivity.this));				
+
+		_enemies.add(new Enemy(OpenglActivity.this));	
+		_enemies.add(new Enemy(OpenglActivity.this));
+		_enemies.add(new Enemy(OpenglActivity.this));
+		_enemies.add(new Enemy(OpenglActivity.this));
+		*/
+/*
+		new Handler().postDelayed(new Runnable() {
+			
+			@Override
+			public void run() {
+				_enemies.add(new Enemy(OpenglActivity.this));				
+			}
+		}, 4000);
+		*/
 
 		// Now's a good time to run the GC.  Since we won't do any explicit
 		// allocation during the test, the GC should stay dormant and not
@@ -107,6 +124,13 @@ private ArrayList<Enemy> _enemies = new ArrayList<Enemy>();
 		all.addAll(backsSprites);
 		all.addAll(_player.getSprites());
 		all.addAll(_enemies.get(0).getSprites());
+		/*
+		all.addAll(_enemies.get(1).getSprites());
+		all.addAll(_enemies.get(2).getSprites());
+		all.addAll(_enemies.get(3).getSprites());
+		all.addAll(_enemies.get(4).getSprites());
+		all.addAll(_enemies.get(5).getSprites());
+		*/
 		all.addAll(foregroundSprites);
 		GLAnim[] gl = new GLAnim[0];
 		spriteRenderer.setSprites(backsSprites.toArray(gl), _player, _enemies, foregroundSprites.toArray(gl), all.toArray(gl));

@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <player xmlns="">
     <animations>
+        <animation name="enemy/die1" period="80" size="0.2">
+            <image x="8" y="7" width="37" height="43" anchorX="16" anchorY="7"/>
+            <image x="48" y="7" width="30" height="42" anchorX="13" anchorY="7"/>
+            <image x="85" y="8" width="30" height="42" anchorX="13" anchorY="6"/>
+            <image x="122" y="8" width="30" height="42" anchorX="13" anchorY="6"/>
+            <image x="158" y="9" width="28" height="41" anchorX="12" anchorY="6"/>
+            <image x="193" y="9" width="31" height="41" anchorX="14" anchorY="7"/>
+            <image x="228" y="9" width="30" height="41" anchorX="13" anchorY="7"/>
+            <image x="266" y="9" width="30" height="41" anchorX="14" anchorY="7"/>
+            <image x="303" y="9" width="30" height="41" anchorX="13" anchorY="7"/>
+            <image x="335" y="9" width="33" height="41" anchorX="13" anchorY="7"/>
+        </animation>
+        <animation name="enemy/die2" period="80" size="0.2">
+            <image x="6" y="11" width="37" height="45" anchorX="16" anchorY="12"/>
+            <image x="45" y="11" width="37" height="45" anchorX="16" anchorY="12"/>
+            <image x="84" y="11" width="37" height="45" anchorX="16" anchorY="12"/>
+            <image x="124" y="11" width="37" height="45" anchorX="16" anchorY="12"/>
+            <image x="170" y="11" width="40" height="45" anchorX="16" anchorY="12"/>
+            <image x="220" y="11" width="42" height="45" anchorX="16" anchorY="12"/>
+            <image x="272" y="11" width="43" height="45" anchorX="16" anchorY="12"/>
+            <image x="324" y="11" width="49" height="45" anchorX="16" anchorY="12"/>
+            <image x="382" y="11" width="50" height="45" anchorX="16" anchorY="12"/>
+            <image x="439" y="10" width="50" height="46" anchorX="16" anchorY="12"/>
+            <image x="16" y="69" width="48" height="45" anchorX="16" anchorY="12"/>
+            <image x="74" y="69" width="48" height="45" anchorX="16" anchorY="12"/>
+            <image x="131" y="69" width="48" height="45" anchorX="16" anchorY="12"/>
+            <image x="189" y="69" width="48" height="45" anchorX="16" anchorY="12"/>
+            <image x="247" y="69" width="48" height="45" anchorX="16" anchorY="12"/>
+        </animation>
+        <animation name="enemy/die3" period="80" size="0.2">
+            <image x="12" y="0" width="32" height="49" anchorX="12" anchorY="11"/>
+            <image x="44" y="0" width="30" height="49" anchorX="12" anchorY="11"/>
+            <image x="74" y="0" width="37" height="49" anchorX="12" anchorY="11"/>
+            <image x="119" y="0" width="41" height="48" anchorX="10" anchorY="11"/>
+            <image x="162" y="0" width="49" height="48" anchorX="11" anchorY="11"/>
+            <image x="213" y="0" width="47" height="48" anchorX="10" anchorY="11"/>
+            <image x="261" y="0" width="47" height="48" anchorX="9" anchorY="11"/>
+            <image x="309" y="0" width="49" height="48" anchorX="11" anchorY="11"/>
+            <image x="360" y="0" width="51" height="48" anchorX="9" anchorY="11"/>
+            <image x="413" y="0" width="52" height="48" anchorX="11" anchorY="11"/>
+            <image x="26" y="63" width="56" height="45" anchorX="12" anchorY="8"/>
+            <image x="85" y="70" width="55" height="39" anchorX="9" anchorY="1"/>
+            <image x="143" y="76" width="56" height="33" anchorX="10" anchorY="-6"/>
+            <image x="208" y="90" width="50" height="18" anchorX="4" anchorY="-19"/>
+            <image x="267" y="90" width="49" height="18" anchorX="5" anchorY="-20"/>
+        </animation>
         <animation name="enemy/walk" period="80" size="0.2">
             <image x="2" y="0" width="37" height="41" anchorX="14" anchorY="5"/>
             <image x="39" y="0" width="39" height="44" anchorX="14" anchorY="5"/>

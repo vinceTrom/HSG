@@ -44,7 +44,7 @@ public class Mover implements Runnable {
 								//Test Colisions between bullet and enemies
 								_colisioner.testColisionWithBulletAndEnemy(((GLBullets) object).getPosList());
 							}
-						}catch(Exception e){}
+						}catch(Exception e){e.printStackTrace();}
 						
 						
 

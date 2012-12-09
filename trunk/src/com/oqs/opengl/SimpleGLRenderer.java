@@ -68,7 +68,6 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 		_enemies = _enemies2;
 		mforegrounds = foreground;
 		mSprites = total;
-		
 	}
 
 	/** 
@@ -111,7 +110,7 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 			}
 
 			for (int x = 0; x < mforegrounds.length; x++) {
-				//mforegrounds[x].draw(gl);
+				mforegrounds[x].draw(gl);
 			}
 
 			if (mUseVerts) {
