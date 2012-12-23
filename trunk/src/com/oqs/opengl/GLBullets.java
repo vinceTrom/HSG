@@ -1,19 +1,45 @@
 package com.oqs.opengl;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import com.oqs.opengl.lib.MMXMLElement;
+import com.oqs.opengl.lib.MMXMLParser;
+import com.oqs.opengl.lib.MMXMLElement.MMXMLElements;
+
+import android.content.Context;
 import android.util.Log;
 
-public class GLBullets extends GLAnim{
+public class GLBullets {
 
-	public ArrayList<Integer[]> _posList = new ArrayList<Integer[]>();
+	private GLAnim _sprite;
+	public ArrayList<Renderable> _bulletList = new ArrayList<Renderable>();
 
-	public GLBullets(String resourceName, boolean tiled) {
-		super(resourceName, tiled);
+	private static GLBullets _me;
+	
+	public GLBullets(Context ctx) {
+		_me = this;
+		_sprite = new GLAnim("bullet", false, _bulletList);
+		InputStream ss = null;
+		try {
+			ss = ctx.getAssets().open("bullet.xml");
+		} catch (IOException e1) {e1.printStackTrace();}
+		MMXMLParser parser = MMXMLParser.createMMXMLParser(ss,null);
+		MMXMLElement elem = parser.parseSynchronously().getRootElement();
+		MMXMLElements elems = elem.getElementForKey("player").getElementForKey("animations").getElementsForKey("animation");
+		for(int i=0;i<elems.size();i++){
+			String anim_name = elems.get(i).getAttributes().get("name");
+			GLUtils.createAnim(ctx, _sprite, elems.get(i));
+		}
 	}
-
+	
+	public static GLBullets get(){
+		return _me;
+	}
+/*
 	@Override
 	protected void finalDraw(GL10 gl, Grid grid){
 		for(int j=0;j<_posList.size();j++){
@@ -26,21 +52,15 @@ public class GLBullets extends GLAnim{
 			}
 		}
 	}
-
-	public void updateBulletsPos(int deltaX){
-		//Log.d("", "updatebulletpos:"+deltaX);
-		for(int i = 0;i<_posList.size();i++){
-			_posList.get(i)[0] = _posList.get(i)[0] + deltaX;
-		}
-	}
-	public ArrayList<Integer[]> getPosList(){
-		return _posList;
+	*/
+	public GLAnim getSprite(){
+		return _sprite;
 	}
 
-	public void newBullet(int x, int y){
-		//Log.d("", "new bullet:"+x + "  "+y+" bulletNB:"+(_posList.size()+1));
-		Integer[] tab = {x,y};
-		_posList.add(tab);
+	public void addBullet(GLBullet bullet) {
+		bullet.width = _sprite.getAverageWidth();
+		bullet.height = 10;
+		_bulletList.add(bullet);
 	}
 
 }

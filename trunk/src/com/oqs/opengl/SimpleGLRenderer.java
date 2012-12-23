@@ -30,6 +30,8 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 	private GLAnim[] mbackgrounds;
 	private GLAnim[] mplayer;
 	private ArrayList<Enemy> _enemies; //We have a tab of ennemies,so a tab of ennemies of tab of anims 
+	public ArrayList<GLBullets> _bullets = new ArrayList<GLBullets>();
+
 	private GLAnim[] mforegrounds;
 	// Pre-allocated arrays to use at runtime so that allocation during the
 	// test can be avoided.
@@ -101,14 +103,24 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 				if( !mplayer[x].getResourceName().equals("armfire"))
 					mplayer[x].draw(gl);
 			}	
+			
+			GLBullets.get().getSprite().draw(gl);
+			
+			
 			getAnim("armfire").draw(gl);
 
-			
-			for(int x = 0; x < _enemies.size(); x++) {
-				for(int y =0;y<_enemies.get(x).getSprites().size();y++)
-					_enemies.get(x).getSprites().get(y).draw(gl);
-			}
+			if(_enemies != null)
+				Log.d("", "ENEMIES NUMBER: "+_enemies.size());
+				for(int x = 0; x < _enemies.size(); x++) {
+					
+					for(int y =0;y<_enemies.get(x).getSprites().size();y++){
+						if(x==1 && y==3)
+							Log.d("", "");
+						_enemies.get(x).getSprites().get(y).draw(gl);
+					}
+				}
 
+			
 			for (int x = 0; x < mforegrounds.length; x++) {
 				mforegrounds[x].draw(gl);
 			}
@@ -337,19 +349,7 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 		return textureName;
 	}
 
-	public void disableDrawing(String animName) {
-		for(int i=0;i<mplayer.length;i++){
-			if(mplayer[i].getResourceName().equals(animName))
-				mplayer[i].mustDraw = false;
-		}	
-	}
 
-	public void enableDrawing(String animName) {
-		for(int i=0;i<mplayer.length;i++){
-			if(mplayer[i].getResourceName().equals(animName))
-				mplayer[i].mustDraw = true;
-		}
-	}
 
 	public GLAnim getAnim(String animName) {
 		for(int i=0;i<mplayer.length;i++){

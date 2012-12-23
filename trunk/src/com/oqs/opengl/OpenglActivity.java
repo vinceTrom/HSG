@@ -4,6 +4,8 @@ package com.oqs.opengl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.oqs.opengl.lib.MMXMLElement;
 import com.oqs.opengl.lib.MMXMLElement.MMXMLElements;
@@ -30,19 +32,21 @@ import android.widget.RelativeLayout.LayoutParams;
 
 public class OpenglActivity extends Activity {
 
+	private Timer _timer;
 	private GLSurfaceView mGLSurfaceView;
 	public static int _screenHeight;
 	public static int _screenWidth;
-	public ArrayList<GLAnim> backsSprites = new ArrayList<GLAnim>();
-	//public ArrayList<GLAnim> playerSprites = new ArrayList<GLAnim>();
-	public ArrayList<GLAnim> foregroundSprites = new ArrayList<GLAnim>();
+	public ArrayList<GLLayerLoop> backsSprites = new ArrayList<GLLayerLoop>();
+	public ArrayList<GLLayerLoop> foregroundSprites = new ArrayList<GLLayerLoop>();
 	private SimpleGLRenderer spriteRenderer;
 	private Player _player;
-private ArrayList<Enemy> _enemies = new ArrayList<Enemy>();
+	private ArrayList<Enemy> _enemies = new ArrayList<Enemy>();
 	
-
-
-
+	@Override
+	protected void onDestroy (){
+		super.onDestroy();
+		_timer.cancel();
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -79,7 +83,6 @@ private ArrayList<Enemy> _enemies = new ArrayList<Enemy>();
 		final Intent callingIntent = getIntent();
 		// Allocate our sprites and add them to an array.
 		//final int robotCount = 4;//ANIM.equals("all")?12:2;//callingIntent.getIntExtra("spriteCount", 10);
-		final boolean animate = true;//callingIntent.getBooleanExtra("animate", true);
 		final boolean useVerts = true;
 		final boolean useHardwareBuffers = 
 				callingIntent.getBooleanExtra("useHardwareBuffers", false);
@@ -92,27 +95,30 @@ private ArrayList<Enemy> _enemies = new ArrayList<Enemy>();
 
 		// This list of things to move. It points to the same content as the
 		// sprite list except for the background.
-		Constants.GROUND_LEVEL = (int) (0.3*_screenHeight);
+		Constants.GROUND_LEVEL = (int) (0.07f*_screenHeight);
 		createLevelAnims();
 		_player = new Player(this);
-		_enemies.add(new Enemy(this));
+		GLBullets bullet = new GLBullets(this);
 		/*
+		_enemies.add(new Enemy(this));
+
 		_enemies.add(new Enemy(OpenglActivity.this));				
 
 		_enemies.add(new Enemy(OpenglActivity.this));	
 		_enemies.add(new Enemy(OpenglActivity.this));
 		_enemies.add(new Enemy(OpenglActivity.this));
 		_enemies.add(new Enemy(OpenglActivity.this));
-		*/
-/*
+		 */
+
+		/*
 		new Handler().postDelayed(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				_enemies.add(new Enemy(OpenglActivity.this));				
 			}
 		}, 4000);
-		*/
+		 */
 
 		// Now's a good time to run the GC.  Since we won't do any explicit
 		// allocation during the test, the GC should stay dormant and not
@@ -121,29 +127,60 @@ private ArrayList<Enemy> _enemies = new ArrayList<Enemy>();
 		r.gc(); 
 
 		ArrayList<GLAnim> all = new ArrayList<GLAnim>();
-		all.addAll(backsSprites);
+		for(GLLayerLoop layer:backsSprites)
+			all.add(layer.getSprite());
 		all.addAll(_player.getSprites());
+		all.add(bullet.getSprite());
+		all.add(GLBullets.get().getSprite());
+
+		_enemies.add(new Enemy(this));
 		all.addAll(_enemies.get(0).getSprites());
+		_timer = new Timer();
+		_timer.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				_enemies.add(new Enemy(OpenglActivity.this));				
+			}
+		}, 5000, 4000);
+
 		/*
 		all.addAll(_enemies.get(1).getSprites());
+
 		all.addAll(_enemies.get(2).getSprites());
 		all.addAll(_enemies.get(3).getSprites());
 		all.addAll(_enemies.get(4).getSprites());
 		all.addAll(_enemies.get(5).getSprites());
-		*/
-		all.addAll(foregroundSprites);
+		 */
+
+		for(GLLayerLoop layer:foregroundSprites)
+			all.add(layer.getSprite());
 		GLAnim[] gl = new GLAnim[0];
-		spriteRenderer.setSprites(backsSprites.toArray(gl), _player, _enemies, foregroundSprites.toArray(gl), all.toArray(gl));
+		ArrayList<GLAnim> backs = new ArrayList<GLAnim>();
+		for(GLLayerLoop layer:backsSprites)
+			backs.add(layer.getSprite());
+		ArrayList<GLAnim> fores = new ArrayList<GLAnim>();
+		for(GLLayerLoop layer:foregroundSprites)
+			fores.add(layer.getSprite());
+		spriteRenderer.setSprites(backs.toArray(gl), _player, _enemies, fores.toArray(gl), all.toArray(gl));
 		spriteRenderer.setVertMode(useVerts, useHardwareBuffers);
 
 		mGLSurfaceView.setRenderer(spriteRenderer);
 
-		if (animate) {
-			Mover simulationRuntime = new Mover(this, _screenHeight);
-			simulationRuntime.setRenderables(all.toArray(gl));
-
-			mGLSurfaceView.setEvent(simulationRuntime);
+		Mover simulationRuntime = new Mover(this, _screenHeight);
+		ArrayList<Renderable> allRender = new ArrayList<Renderable>();
+		allRender.addAll(backsSprites);
+		allRender.add(_player);
+		//allRender.addAll(GLBullets.get()._bulletList);
+		for(int i=0;i<_enemies.size();i++){
+			//	allRender.add(_enemies.get(i));
 		}
+		allRender.addAll(foregroundSprites);
+		Renderable[] gl2 = new Renderable[0];
+		simulationRuntime.setRenderables(allRender.toArray(gl2),_enemies,GLBullets.get()._bulletList);
+
+		mGLSurfaceView.setEvent(simulationRuntime);
+
 	}
 
 
@@ -157,12 +194,12 @@ private ArrayList<Enemy> _enemies = new ArrayList<Enemy>();
 		MMXMLElements elems = elem.getElementForKey("player").getElementForKey("animations").getElementsForKey("background");
 		for(int i=0;i<elems.size();i++){
 			String anim_name = elems.get(i).getAttributes().get("name");
-			GLAnim anim = new GLLayerLoop(anim_name, true);
-			GLUtils.createAnim(this,anim, elems.get(i));
+			GLLayerLoop layer = new GLLayerLoop(anim_name, true);
+			GLUtils.createAnim(this, layer.getSprite(), elems.get(i));
 			if(elems.get(i).getAttributes().containsKey("foreground") && elems.get(i).getAttributes().get("foreground").equals("true"))
-				foregroundSprites.add(anim);
+				foregroundSprites.add(layer);
 			else
-				backsSprites.add(anim);
+				backsSprites.add(layer);
 		}		
 	}
 
@@ -172,16 +209,5 @@ private ArrayList<Enemy> _enemies = new ArrayList<Enemy>();
 	public boolean onCreateOptionsMenu(Menu menu) {
 		return false;
 	}
-
-
-	public void fall() {
-		_player.fall();		
-	}
-	public void fallFinished() {
-		_player.fallFinished();		
-	}
-
-
-
 
 }
