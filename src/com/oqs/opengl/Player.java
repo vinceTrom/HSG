@@ -4,28 +4,29 @@ package com.oqs.opengl;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import com.oqs.opengl.lib.MMXMLElement;
 import com.oqs.opengl.lib.MMXMLParser;
 import com.oqs.opengl.lib.MMXMLElement.MMXMLElements;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 
 
 public class Player extends Character {
+	
+	public static final int WALK = 1;
+	public static final int JUMP = 2;
+	public static final int JUMP_TWO = 5;
+	public static final int FALL = 3;
 
 	private Handler _handler = new Handler();
 
-	private int playerState=1;
-	private static final int WALK = 1;
-	private static final int JUMP = 2;
-	private static final int JUMP_TWO = 5;
-	private static final int FALL = 3;
-	private static final int EXPLO = 4;
-
-
 	public Player(Context ctx) {
 		super(ctx, "player.xml");
+		_playerState = WALK;
 	}
 
 	@Override
@@ -42,14 +43,30 @@ public class Player extends Character {
 		MMXMLParser parser = MMXMLParser.createMMXMLParser(ss,null);
 		MMXMLElement elem = parser.parseSynchronously().getRootElement();
 		MMXMLElement elem2 = elem.getElementForKey("player").getElementForKey("animations").getElementForKey("animation");
-		
-		GLAnim anim = new GLBullets("bullet", true);
-		_sprites.add(anim);
-		GLUtils.createAnim(ctx, anim, elem2);
-		anim.mustDraw = false;		
+
+		//GLUtils.createAnim(ctx, anim, elem2);
+		//anim.mustDraw = false;		
 	}
 
 	protected void initAnims() {
+		x = (int) (0.22f*OpenglActivity._screenHeight);
+		y = Constants.GROUND_LEVEL;
+		for(int i=0;i<_sprites.size();i++){
+			
+			if(_sprites.get(i).getResourceName().equals("jump")){
+				_sprites.get(i).loop = false;
+			}
+			if(_sprites.get(i).getResourceName().equals("fall")){
+				_sprites.get(i).loop = false;
+			}
+			/*
+			if(_sprites.get(i).getResourceName().equals("armfire")){
+				int deltaX = (int) getWalkAnim().getAverageWidth();
+				_sprites.get(i).setOffsetPos(0, 0);
+			}
+			*/
+		}
+		/*
 		for(int i = 0;i<_sprites.size();i++){
 			if(_sprites.get(i).getResourceName().equals("walk"))
 				_sprites.get(i).mustDraw = true;
@@ -75,59 +92,43 @@ public class Player extends Character {
 				_sprites.get(i).y = Constants.GROUND_LEVEL;
 			}
 		}
+		 */
 
 	}
 
-	
+
 
 	public void jump() {
-		if(playerState==WALK){
-			playerState = JUMP;
-			getAnim("walk").mustDraw = false;
-			getAnim("jump").mustDraw = true;
-			getAnim("jump").y = Constants.GROUND_LEVEL;
-			getAnim("jump").applyGravity = true;
-			getAnim("jump").setYVelocity(0.9f);
-			getAnim("armfire").applyGravity = true;
-			getAnim("armfire").setYVelocity(0.9f);
+		if(_playerState==WALK){
+			_playerState = JUMP;
+			applyGravity = true;
+			setYVelocity(0.9f);
 		}else{
-			if(playerState==JUMP){
-				playerState = JUMP_TWO;
-				getAnim("jump").setYVelocity(0.9f);
-				getAnim("armfire").setYVelocity(0.9f);
+			if(_playerState==JUMP){
+				_playerState = JUMP_TWO;
+				velocityY = 0.9f;
+				setYVelocity(0.9f);
 			}
 		}
 	}
 
 	public void fall() {
-		playerState = FALL;
+		_playerState = FALL;
 		getAnim("jump").initAnim();
-		getAnim("jump").mustDraw = false;
-		getAnim("jump").applyGravity = false;
-		getAnim("fall").mustDraw = true;
-		getAnim("fall").y = getAnim("jump").y;
-		getAnim("fall").applyGravity = true;
-		getAnim("fall").setYVelocity(0f);
 	}
 
 	public void fallFinished() {
-		playerState = WALK;
+		_playerState = WALK;
+		setYVelocity(0);
 		getAnim("fall").initAnim();
-		getAnim("fall").mustDraw = false;
 		getAnim("walk").initAnim();
-		getAnim("walk").mustDraw = true;
-		getAnim("fall").applyGravity = false;
-		getAnim("armfire").applyGravity = false;
-		getAnim("armfire").setYVelocity(0f);
-
+		applyGravity = false;
+		y = Constants.GROUND_LEVEL;
 	}
 
-	//private long lastshoot=0;
+	private boolean isshooting = false;
 	public void shoot() {
-		getAnim("armfire").mustDraw = true;
-
-		getAnim("bullet").mustDraw = true;
-		getAnim("bullet").setXVelocity(4f);
+		isshooting = true;
 		_handler.post(shootRun);
 	}
 
@@ -135,20 +136,24 @@ public class Player extends Character {
 
 		@Override
 		public void run() {
-			GLAnim player = getCurrentPlayerAnim();
-			((GLBullets)getAnim("bullet")).newBullet((int) (player.x-player.getAnchor().first+player.textureWidth*1),(int) (player.y-player.getAnchor().second+player.textureHeight*0.38+Math.random()*OpenglActivity._screenHeight/20));
+			Log.e("", "shootrun "+y+ "  height:"+height);
+			GLBullet bullet = new GLBullet();
+			bullet.y = y+0.4f*+getWalkAnim().textureHeight;
+			bullet.x = getWalkAnim().getAverageWidth();
+			bullet.setXVelocity(4);
+			GLBullets.get().addBullet(bullet);
+			//((GLBullets)getAnim("bullet")).newBullet((int) (player.x-player.getAnchor().first+player.textureWidth*1),(int) (player.y-player.getAnchor().second+player.textureHeight*0.38+Math.random()*OpenglActivity._screenHeight/20));
 			_handler.postDelayed(this, 170);
 		}
 	};
 
 	public void stopShoot(){
+		isshooting = false;
 		_handler.removeCallbacks(shootRun);
-		getAnim("armfire").mustDraw = false;
-
 	}
 
 	private GLAnim getCurrentPlayerAnim(){
-		switch (playerState) {
+		switch (_playerState) {
 		case WALK:
 			return getAnim("walk");
 		case JUMP:
@@ -176,6 +181,33 @@ public class Player extends Character {
 	@Override
 	public void isTouchedByBullet() {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	protected String getCharacterType() {
+		return "Player";
+	}
+
+	@Override
+	protected void finalDraw(GL10 gl, Grid grid) {
+		grid.draw(gl, true, false);
+	}
+	
+	@Override
+	public boolean musDrawThisAnim(String resourceName) {
+		if(_playerState == WALK && resourceName.equals("walk"))
+			return true;
+		else
+			if((_playerState == JUMP || _playerState == JUMP_TWO) && resourceName.equals("jump"))
+				return true;
+			else
+				if(_playerState == FALL && resourceName.equals("fall"))
+					return true;
+				else
+					if(isshooting && resourceName.equals("armfire"))
+						return true;
+			
+			return false;
 	}
 }

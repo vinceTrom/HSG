@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.graphics.Rect;
+import android.util.Log;
 import android.util.Pair;
 
 /**
@@ -14,38 +15,49 @@ import android.util.Pair;
  * using the DrawTexture extension.
  */
 
-public class GLAnim extends Renderable {
+public class GLAnim {
 	// The OpenGL ES texture handle to draw.
-	protected int mTextureName;
+	private int mTextureName;
 
-	private Character _character;
+	private ArrayList<Renderable> _renderables;
 	// The id of the original resource that mTextureName is based on.
 	private String mResourceName;
 	protected Grid[] mGrid;
-	private int currentindex = 0;
+	//private int currentindex = 0;
 	public boolean loop = true;
-	private long lastDraw=0;
+	//private long lastDraw=0;
 	private boolean _tiled = true;
 	private ArrayList<Picture> _frames = null;
 	private int _period = 80;
-	public boolean mustDraw = true;
 
-
+	private int _averageWidth = 0;
+	private int _averageHeight = 0;
 	public int textureWidth = 0;
 	public int textureHeight = 0;
 
+	private int _offsetX = 0;
+	private int _offsetY = 0;
 
+	/*
 	public GLAnim(String resourceName, boolean tiled) {
 		super();
 		this.mResourceName = resourceName;
 		this._tiled = tiled;
 	}
-
-	public GLAnim(String resourceName, boolean tiled, Character character) {
+	 */
+	public GLAnim(String resourceName, boolean tiled, Renderable character) {
 		super();
 		this.mResourceName = resourceName;
 		this._tiled = tiled;	
-		this._character = character;
+		this._renderables  = new ArrayList<Renderable>();
+		this._renderables.add(character);
+	}
+
+	public GLAnim(String resourceName, boolean tiled, ArrayList<Renderable> characters) {
+		super();
+		this.mResourceName = resourceName;
+		this._tiled = tiled;	
+		this._renderables  = characters;
 	}
 
 	public void setTextureDimensions(int w, int h){
@@ -53,49 +65,51 @@ public class GLAnim extends Renderable {
 		textureHeight = h;
 	}
 
+	public void setOffsetPos(int offsetX, int offsetY){
+		_offsetX = offsetX;
+		_offsetY = offsetY;
+	}
+
 
 	public void draw(GL10 gl) {
-		if(mustDraw){
-
-			gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureName);
-			// Draw using verts or VBO verts.
-			gl.glPushMatrix();
-			gl.glLoadIdentity();
-
-			if(_tiled){
-				if(System.currentTimeMillis()- _period >lastDraw){
-					lastDraw = System.currentTimeMillis();
-					if(loop)
-						currentindex = (currentindex+1)%mGrid.length;
-					else
-						currentindex = Math.min(currentindex+1,mGrid.length-1);
-					//Log.d("", "currentindex: "+currentindex+"  length: "+mGrid.length+" posX= "+x);
+		synchronized(OpenglActivity.class){
+			for(int i = 0;i<_renderables.size();i++){
+				if(!_renderables.get(i)._state.containsKey(mResourceName)){
+					_renderables.get(i)._state.put(mResourceName, new RenderableAnimState());
 				}
+				if(_renderables.get(i).musDrawThisAnim(getResourceName())){
+					
+					
+					
+					 RenderableAnimState state = _renderables.get(i)._state.get(mResourceName);
+					 
+					if(_tiled){
+						if(System.currentTimeMillis()- _period >state.lastDraw){
+							state.lastDraw = System.currentTimeMillis();
+							if(loop)
+								state.currentindex = (state.currentindex+1)%mGrid.length;
+							else
+								state.currentindex = Math.min(state.currentindex+1,mGrid.length-1);
+						}
+					}
+					gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureName);
+					// Draw using verts or VBO verts.
+					gl.glPushMatrix();
+					gl.glLoadIdentity();
+					try{
+						gl.glTranslatef(
+								_renderables.get(i).x + _offsetX- _frames.get(state.currentindex).anchor.first,
+								_renderables.get(i).y +_offsetY + _frames.get(state.currentindex).anchor.second, 
+								0);
 
-				gl.glTranslatef(
-						x - _frames.get(currentindex).anchor.first, 
-						y - _frames.get(currentindex).anchor.second, 
-						z);
+					}catch (Exception e){e.printStackTrace();}
+
+					_renderables.get(i).finalDraw(gl, mGrid[state.currentindex]);
+					gl.glPopMatrix();
+				}
 			}
-			finalDraw(gl, mGrid[currentindex]);
-			gl.glPopMatrix();
 		}
 	}
-
-	public Pair<Integer, Integer> getAnchor(){
-		int moyX = 0;
-		int moyY = 0;
-		for(int i = 0;i<_frames.size();i++){
-			moyX = moyX + _frames.get(i).anchor.first;
-			moyY = moyY + _frames.get(i).anchor.second;
-		}
-		Pair p = new Pair<Integer, Integer>(moyX/_frames.size(), moyY/_frames.size());
-		return p;
-	}
-
-
-
-
 
 
 	public void setPictures(ArrayList<Picture> ls){
@@ -132,21 +146,40 @@ public class GLAnim extends Renderable {
 		return mGrid;
 	}
 
-
+	/*
 	protected void finalDraw(GL10 gl, Grid grid){
 		grid.draw(gl, true, false);
 	}
-
+	 */
 	public void initAnim(){
-		currentindex = 0;
+		getCharacter()._state.get(mResourceName).currentindex = 0;
 	}
 
-	public Rect getBoundRect() {
-		return new Rect((int)x, (int)(y-height), (int)(x+width),(int) (y));
+
+
+	public Renderable getCharacter() {
+		return _renderables.get(0);
 	}
 
-	public Character getCharacter() {
-		return _character;
+	public void addCharacter(Renderable character) {
+		_renderables.add(character);		
+	}
+
+	public void setAverageWidth(int width, int height) {
+		_averageWidth = width;
+		_averageHeight = height;
+	}
+
+	public float getAverageWidth() {
+		return _averageWidth;
+	}
+
+	public float getAverageHeight() {
+		return _averageHeight;
+	}
+
+	public String toString(){
+		return getResourceName();
 	}
 
 }

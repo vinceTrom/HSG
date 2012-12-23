@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <player xmlns="">
     <animations>
-        <background name="back"  Xvelocity="-0.25" size="0.4" y = "0.64">
+        
+        <background name="back"  Xvelocity="-0.25" size="0.4" y = "0.32">
                 <image x="0" y="0" width="383" height="79" anchorX="0" anchorY="0" />
             </background>
-        <background name="mainback"  Xvelocity="-0.35" size="1" y = "1">
+            
+        <background name="mainback"  Xvelocity="-0.35" size="1" y = "0">
                 <image x="0" y="0" width="2046" height="215" anchorX="0" anchorY="0" />
             </background>
             
-            <background name="first"  foreground="true" Xvelocity="-0.45" size="0.2" y = "0.15">
+          
+            <background name="first"  foreground="true" Xvelocity="-0.45" size="0.2" y = "-0.1">
                 <image x="0" y="0" width="431" height="52" anchorX="0" anchorY="0" />
             </background>
+            
     </animations>
 </player>
