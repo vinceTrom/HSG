@@ -1,5 +1,6 @@
 package com.oqs.opengl;
 
+import javax.microedition.khronos.opengles.GL;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
@@ -23,6 +24,7 @@ public class Enemy extends Character{
 
 	@Override
 	public Rect getBoundRect() {
+		/*
 		GLAnim anim = null;
 
 		for(int i = 0;i<_sprites.size();i++){
@@ -30,8 +32,12 @@ public class Enemy extends Character{
 				anim = _sprites.get(i);
 			}
 		}
+		*/
+		GLAnim anim = getCurrentAnim();
+		int width = anim.getFrames().get(_state.get(anim.getResourceName()).currentindex).width;
+		int height = anim.getFrames().get(_state.get(anim.getResourceName()).currentindex).height;
 
-		return new Rect((int)x,(int) y, (int)(x+anim.getAverageWidth()),(int)(y+anim.getAverageHeight()));
+		return new Rect((int)x,(int) y, (int)(x+width),(int)(y+height));
 	}
 
 	@Override
@@ -59,13 +65,13 @@ public class Enemy extends Character{
 		_isdead = true;
 		int dieValue = (int)(1+Math.random()*3);
 		String dieAnim = "die"+(dieValue);
-		
+
 		switch(dieValue){
 		case 1:_playerState = DIE1;break;
 		case 2:_playerState = DIE2;break;
 		case 3:_playerState = DIE3;break;
 		}
-		
+
 		Log.d("", "dieAnim:"+dieAnim);
 		//getAnim("enemy/walk").mustDraw = false;
 		//getAnim("enemy/"+dieAnim).mustDraw = true;
@@ -104,7 +110,24 @@ public class Enemy extends Character{
 				else
 					if(_playerState == DIE3 && resourceName.equals("enemy/die3"))
 						return true;
-			return false;
+		return false;
+	}
+
+	private GLAnim getCurrentAnim(){
+		String anim = "";
+		switch (_playerState) {
+		case WALK:anim = "enemy/walk";break;
+		case DIE1:anim = "enemy/die1";break;
+		case DIE2:anim = "enemy/die2";break;
+		case DIE3:anim = "enemy/die3";break;
+		default:
+			break;
+		}
+		for(int i = 0;i<_sprites.size();i++)
+			if(_sprites.get(i).getResourceName().equals(anim))
+				return _sprites.get(i);
+		return null;
+
 	}
 
 }
