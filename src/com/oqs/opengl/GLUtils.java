@@ -118,6 +118,8 @@ public class GLUtils {
 			picGrid.set(0, 1, 0.0f, textureheight, 0.0f, Xoffset+0.0f, 0.0f+Yoffset, null);
 			picGrid.set(1, 1, texturewidth, textureheight, 0.0f, Xoffset+1.0f*Xratio, 0.0f+Yoffset, null);
 
+			pictures.get(frameindex).width = (int) (pictures.get(frameindex).width * ratio);
+			pictures.get(frameindex).height = (int) (pictures.get(frameindex).height * ratio);
 			pictures.get(frameindex).anchor = new Pair<Integer, Integer>((int) (pictures.get(frameindex).anchor.first*ratio), (int) ((pictures.get(frameindex).anchor.second-anchorYmin)*ratio));
 
 			grids[frameindex] = picGrid;

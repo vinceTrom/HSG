@@ -78,9 +78,6 @@ public class GLAnim {
 					_renderables.get(i)._state.put(mResourceName, new RenderableAnimState());
 				}
 				if(_renderables.get(i).musDrawThisAnim(getResourceName())){
-					
-					
-					
 					 RenderableAnimState state = _renderables.get(i)._state.get(mResourceName);
 					 
 					if(_tiled){
@@ -114,6 +111,10 @@ public class GLAnim {
 
 	public void setPictures(ArrayList<Picture> ls){
 		_frames = ls;
+	}
+	
+	public ArrayList<Picture> getFrames(){
+		return _frames;
 	}
 
 	public void setAnimPeriod(int period) {
