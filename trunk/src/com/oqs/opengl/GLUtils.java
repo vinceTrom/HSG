@@ -17,9 +17,6 @@ public class GLUtils {
 	private  static float SPRITE_WIDTH = 0;
 	private static float SPRITE_HEIGHT = 0;
 
-	private static HashMap<String,Grid[]> _gridsMap = new HashMap<String, Grid[]>();
-	private static HashMap<String,ArrayList<Picture>> _picturesMap = new HashMap<String, ArrayList<Picture>>();
-
 
 
 	public static void createAnim(Context ctx, GLAnim sprite, MMXMLElement animElem){
@@ -62,11 +59,18 @@ public class GLUtils {
 			int anchorx = Integer.parseInt(anim.getElement(i).getAttributes().get("anchorX"));//(int) ((height/(float) h/picSizeOnScreen)*(width - Integer.parseInt(anim.getElement(i).getAttributes().get("anchorX"))));
 			int anchory = Integer.parseInt(anim.getElement(i).getAttributes().get("anchorY")) - height;//(int) ((height/(float)h/picSizeOnScreen)*(height - Integer.parseInt(anim.getElement(i).getAttributes().get("anchorY"))));
 			anchorYmin = Math.min(anchorYmin, anchory);
-			pictures.add(new Picture((int)(x),(int)(y),(int)(width),(int)(height),(int)(anchorx),(int)(anchory)));
+			int fireAnchorX = 0;
+			int fireAnchorY = 0;
+			int floorPos =0;
+			try{
+				fireAnchorX = Integer.parseInt(anim.getElement(i).getAttributes().get("fireanchorX"));
+				fireAnchorY= height -Integer.parseInt(anim.getElement(i).getAttributes().get("fireanchorY"));
+				floorPos = Integer.parseInt(anim.getElement(i).getAttributes().get("floorpos"));
+			}catch(Exception e){}
+			pictures.add(new Picture((int)(x),(int)(y),(int)(width),(int)(height),(int)(anchorx),(int)(anchory), fireAnchorX, fireAnchorY, floorPos));
 			if(height > maxheightPic)
 				maxheightPic = height;
 		}
-		//_picturesMap.put(animName, pictures);
 		glanim.setPictures(pictures);
 
 		if(anim.getAttributes().get("Xvelocity") != null){
@@ -120,21 +124,17 @@ public class GLUtils {
 
 			pictures.get(frameindex).width = (int) (pictures.get(frameindex).width * ratio);
 			pictures.get(frameindex).height = (int) (pictures.get(frameindex).height * ratio);
-			pictures.get(frameindex).anchor = new Pair<Integer, Integer>((int) (pictures.get(frameindex).anchor.first*ratio), (int) ((pictures.get(frameindex).anchor.second-anchorYmin)*ratio));
+			pictures.get(frameindex).imageAnchor = new Pair<Integer, Integer>((int) (pictures.get(frameindex).imageAnchor.first*ratio), (int) ((pictures.get(frameindex).imageAnchor.second-anchorYmin)*ratio));
+
+			pictures.get(frameindex).fireAnchor = new Pair<Integer, Integer>((int) (pictures.get(frameindex).fireAnchor.first*ratio), (int) ((pictures.get(frameindex).fireAnchor.second)*ratio));
+			pictures.get(frameindex).floorPos = (int) (pictures.get(frameindex).floorPos * ratio);
 
 			grids[frameindex] = picGrid;
 		}
 		averageWidth = averageWidth/nbframes;
 		averageHeight = averageHeight/nbframes;
 		glanim.setAverageWidth((int) averageWidth, (int) averageHeight);
-		//Log.e("", "ajout de la grid "+animName);
-/*
-		if(_gridsMap.containsKey(animName)){
-			return _gridsMap.get(animName);
-		}else{
-		*/
-			_gridsMap.put(animName, grids);
-			return grids;
-		//}
+
+		return grids;
 	}
 }

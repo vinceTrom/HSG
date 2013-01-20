@@ -13,10 +13,11 @@ import com.oqs.opengl.lib.MMXMLElement.MMXMLElements;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
+import android.util.Pair;
 
 
 public class Player extends Character {
-	
+
 	public static final int WALK = 1;
 	public static final int JUMP = 2;
 	public static final int JUMP_TWO = 5;
@@ -52,7 +53,7 @@ public class Player extends Character {
 		x = (int) (0.22f*OpenglActivity._screenHeight);
 		y = Constants.GROUND_LEVEL;
 		for(int i=0;i<_sprites.size();i++){
-			
+
 			if(_sprites.get(i).getResourceName().equals("jump")){
 				_sprites.get(i).loop = false;
 			}
@@ -61,10 +62,14 @@ public class Player extends Character {
 			}
 			/*
 			if(_sprites.get(i).getResourceName().equals("armfire")){
-				int deltaX = (int) getWalkAnim().getAverageWidth();
-				_sprites.get(i).setOffsetPos(0, 0);
+				Pair<Integer,Integer> p = getCurrentPlayerAnim().getFrames().get(_state.get(getCurrentAnimName()).currentindex).fireAnchor;
+				
+				int deltaX = (int) (x+p.first);
+				int deltaY = (int) (y+p.second);
+				_sprites.get(i).setOffsetPos(deltaX, deltaY);
 			}
 			*/
+			 
 		}
 		/*
 		for(int i = 0;i<_sprites.size();i++){
@@ -138,9 +143,10 @@ public class Player extends Character {
 		public void run() {
 			Log.e("", "shootrun "+y+ "  height:"+height);
 			GLBullet bullet = new GLBullet();
-			bullet.y = y+0.4f*+getWalkAnim().textureHeight;
-			bullet.x = getWalkAnim().getAverageWidth();
-			bullet.setXVelocity(4);
+			Pair<Integer,Integer> p = getCurrentPlayerAnim().getFrames().get(_state.get(getCurrentAnimName()).currentindex).fireAnchor;
+			bullet.y = y+p.second;
+			bullet.x = x+p.first-GLBullets.get().getSprite().getFrames().get(0).width;
+			bullet.setXVelocity(4f);
 			GLBullets.get().addBullet(bullet);
 			//((GLBullets)getAnim("bullet")).newBullet((int) (player.x-player.getAnchor().first+player.textureWidth*1),(int) (player.y-player.getAnchor().second+player.textureHeight*0.38+Math.random()*OpenglActivity._screenHeight/20));
 			_handler.postDelayed(this, 170);
@@ -152,21 +158,23 @@ public class Player extends Character {
 		_handler.removeCallbacks(shootRun);
 	}
 
-	private GLAnim getCurrentPlayerAnim(){
+	String getCurrentAnimName(){
 		switch (_playerState) {
 		case WALK:
-			return getAnim("walk");
+			return "walk";
 		case JUMP:
-			return getAnim("jump");
+			return "jump";
 		case JUMP_TWO:
-			return getAnim("jump");
+			return "jump";
 		case FALL:
-			return getAnim("fall");
+			return "fall";
 		default:
-			getAnim("walk");
-			break;
+			return "walk";
 		}
-		return null;
+	}
+
+	GLAnim getCurrentPlayerAnim(){
+		return getAnim(getCurrentAnimName());
 	}
 
 
@@ -193,7 +201,7 @@ public class Player extends Character {
 	protected void finalDraw(GL10 gl, Grid grid) {
 		grid.draw(gl, true, false);
 	}
-	
+
 	@Override
 	public boolean musDrawThisAnim(String resourceName) {
 		if(_playerState == WALK && resourceName.equals("walk"))
@@ -207,7 +215,7 @@ public class Player extends Character {
 				else
 					if(isshooting && resourceName.equals("armfire"))
 						return true;
-			
-			return false;
+
+		return false;
 	}
 }
