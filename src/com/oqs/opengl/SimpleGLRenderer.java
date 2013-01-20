@@ -14,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
 import android.util.Log;
+import android.util.Pair;
 
 /**
  * An OpenGL ES renderer based on the GLSurfaceView rendering framework.  This
@@ -103,16 +104,26 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 				if( !mplayer[x].getResourceName().equals("armfire"))
 					mplayer[x].draw(gl);
 			}	
-			
+
 			GLBullets.get().getSprite().draw(gl);
-			
-			
+			Player player= ((Player) mplayer[0].getCharacter());
+			Pair<Integer,Integer> p = player.getCurrentPlayerAnim().getFrames().get(player._state.get(player.getCurrentAnimName()).currentindex).fireAnchor;
+
+			int deltaX = (int) (p.first-player.getCurrentPlayerAnim().getFrames().get(player._state.get(player.getCurrentAnimName()).currentindex).imageAnchor.first);
+			int deltaY =0;
+			if(player._state.get("armfire")!= null){
+				deltaY = (int) (-p.second);
+				deltaY = deltaY+player.getCurrentPlayerAnim().getFrames().get(player._state.get("armfire").currentindex).height;
+				deltaY = deltaY-getAnim("armfire").getFrames().get(player._state.get("armfire").currentindex).imageAnchor.second;//player.getCurrentPlayerAnim().getFrames().get(player._state.get(player.getCurrentAnimName()).currentindex).imageAnchor.second);
+				
+			}
+			getAnim("armfire").setOffsetPos(deltaX, deltaY);
 			getAnim("armfire").draw(gl);
 
 			if(_enemies != null)
-				Log.d("", "ENEMIES NUMBER: "+_enemies.size());
+				//Log.d("", "ENEMIES NUMBER: "+_enemies.size());
 				for(int x = 0; x < _enemies.size(); x++) {
-					
+
 					for(int y =0;y<_enemies.get(x).getSprites().size();y++){
 						if(x==1 && y==3)
 							Log.d("", "");
@@ -120,7 +131,7 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 					}
 				}
 
-			
+
 			for (int x = 0; x < mforegrounds.length; x++) {
 				mforegrounds[x].draw(gl);
 			}

@@ -89,14 +89,24 @@ public class GLAnim {
 								state.currentindex = Math.min(state.currentindex+1,mGrid.length-1);
 						}
 					}
+					if(getResourceName().equals("armfire"))
+						Log.d("", "msg");
 					gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureName);
 					// Draw using verts or VBO verts.
 					gl.glPushMatrix();
 					gl.glLoadIdentity();
 					try{
+						/*
+						if(getResourceName().equals("walk")){
+							Log.d("", "walk x=" +(_renderables.get(i).x + _offsetX- _frames.get(state.currentindex).imageAnchor.first));
+							Log.d("","walk width: "+_renderables.get(i).width);
+						}
+						if(getResourceName().equals("armfire"))
+							Log.d("", "armfire x: player.x=" +(_renderables.get(i).x - _frames.get(state.currentindex).imageAnchor.first)+"offsetX:"+ _offsetX);
+					*/
 						gl.glTranslatef(
-								_renderables.get(i).x + _offsetX- _frames.get(state.currentindex).anchor.first,
-								_renderables.get(i).y +_offsetY + _frames.get(state.currentindex).anchor.second, 
+								_renderables.get(i).x + _offsetX- _frames.get(state.currentindex).imageAnchor.first,
+								_renderables.get(i).y +_offsetY + _frames.get(state.currentindex).imageAnchor.second, 
 								0);
 
 					}catch (Exception e){e.printStackTrace();}

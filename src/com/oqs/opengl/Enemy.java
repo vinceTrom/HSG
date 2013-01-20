@@ -32,11 +32,15 @@ public class Enemy extends Character{
 				anim = _sprites.get(i);
 			}
 		}
-		*/
+		 */
 		GLAnim anim = getCurrentAnim();
-		int width = anim.getFrames().get(_state.get(anim.getResourceName()).currentindex).width;
-		int height = anim.getFrames().get(_state.get(anim.getResourceName()).currentindex).height;
+		int width =0;
+		int height = 0;
 
+		try{
+			width = anim.getFrames().get(_state.get(anim.getResourceName()).currentindex).width;
+			height = anim.getFrames().get(_state.get(anim.getResourceName()).currentindex).height;
+		}catch(Exception e){}
 		return new Rect((int)x,(int) y, (int)(x+width),(int)(y+height));
 	}
 
