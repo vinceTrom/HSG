@@ -63,13 +63,13 @@ public class Player extends Character {
 			/*
 			if(_sprites.get(i).getResourceName().equals("armfire")){
 				Pair<Integer,Integer> p = getCurrentPlayerAnim().getFrames().get(_state.get(getCurrentAnimName()).currentindex).fireAnchor;
-				
+
 				int deltaX = (int) (x+p.first);
 				int deltaY = (int) (y+p.second);
 				_sprites.get(i).setOffsetPos(deltaX, deltaY);
 			}
-			*/
-			 
+			 */
+
 		}
 		/*
 		for(int i = 0;i<_sprites.size();i++){
@@ -131,9 +131,9 @@ public class Player extends Character {
 		y = Constants.GROUND_LEVEL;
 	}
 
-	private boolean isshooting = false;
+	private boolean _isshooting = false;
 	public void shoot() {
-		isshooting = true;
+		_isshooting = true;
 		_handler.post(shootRun);
 	}
 
@@ -144,6 +144,7 @@ public class Player extends Character {
 			Log.e("", "shootrun "+y+ "  height:"+height);
 			GLBullet bullet = new GLBullet();
 			Pair<Integer,Integer> p = getCurrentPlayerAnim().getFrames().get(_state.get(getCurrentAnimName()).currentindex).fireAnchor;
+			Log.d("", "offsetY de Bullet: "+p.second);
 			bullet.y = y+p.second;
 			bullet.x = x+p.first-GLBullets.get().getSprite().getFrames().get(0).width;
 			bullet.setXVelocity(4f);
@@ -154,8 +155,12 @@ public class Player extends Character {
 	};
 
 	public void stopShoot(){
-		isshooting = false;
+		_isshooting = false;
 		_handler.removeCallbacks(shootRun);
+	}
+
+	public boolean isShooting(){
+		return _isshooting;
 	}
 
 	String getCurrentAnimName(){
@@ -213,7 +218,7 @@ public class Player extends Character {
 				if(_playerState == FALL && resourceName.equals("fall"))
 					return true;
 				else
-					if(isshooting && resourceName.equals("armfire"))
+					if(_isshooting && resourceName.equals("armfire"))
 						return true;
 
 		return false;

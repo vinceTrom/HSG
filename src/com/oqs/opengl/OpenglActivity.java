@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.oqs.opengl.lib.FrameRateCounter;
+import com.oqs.opengl.lib.FrameRateCounter.FrameRateListener;
 import com.oqs.opengl.lib.MMXMLElement;
 import com.oqs.opengl.lib.MMXMLElement.MMXMLElements;
 import com.oqs.opengl.lib.MMXMLParser;
@@ -29,6 +31,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
 
 public class OpenglActivity extends Activity {
 
@@ -46,6 +49,7 @@ public class OpenglActivity extends Activity {
 	protected void onDestroy (){
 		super.onDestroy();
 		_timer.cancel();
+		FrameRateCounter.setFrameRateListener(null);
 	}
 
 	@Override
@@ -75,6 +79,22 @@ public class OpenglActivity extends Activity {
 				return true;
 			}
 		});
+		
+		final TextView fpsUI = (TextView) findViewById(R.id.fpsviewer);
+		FrameRateCounter.setFrameRateListener(new FrameRateListener() {
+			
+			@Override
+			public void frameRateUpdated(final int framenb) {
+				runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						fpsUI.setText("FPS: "+framenb);									
+					}
+				});
+			}
+		});
+		
 		spriteRenderer = new SimpleGLRenderer(this);
 
 		// Clear out any old profile results.

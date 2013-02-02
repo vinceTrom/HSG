@@ -9,6 +9,8 @@ import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 import javax.microedition.khronos.opengles.GL11Ext;
 
+import com.oqs.opengl.lib.FrameRateCounter;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -106,19 +108,21 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 			}	
 
 			GLBullets.get().getSprite().draw(gl);
-			Player player= ((Player) mplayer[0].getCharacter());
-			Pair<Integer,Integer> p = player.getCurrentPlayerAnim().getFrames().get(player._state.get(player.getCurrentAnimName()).currentindex).fireAnchor;
+			
+			Player player= ((Player) mplayer[0].getCharacter());			
+			if(player.isShooting()){
+				Picture currentPlayerPic = player.getCurrentPlayerAnim().getFrames().get(player._state.get(player.getCurrentAnimName()).currentindex);
+				Pair<Integer,Integer> p =currentPlayerPic .fireAnchor;
 
-			int deltaX = (int) (p.first-player.getCurrentPlayerAnim().getFrames().get(player._state.get(player.getCurrentAnimName()).currentindex).imageAnchor.first);
-			int deltaY =0;
-			if(player._state.get("armfire")!= null){
-				deltaY = (int) (-p.second);
-				deltaY = deltaY+player.getCurrentPlayerAnim().getFrames().get(player._state.get("armfire").currentindex).height;
-				deltaY = deltaY-getAnim("armfire").getFrames().get(player._state.get("armfire").currentindex).imageAnchor.second;//player.getCurrentPlayerAnim().getFrames().get(player._state.get(player.getCurrentAnimName()).currentindex).imageAnchor.second);
-				
+				int deltaX = (int) (p.first - currentPlayerPic.imageAnchor.first);
+				int deltaY =0;
+				if(player._state.get("armfire")!= null){
+					deltaY = (int) (p.second);
+					deltaY = deltaY + currentPlayerPic.imageAnchor.second;
+				}
+				getAnim("armfire").setOffsetPos(deltaX, deltaY);
+				getAnim("armfire").draw(gl);
 			}
-			getAnim("armfire").setOffsetPos(deltaX, deltaY);
-			getAnim("armfire").draw(gl);
 
 			if(_enemies != null)
 				//Log.d("", "ENEMIES NUMBER: "+_enemies.size());
@@ -140,7 +144,7 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 				Grid.endDrawing(gl);
 			}
 
-
+			FrameRateCounter.incrementFrameCount();
 		}
 	}
 
