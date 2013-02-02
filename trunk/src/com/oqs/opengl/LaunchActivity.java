@@ -17,7 +17,7 @@ public class LaunchActivity extends Activity{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		
+		/*
 		Spinner	spinner = ((Spinner)findViewById(R.id.spinner));
 		
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -38,7 +38,7 @@ public class LaunchActivity extends Activity{
 			public void onNothingSelected(AdapterView<?> arg0) {}
 		});
 
-
+*/
 		
 		findViewById(R.id.launch).setOnClickListener(new OnClickListener() {
 			

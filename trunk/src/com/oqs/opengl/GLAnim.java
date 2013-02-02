@@ -67,6 +67,7 @@ public class GLAnim {
 
 	public void setOffsetPos(int offsetX, int offsetY){
 		_offsetX = offsetX;
+		Log.d("","setOffsetPosY de armfire:"+offsetY);
 		_offsetY = offsetY;
 	}
 
@@ -89,8 +90,7 @@ public class GLAnim {
 								state.currentindex = Math.min(state.currentindex+1,mGrid.length-1);
 						}
 					}
-					if(getResourceName().equals("armfire"))
-						Log.d("", "msg");
+
 					gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureName);
 					// Draw using verts or VBO verts.
 					gl.glPushMatrix();
@@ -101,12 +101,13 @@ public class GLAnim {
 							Log.d("", "walk x=" +(_renderables.get(i).x + _offsetX- _frames.get(state.currentindex).imageAnchor.first));
 							Log.d("","walk width: "+_renderables.get(i).width);
 						}
+						*/
 						if(getResourceName().equals("armfire"))
-							Log.d("", "armfire x: player.x=" +(_renderables.get(i).x - _frames.get(state.currentindex).imageAnchor.first)+"offsetX:"+ _offsetX);
-					*/
+							Log.d(""," armfire y: "+_renderables.get(i).y +_offsetY + _frames.get(state.currentindex).imageAnchor.second);
+
 						gl.glTranslatef(
 								_renderables.get(i).x + _offsetX- _frames.get(state.currentindex).imageAnchor.first,
-								_renderables.get(i).y +_offsetY + _frames.get(state.currentindex).imageAnchor.second, 
+								_renderables.get(i).y +_offsetY  + _frames.get(state.currentindex).imageAnchor.second, 
 								0);
 
 					}catch (Exception e){e.printStackTrace();}

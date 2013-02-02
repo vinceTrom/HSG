@@ -48,7 +48,8 @@ public class GLUtils {
 		float maxheightPic = 0f;
 
 		ArrayList<Picture> pictures = new ArrayList<Picture>();
-
+		if(animName.equals("armfire"))
+			Log.d("","ici");
 		int nbframes = anim.getElementsForKey("image").size();
 		int anchorYmin = 99999;
 		for(int i=0;i<nbframes;i++){
@@ -59,12 +60,14 @@ public class GLUtils {
 			int anchorx = Integer.parseInt(anim.getElement(i).getAttributes().get("anchorX"));//(int) ((height/(float) h/picSizeOnScreen)*(width - Integer.parseInt(anim.getElement(i).getAttributes().get("anchorX"))));
 			int anchory = Integer.parseInt(anim.getElement(i).getAttributes().get("anchorY")) - height;//(int) ((height/(float)h/picSizeOnScreen)*(height - Integer.parseInt(anim.getElement(i).getAttributes().get("anchorY"))));
 			anchorYmin = Math.min(anchorYmin, anchory);
+			if(animName.equals("armfire"))
+				anchorYmin=0;
 			int fireAnchorX = 0;
 			int fireAnchorY = 0;
 			int floorPos =0;
 			try{
 				fireAnchorX = Integer.parseInt(anim.getElement(i).getAttributes().get("fireanchorX"));
-				fireAnchorY= height -Integer.parseInt(anim.getElement(i).getAttributes().get("fireanchorY"));
+				fireAnchorY= Integer.parseInt(anim.getElement(i).getAttributes().get("fireanchorY"));
 				floorPos = Integer.parseInt(anim.getElement(i).getAttributes().get("floorpos"));
 			}catch(Exception e){}
 			pictures.add(new Picture((int)(x),(int)(y),(int)(width),(int)(height),(int)(anchorx),(int)(anchory), fireAnchorX, fireAnchorY, floorPos));
