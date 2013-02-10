@@ -44,12 +44,19 @@ public class OpenglActivity extends Activity {
 	private SimpleGLRenderer spriteRenderer;
 	private Player _player;
 	private ArrayList<Enemy> _enemies = new ArrayList<Enemy>();
-	
+	private FrameRateCounter _frameRateCounter = null;
+
 	@Override
 	protected void onDestroy (){
 		super.onDestroy();
 		_timer.cancel();
-		FrameRateCounter.setFrameRateListener(null);
+	}
+
+	@Override
+	public void onStop(){
+		super.onStop();
+		_frameRateCounter.setFrameRateListener(null);
+		Character.clearSprites();
 	}
 
 	@Override
@@ -79,22 +86,9 @@ public class OpenglActivity extends Activity {
 				return true;
 			}
 		});
-		
-		final TextView fpsUI = (TextView) findViewById(R.id.fpsviewer);
-		FrameRateCounter.setFrameRateListener(new FrameRateListener() {
-			
-			@Override
-			public void frameRateUpdated(final int framenb) {
-				runOnUiThread(new Runnable() {
-					
-					@Override
-					public void run() {
-						fpsUI.setText("FPS: "+framenb);									
-					}
-				});
-			}
-		});
-		
+
+
+
 		spriteRenderer = new SimpleGLRenderer(this);
 
 		// Clear out any old profile results.
@@ -119,26 +113,6 @@ public class OpenglActivity extends Activity {
 		createLevelAnims();
 		_player = new Player(this);
 		GLBullets bullet = new GLBullets(this);
-		/*
-		_enemies.add(new Enemy(this));
-
-		_enemies.add(new Enemy(OpenglActivity.this));				
-
-		_enemies.add(new Enemy(OpenglActivity.this));	
-		_enemies.add(new Enemy(OpenglActivity.this));
-		_enemies.add(new Enemy(OpenglActivity.this));
-		_enemies.add(new Enemy(OpenglActivity.this));
-		 */
-
-		/*
-		new Handler().postDelayed(new Runnable() {
-
-			@Override
-			public void run() {
-				_enemies.add(new Enemy(OpenglActivity.this));				
-			}
-		}, 4000);
-		 */
 
 		// Now's a good time to run the GC.  Since we won't do any explicit
 		// allocation during the test, the GC should stay dormant and not
@@ -164,15 +138,6 @@ public class OpenglActivity extends Activity {
 			}
 		}, 5000, 4000);
 
-		/*
-		all.addAll(_enemies.get(1).getSprites());
-
-		all.addAll(_enemies.get(2).getSprites());
-		all.addAll(_enemies.get(3).getSprites());
-		all.addAll(_enemies.get(4).getSprites());
-		all.addAll(_enemies.get(5).getSprites());
-		 */
-
 		for(GLLayerLoop layer:foregroundSprites)
 			all.add(layer.getSprite());
 		GLAnim[] gl = new GLAnim[0];
@@ -191,16 +156,39 @@ public class OpenglActivity extends Activity {
 		ArrayList<Renderable> allRender = new ArrayList<Renderable>();
 		allRender.addAll(backsSprites);
 		allRender.add(_player);
-		//allRender.addAll(GLBullets.get()._bulletList);
-		for(int i=0;i<_enemies.size();i++){
-			//	allRender.add(_enemies.get(i));
-		}
+
 		allRender.addAll(foregroundSprites);
 		Renderable[] gl2 = new Renderable[0];
 		simulationRuntime.setRenderables(allRender.toArray(gl2),_enemies,GLBullets.get()._bulletList);
 
 		mGLSurfaceView.setEvent(simulationRuntime);
 
+	}
+
+	@Override
+	public void onResume(){
+		super.onResume();
+		TextView fpsUI = (TextView) findViewById(R.id.fpsviewer);
+		final fpsRun fpsRun = new fpsRun();
+		fpsRun.fpsUI = fpsUI;
+		_frameRateCounter = new FrameRateCounter();
+		_frameRateCounter.setFrameRateListener(new FrameRateListener() {
+
+			@Override
+			public void frameRateUpdated(int framenb) {
+				fpsRun._frameNB = framenb;
+				runOnUiThread(fpsRun);
+			}
+		});
+	}
+
+	private class fpsRun implements Runnable{
+
+		public int _frameNB=0;
+		public TextView fpsUI;
+		public void run() {
+			fpsUI.setText("FPS: "+_frameNB);	
+		}
 	}
 
 

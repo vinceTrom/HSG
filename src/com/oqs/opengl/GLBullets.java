@@ -31,7 +31,6 @@ public class GLBullets {
 		MMXMLElement elem = parser.parseSynchronously().getRootElement();
 		MMXMLElements elems = elem.getElementForKey("player").getElementForKey("animations").getElementsForKey("animation");
 		for(int i=0;i<elems.size();i++){
-			String anim_name = elems.get(i).getAttributes().get("name");
 			GLUtils.createAnim(ctx, _sprite, elems.get(i));
 		}
 	}
