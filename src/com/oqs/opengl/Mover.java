@@ -13,14 +13,12 @@ public class Mover implements Runnable {
 	private Renderable[] _renderables;
 	private long mLastTime;
 	private Colisioner _colisioner;
-	private OpenglActivity _activity;
 	private ArrayList<Enemy> _enemies;
 	private ArrayList<Renderable> _bulletList;
 
 	static float SPEED_OF_GRAVITY = 150.0f;
 
 	public Mover(OpenglActivity openglActivity, int _screenHeight) {
-		_activity = openglActivity;
 		_colisioner = new Colisioner();
 		SPEED_OF_GRAVITY = (float) (0.9*_screenHeight);
 	}

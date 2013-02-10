@@ -2,7 +2,6 @@ package com.oqs.opengl;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;

@@ -1,14 +1,8 @@
 package com.oqs.opengl;
 
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import javax.microedition.khronos.opengles.GL10;
 
-import com.oqs.opengl.lib.MMXMLElement;
-import com.oqs.opengl.lib.MMXMLParser;
-import com.oqs.opengl.lib.MMXMLElement.MMXMLElements;
 
 import android.content.Context;
 import android.os.Handler;
@@ -30,24 +24,6 @@ public class Player extends Character {
 		_playerState = WALK;
 	}
 
-	@Override
-	protected void createAnims(Context ctx, String fileName){
-		super.createAnims(ctx, fileName);
-		addBullet(ctx);		
-	}
-
-	private void addBullet(Context ctx) {
-		InputStream ss = null;
-		try {
-			ss = ctx.getAssets().open("bullet.xml");
-		} catch (IOException e1) {e1.printStackTrace();}
-		MMXMLParser parser = MMXMLParser.createMMXMLParser(ss,null);
-		MMXMLElement elem = parser.parseSynchronously().getRootElement();
-		MMXMLElement elem2 = elem.getElementForKey("player").getElementForKey("animations").getElementForKey("animation");
-
-		//GLUtils.createAnim(ctx, anim, elem2);
-		//anim.mustDraw = false;		
-	}
 
 	protected void initAnims() {
 		x = (int) (0.22f*OpenglActivity._screenHeight);
@@ -183,13 +159,6 @@ public class Player extends Character {
 	}
 
 
-	private GLAnim getWalkAnim(){
-		for(int i=0;i<_sprites.size();i++){
-			if(_sprites.get(i).getResourceName().equals("walk"))
-				return _sprites.get(i);
-		}
-		return null;
-	}
 
 	@Override
 	public void isTouchedByBullet() {
