@@ -10,7 +10,6 @@ import com.oqs.opengl.lib.MMXMLParser;
 import com.oqs.opengl.lib.MMXMLElement.MMXMLElements;
 
 import android.content.Context;
-import android.graphics.Rect;
 
 public abstract class Character extends Renderable{
 

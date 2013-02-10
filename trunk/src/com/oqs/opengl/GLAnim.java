@@ -4,9 +4,7 @@ import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.graphics.Rect;
 import android.util.Log;
-import android.util.Pair;
 
 /**
  * This is the OpenGL ES version of a sprite.  It is more complicated than the

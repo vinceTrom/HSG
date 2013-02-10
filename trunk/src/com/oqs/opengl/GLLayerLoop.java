@@ -1,10 +1,7 @@
 package com.oqs.opengl;
 
-import java.util.ArrayList;
-
 import javax.microedition.khronos.opengles.GL10;
 
-import android.util.Log;
 
 public class GLLayerLoop extends Renderable{
 

@@ -326,7 +326,6 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 
 			int[] tmp = new int[1];
 			gl.glGenTextures(1, tmp, 0);
-			int id = tmp[0];
 
 			gl.glBindTexture(GL10.GL_TEXTURE_2D, textureName);
 

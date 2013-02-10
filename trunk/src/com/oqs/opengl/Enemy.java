@@ -1,6 +1,5 @@
 package com.oqs.opengl;
 
-import javax.microedition.khronos.opengles.GL;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
@@ -15,7 +14,6 @@ public class Enemy extends Character{
 	public static final int DIE3 = 3;
 
 	private boolean _isdead = false;
-	private static int _count = -1;
 
 	public Enemy(Context ctx) {
 		super(ctx, "enemy/soldier.xml");	
@@ -46,7 +44,6 @@ public class Enemy extends Character{
 
 	@Override
 	protected void initAnims() {
-		_count++;
 		x = 1200;//(int) ((1*_count)*OpenglActivity._screenHeight);
 		Log.e("", "new enemy: "+x);
 		y = Constants.GROUND_LEVEL;

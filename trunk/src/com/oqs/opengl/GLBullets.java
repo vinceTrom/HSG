@@ -4,14 +4,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import javax.microedition.khronos.opengles.GL10;
 
 import com.oqs.opengl.lib.MMXMLElement;
 import com.oqs.opengl.lib.MMXMLParser;
 import com.oqs.opengl.lib.MMXMLElement.MMXMLElements;
 
 import android.content.Context;
-import android.util.Log;
 
 public class GLBullets {
 
