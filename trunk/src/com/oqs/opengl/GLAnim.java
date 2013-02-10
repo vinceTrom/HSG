@@ -107,7 +107,7 @@ public class GLAnim {
 
 						gl.glTranslatef(
 								_renderables.get(i).x + _offsetX- _frames.get(state.currentindex).imageAnchor.first,
-								_renderables.get(i).y +_offsetY  + _frames.get(state.currentindex).imageAnchor.second, 
+								_renderables.get(i).y +_offsetY  + _frames.get(state.currentindex).imageAnchor.second , 
 								0);
 
 					}catch (Exception e){e.printStackTrace();}

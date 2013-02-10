@@ -47,10 +47,10 @@ public class Enemy extends Character{
 	@Override
 	protected void initAnims() {
 		_count++;
-		x = 800;//(int) ((1.6+1.1*_count)*OpenglActivity._screenHeight);
+		x = 1200;//(int) ((1*_count)*OpenglActivity._screenHeight);
 		Log.e("", "new enemy: "+x);
 		y = Constants.GROUND_LEVEL;
-		//setXVelocity(-0.7f);
+		setXVelocity(-0.7f);
 		for(int i = 0;i<_sprites.size();i++){
 			if(_sprites.get(i).getResourceName().equals("enemy/walk")){
 				_sprites.get(i).textureHeight =(int) (0.5f*OpenglActivity._screenHeight);

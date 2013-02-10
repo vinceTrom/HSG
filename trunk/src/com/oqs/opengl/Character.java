@@ -19,7 +19,10 @@ public abstract class Character extends Renderable{
 	protected ArrayList<GLAnim> _sprites = new ArrayList<GLAnim>();
 
 	public int _playerState=1;
-
+	
+	public static void clearSprites(){
+		_savedSprites.clear();
+	}
 
 	public Character(Context ctx, String fileName){
 		createAnims(ctx, fileName);
@@ -32,7 +35,8 @@ public abstract class Character extends Renderable{
 				anim.addCharacter(this);
 		}
 	}
-
+	
+	
 	protected void createAnims(Context ctx, String fileName){
 
 		InputStream ss = null;
