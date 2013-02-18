@@ -101,6 +101,7 @@ public class OpenglActivity extends Activity {
 
 		// This list of things to move. It points to the same content as the
 		// sprite list except for the background.
+		Constants.LEVEL_SPEED = 1;
 		Constants.GROUND_LEVEL = (int) (0.07f*_screenHeight);
 		createLevelAnims();
 		_player = new Player(this);
@@ -126,7 +127,8 @@ public class OpenglActivity extends Activity {
 
 			@Override
 			public void run() {
-				_enemies.add(new Enemy(OpenglActivity.this));				
+				_enemies.add(new Enemy(OpenglActivity.this));	
+				Constants.LEVEL_SPEED = Constants.LEVEL_SPEED+0.02;
 			}
 		}, 5000, 4000);
 

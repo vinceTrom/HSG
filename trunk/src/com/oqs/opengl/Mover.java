@@ -3,6 +3,7 @@ package com.oqs.opengl;
 import java.util.ArrayList;
 
 import android.os.SystemClock;
+import android.util.Log;
 
 /**
  * A simple runnable that updates the position of each sprite on the screen
@@ -10,6 +11,20 @@ import android.os.SystemClock;
  * sprites are jumbled with random velocities every once and a while.
  */
 public class Mover implements Runnable {
+
+	private static long time = 0;
+	private static long timeDelta = 0;
+	private static double timeDeltaSeconds =0;
+
+	private static int loop1index = 0;
+	private static int loop2index = 0;
+	private static int loop3index = 0;
+
+	private static int renderNb = 0;
+	private static int loop1Nb = 0;
+	private static int bulletsNb = 0;
+	private static int enemiesNb = 0;
+
 	private Renderable[] _renderables;
 	private long mLastTime;
 	private Colisioner _colisioner;
@@ -23,30 +38,49 @@ public class Mover implements Runnable {
 		SPEED_OF_GRAVITY = (float) (0.9*_screenHeight);
 	}
 
+	public double dmin = 1000;
+	public double dmax = 0;
 	public void run() {
 		// Perform a single simulation step.
 		if (_renderables != null) {
 			synchronized(OpenglActivity.class){
-				final long time = SystemClock.uptimeMillis();
-				final long timeDelta = time - mLastTime;
-				final float timeDeltaSeconds = 
+				time = SystemClock.uptimeMillis();
+				timeDelta = time - mLastTime;
+				timeDeltaSeconds = 
 						mLastTime > 0.0f ? timeDelta / 1000.0f : 0.0f;
 						mLastTime = time;
 
-						for (int x = 0; x < _renderables.length+_enemies.size()+_bulletList.size(); x++) {
+						renderNb = _renderables.length;
+						bulletsNb = _bulletList.size();
+						enemiesNb = _enemies.size();
+						loop1Nb =  renderNb + bulletsNb + enemiesNb;
+
+						loop1index = 0;
+						while( loop1index < loop1Nb) {
 							Renderable object = null;
-							if(x<_renderables.length)
-								object = _renderables[x];
-							else if(x<_renderables.length+_enemies.size())
-								object = _enemies.get(x-_renderables.length);
+							if(loop1index<renderNb)
+								object = _renderables[loop1index];
+							else if(loop1index < renderNb + enemiesNb)
+								object = _enemies.get(loop1index - renderNb);
 							else 
-								object = _bulletList.get(x-_renderables.length-_enemies.size());
+								object = _bulletList.get(loop1index - renderNb - enemiesNb);
 							//object = x<_renderables .length?_renderables[x]:_bulletList.get(x-_renderables.length);
 
 							// Move.
-							object.x = object.x + (object.velocityX * timeDeltaSeconds);
-							object.y = object.y + (object.velocityY * timeDeltaSeconds);
-							object.z = object.z + (object.velocityZ * timeDeltaSeconds);
+							if(object.getClass() == GLLayerLoop.class){
+								object.x = (float) (object.x + (object.velocityX * Constants.LEVEL_SPEED * timeDeltaSeconds));
+								/*
+								delta = Math.abs(delta);
+								if(delta>0){
+									dmin = Math.min(delta, dmin);
+									dmax = Math.max(delta, dmax);
+									Log.e("", "LEVEL dX:"+delta+ " in "+timeDeltaSeconds+"ms.min:"+dmin+" max:"+dmax);
+								}
+								 */
+							}else
+								object.x = (float) (object.x + (object.velocityX * timeDeltaSeconds));
+							object.y = (float) (object.y + (object.velocityY * timeDeltaSeconds));
+							object.z = (float) (object.z + (object.velocityZ * timeDeltaSeconds));
 
 							// Apply Gravity.
 							if(object.applyGravity){
@@ -57,21 +91,29 @@ public class Mover implements Runnable {
 								if(player.y < Constants.GROUND_LEVEL && player._playerState == Player.FALL)
 									player.fallFinished();
 							}
+
+							loop1index++;
 						}
 
-						for(int i =0;i<_bulletList.size();i++){
-							if(_colisioner.testIfOutsideOfTheScreen(_bulletList.get(i))){
-								_bulletList.remove(_bulletList.get(i));
+						loop2index = 0;
+						while(loop2index<bulletsNb){
+							if(_colisioner.testIfOutsideOfTheScreen(_bulletList.get(loop2index))){
+								_bulletList.remove(_bulletList.get(loop2index));
 							}else{
 								//Test Colisions between bullet and enemies
-								_colisioner.testColisionWithBulletAndEnemy(_bulletList.get(i));
+								_colisioner.testColisionWithBulletAndEnemy(_bulletList.get(loop2index));
 							}
+							loop2index++;
 						}
 
-						for(int i =0;i<_enemies.size();i++){
-							if(_colisioner.testIfOutsideOfTheScreen(_enemies.get(i)))
-								_enemies.remove(_enemies.get(i));
+						loop3index = 0;
+						while(loop3index<enemiesNb){
+							if(!_enemies.isEmpty() && _colisioner.testIfOutsideOfTheScreen(_enemies.get(loop3index)))
+								_enemies.remove(_enemies.get(loop3index));
+							else
+								loop3index++;
 						}
+
 			}
 		}
 

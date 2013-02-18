@@ -44,10 +44,10 @@ public class Enemy extends Character{
 
 	@Override
 	protected void initAnims() {
-		x = 1200;//(int) ((1*_count)*OpenglActivity._screenHeight);
+		x = 1300;//(int) ((1*_count)*OpenglActivity._screenHeight);
 		Log.e("", "new enemy: "+x);
 		y = Constants.GROUND_LEVEL;
-		setXVelocity(-0.7f);
+		setXVelocity(-0.35f-0.35f*Constants.LEVEL_SPEED);
 		for(int i = 0;i<_sprites.size();i++){
 			if(_sprites.get(i).getResourceName().equals("enemy/walk")){
 				_sprites.get(i).textureHeight =(int) (0.5f*OpenglActivity._screenHeight);
@@ -76,7 +76,7 @@ public class Enemy extends Character{
 		Log.d("", "dieAnim:"+dieAnim);
 		//getAnim("enemy/walk").mustDraw = false;
 		//getAnim("enemy/"+dieAnim).mustDraw = true;
-		setXVelocity(-0.35f);
+		setXVelocity(-0.35*Constants.LEVEL_SPEED);
 		//getAnim("enemy/"+dieAnim).x = getAnim("enemy/walk").x;
 		//getAnim("enemy/"+dieAnim).y = getAnim("enemy/walk").y;
 		//getAnim("enemy/"+dieAnim).velocityX = getAnim("enemy/walk").velocityX;

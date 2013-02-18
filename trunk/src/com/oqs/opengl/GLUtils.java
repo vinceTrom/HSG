@@ -76,7 +76,7 @@ public class GLUtils {
 		glanim.setPictures(pictures);
 
 		if(anim.getAttributes().get("Xvelocity") != null){
-			glanim.getCharacter().setXVelocity(Float.parseFloat(anim.getAttributes().get("Xvelocity")));
+			glanim.getCharacter().setXVelocity(Double.parseDouble(anim.getAttributes().get("Xvelocity")));
 			glanim.getCharacter().x = 0;
 		}
 

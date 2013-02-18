@@ -21,8 +21,8 @@ public abstract class Renderable {
 	
 	public HashMap<String,  RenderableAnimState> _state = new HashMap<String, RenderableAnimState>();
 
-	public void setXVelocity(float velocity){
-		velocityX = OpenglActivity._screenHeight*velocity;
+	public void setXVelocity(double d){
+		velocityX = OpenglActivity._screenHeight*d;
 	}
 
 	public void setYVelocity(float velocity){
@@ -39,12 +39,12 @@ public abstract class Renderable {
 	/**
 	 * the speed, in screenheight/seconds
 	 */
-	public float velocityX;
+	public double velocityX;
 	/**
 	 *  the speed, in screenheight/seconds
 	 */
-	public float velocityY;
-	public float velocityZ;
+	public double velocityY;
+	public double velocityZ;
 
 	// Size.
 	public float width;

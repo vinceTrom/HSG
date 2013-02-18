@@ -80,7 +80,10 @@ public class GLAnim {
 					 RenderableAnimState state = _renderables.get(i)._state.get(mResourceName);
 					 
 					if(_tiled){
-						if(System.currentTimeMillis()- _period >state.lastDraw){
+						int period = _period;
+						if(getResourceName().equals("walk") || getResourceName().equals("enemy/walk"))
+							period = (int) (period / Constants.LEVEL_SPEED);
+						if(System.currentTimeMillis() - period > state.lastDraw){
 							state.lastDraw = System.currentTimeMillis();
 							if(loop)
 								state.currentindex = (state.currentindex+1)%mGrid.length;
