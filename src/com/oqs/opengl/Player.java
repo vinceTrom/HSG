@@ -124,7 +124,7 @@ public class Player extends Character {
 			bullet.y = y+p.second;
 			bullet.x = x+p.first-GLBullets.get().getSprite().getFrames().get(0).width;
 			bullet.setXVelocity(4f);
-			GLBullets.get().addBullet(bullet);
+				GLBullets.get().addBullet(bullet);
 			//((GLBullets)getAnim("bullet")).newBullet((int) (player.x-player.getAnchor().first+player.textureWidth*1),(int) (player.y-player.getAnchor().second+player.textureHeight*0.38+Math.random()*OpenglActivity._screenHeight/20));
 			_handler.postDelayed(this, 170);
 		}

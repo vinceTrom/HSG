@@ -83,9 +83,6 @@ public class OpenglActivity extends Activity {
 
 		spriteRenderer = new SimpleGLRenderer(this);
 
-		// Clear out any old profile results.
-		ProfileRecorder.sSingleton.resetAll();
-
 		final Intent callingIntent = getIntent();
 		// Allocate our sprites and add them to an array.
 		//final int robotCount = 4;//ANIM.equals("all")?12:2;//callingIntent.getIntExtra("spriteCount", 10);
@@ -127,7 +124,8 @@ public class OpenglActivity extends Activity {
 
 			@Override
 			public void run() {
-				_enemies.add(new Enemy(OpenglActivity.this));	
+					_enemies.add(new Enemy(OpenglActivity.this));	
+				
 				Constants.LEVEL_SPEED = Constants.LEVEL_SPEED+0.02;
 			}
 		}, 5000, 4000);
