@@ -92,59 +92,60 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 	public void drawFrame(GL10 gl) {
 		if (mSprites != null) {
 
-			gl.glMatrixMode(GL10.GL_MODELVIEW);
+				gl.glMatrixMode(GL10.GL_MODELVIEW);
 
-			if (mUseVerts) {
-				Grid.beginDrawing(gl, true, false);
-			}
-			//Log.d("", "mbackgrounds length:"+mbackgrounds.length);
-			for (int x = 0; x < mbackgrounds.length; x++) {
-				mbackgrounds[x].draw(gl);
-			}		
-			//Log.d("", "mplayer length:"+mplayer.length);
-			for (int x = 0; x < mplayer.length; x++) {
-				if( !mplayer[x].getResourceName().equals("armfire"))
-					mplayer[x].draw(gl);
-			}	
-
-			GLBullets.get().getSprite().draw(gl);
-
-			Player player= ((Player) mplayer[0].getCharacter());			
-			if(player.isShooting()){
-				Picture currentPlayerPic = player.getCurrentPlayerAnim().getFrames().get(player._state.get(player.getCurrentAnimName()).currentindex);
-				Pair<Integer,Integer> p =currentPlayerPic .fireAnchor;
-
-				int deltaX = (int) (p.first - currentPlayerPic.imageAnchor.first);
-				int deltaY =0;
-				if(player._state.get("armfire")!= null){
-					deltaY = (int) (p.second);
-					deltaY = deltaY + currentPlayerPic.imageAnchor.second;
+				if (mUseVerts) {
+					Grid.beginDrawing(gl, true, false);
 				}
-				getAnim("armfire").setOffsetPos(deltaX, deltaY);
-				getAnim("armfire").draw(gl);
-			}
+				//Log.d("", "mbackgrounds length:"+mbackgrounds.length);
+				for (int x = 0; x < mbackgrounds.length; x++) {
+					mbackgrounds[x].draw(gl);
+				}		
+				//Log.d("", "mplayer length:"+mplayer.length);
+				for (int x = 0; x < mplayer.length; x++) {
+					if( !mplayer[x].getResourceName().equals("armfire"))
+						mplayer[x].draw(gl);
+				}	
 
-			if(_enemies != null){
-				//Log.d("", "ENEMIES NUMBER: "+_enemies.size());
-				for(int x = 0; x < _enemies.size(); x++) {
+				GLBullets.get().getSprite().draw(gl);
 
-					for(int y =0;y<_enemies.get(x).getSprites().size();y++){;
-					_enemies.get(x).getSprites().get(y).draw(gl);
+				Player player= ((Player) mplayer[0].getCharacter());			
+				if(player.isShooting()){
+					Picture currentPlayerPic = player.getCurrentPlayerAnim().getFrames().get(player._state.get(player.getCurrentAnimName()).currentindex);
+					Pair<Integer,Integer> p =currentPlayerPic .fireAnchor;
+
+					int deltaX = (int) (p.first - currentPlayerPic.imageAnchor.first);
+					int deltaY =0;
+					if(player._state.get("armfire")!= null){
+						deltaY = (int) (p.second);
+						deltaY = deltaY + currentPlayerPic.imageAnchor.second;
+					}
+					getAnim("armfire").setOffsetPos(deltaX, deltaY);
+					getAnim("armfire").draw(gl);
+				}
+
+				if(_enemies != null){
+					//Log.d("", "ENEMIES NUMBER: "+_enemies.size());
+					for(int x = 0; x < _enemies.size(); x++) {
+
+						for(int y =0;y<_enemies.get(x).getSprites().size();y++){;
+						_enemies.get(x).getSprites().get(y).draw(gl);
+						}
 					}
 				}
-			}
-			//Log.d("", "mforegrounds length:"+mforegrounds.length);
+				//Log.d("", "mforegrounds length:"+mforegrounds.length);
 
-			for (int x = 0; x < mforegrounds.length; x++) {
-				mforegrounds[x].draw(gl);
-			}
+				for (int x = 0; x < mforegrounds.length; x++) {
+					mforegrounds[x].draw(gl);
+				}
 
-			if (mUseVerts) {
-				Grid.endDrawing(gl);
+				if (mUseVerts) {
+					Grid.endDrawing(gl);
+				}
+				//Log.d("", "_______________");
+				FrameRateCounter.incrementFrameCount();
 			}
-			//Log.d("", "_______________");
-			FrameRateCounter.incrementFrameCount();
-		}
+		
 	}
 
 	/* Called when the size of the window changes. */
