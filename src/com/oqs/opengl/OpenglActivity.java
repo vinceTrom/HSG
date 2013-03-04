@@ -173,13 +173,16 @@ public class OpenglActivity extends Activity {
 			}
 		});
 	}
-
+private StringBuilder stgbuild = new StringBuilder();
+private static final String txtheader = "FPS: ";
 	private class fpsRun implements Runnable{
 
 		public int _frameNB=0;
 		public TextView fpsUI;
 		public void run() {
-			fpsUI.setText("FPS: "+_frameNB);	
+			stgbuild.setLength(0);
+			fpsUI.setText(stgbuild.append(txtheader).append(_frameNB));	
+			
 		}
 	}
 

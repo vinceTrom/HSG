@@ -24,15 +24,19 @@ public abstract class Character extends Renderable{
 	}
 
 	public Character(Context ctx, String fileName){
-		createAnims(ctx, fileName);
-		initAnims();
-		if(!_savedSprites.containsKey(fileName))
+		
+		if(!_savedSprites.containsKey(fileName)){
+			createAnims(ctx, fileName);
+			initAnims();
+
 			_savedSprites.put(fileName, _sprites);
-		else{
-			_sprites = _savedSprites.get(fileName);
-			for(GLAnim anim:_sprites)
-				anim.addCharacter(this);
+		}else{
+			initAnims();
+
+			_sprites = _savedSprites.get(fileName);			
 		}
+		for(GLAnim anim:_sprites)
+			anim.addCharacter(this);
 	}
 	
 	

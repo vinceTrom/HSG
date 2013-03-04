@@ -120,8 +120,9 @@ public class Player extends Character {
 			Log.e("", "shootrun "+y+ "  height:"+height);
 			GLBullet bullet = new GLBullet();
 			Pair<Integer,Integer> p = getCurrentPlayerAnim().getFrames().get(_state.get(getCurrentAnimName()).currentindex).fireAnchor;
+			int height = getCurrentPlayerAnim().getFrames().get(_state.get(getCurrentAnimName()).currentindex).height;
 			Log.d("", "offsetY de Bullet: "+p.second);
-			bullet.y = y+p.second;
+			bullet.y = (float) (y+p.second+(Math.random()*height*0.2f)-height*0.1f);
 			bullet.x = x+p.first-GLBullets.get().getSprite().getFrames().get(0).width;
 			bullet.setXVelocity(4f);
 				GLBullets.get().addBullet(bullet);

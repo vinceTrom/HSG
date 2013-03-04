@@ -14,9 +14,10 @@ public class Enemy extends Character{
 	public static final int DIE3 = 3;
 
 	private boolean _isdead = false;
+	private static final String FILENAME = "enemy/soldier.xml";
 
 	public Enemy(Context ctx) {
-		super(ctx, "enemy/soldier.xml");	
+		super(ctx, FILENAME);	
 		_playerState = WALK;
 	}
 
@@ -45,7 +46,7 @@ public class Enemy extends Character{
 	@Override
 	protected void initAnims() {
 		x = 1300;//(int) ((1*_count)*OpenglActivity._screenHeight);
-		Log.e("", "new enemy: "+x);
+		//Log.e("", "new enemy: "+x);
 		y = Constants.GROUND_LEVEL;
 		setXVelocity(-0.35f-0.35f*Constants.LEVEL_SPEED);
 		for(int i = 0;i<_sprites.size();i++){
