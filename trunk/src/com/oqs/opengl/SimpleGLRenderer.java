@@ -101,6 +101,18 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 				for (int x = 0; x < mbackgrounds.length; x++) {
 					mbackgrounds[x].draw(gl);
 				}		
+				
+				if(_enemies != null){
+					//Log.d("", "ENEMIES NUMBER: "+_enemies.size());
+					for(int x = 0; x < _enemies.size(); x++) {
+
+						for(int y =0;y<_enemies.get(x).getSprites().size();y++){;
+						_enemies.get(x).getSprites().get(y).draw(gl);
+						}
+					}
+				}
+				
+				
 				//Log.d("", "mplayer length:"+mplayer.length);
 				for (int x = 0; x < mplayer.length; x++) {
 					if( !mplayer[x].getResourceName().equals("armfire"))
@@ -124,15 +136,7 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 					getAnim("armfire").draw(gl);
 				}
 
-				if(_enemies != null){
-					//Log.d("", "ENEMIES NUMBER: "+_enemies.size());
-					for(int x = 0; x < _enemies.size(); x++) {
-
-						for(int y =0;y<_enemies.get(x).getSprites().size();y++){;
-						_enemies.get(x).getSprites().get(y).draw(gl);
-						}
-					}
-				}
+				
 				//Log.d("", "mforegrounds length:"+mforegrounds.length);
 
 				for (int x = 0; x < mforegrounds.length; x++) {
