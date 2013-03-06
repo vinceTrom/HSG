@@ -35,6 +35,8 @@ public class GLAnim {
 
 	private int _offsetX = 0;
 	private int _offsetY = 0;
+	
+	public static  long _currentTimeMillis = 0;
 
 	/*
 	public GLAnim(String resourceName, boolean tiled) {
@@ -73,18 +75,21 @@ public class GLAnim {
 	public void draw(GL11 gl) {
 		synchronized(OpenglActivity.class){
 			for(int i = 0;i<_renderables.size();i++){
-				if(!_renderables.get(i)._state.containsKey(mResourceName)){
-					_renderables.get(i)._state.put(mResourceName, new RenderableAnimState());
+				final Renderable renderable = _renderables.get(i);
+				
+				if(!renderable._state.containsKey(mResourceName)){
+					renderable._state.put(mResourceName, new RenderableAnimState());
 				}
-				if(_renderables.get(i).musDrawThisAnim(getResourceName())){
-					 RenderableAnimState state = _renderables.get(i)._state.get(mResourceName);
+				
+				if(renderable.musDrawThisAnim(getResourceName())){
+					 final RenderableAnimState state = renderable._state.get(mResourceName);
 					 
 					if(_tiled){
 						int period = _period;
 						if(getResourceName().equals("walk") || getResourceName().equals("soldier/walk"))
 							period = (int) (period / Constants.LEVEL_SPEED);
-						if(System.currentTimeMillis() - period > state.lastDraw){
-							state.lastDraw = System.currentTimeMillis();
+						if(_currentTimeMillis - period > state.lastDraw){
+							state.lastDraw = _currentTimeMillis;
 							if(loop)
 								state.currentindex = (state.currentindex+1)%mGrid.length;
 							else
@@ -103,17 +108,16 @@ public class GLAnim {
 							Log.d("","walk width: "+_renderables.get(i).width);
 						}
 						*/
-						if(getResourceName().equals("armfire"))
-							Log.d(""," armfire y: "+_renderables.get(i).y +_offsetY + _frames.get(state.currentindex).imageAnchor.second);
+						final Picture pic = _frames.get(state.currentindex);
 
 						gl.glTranslatef(
-								_renderables.get(i).x + _offsetX- _frames.get(state.currentindex).imageAnchor.first,
-								_renderables.get(i).y +_offsetY  - _frames.get(state.currentindex).floorPos , 
+								renderable.x + _offsetX- pic.imageAnchor.first,
+								renderable.y +_offsetY  - pic.floorPos , 
 								0);
 
 					}catch (Exception e){e.printStackTrace();}
 
-					_renderables.get(i).finalDraw(gl, mGrid[state.currentindex]);
+					renderable.finalDraw(gl, mGrid[state.currentindex]);
 					gl.glPopMatrix();
 				}
 			}
