@@ -2,7 +2,7 @@ package com.oqs.opengl;
 
 import java.util.ArrayList;
 
-import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.opengles.GL11;
 
 import android.util.Log;
 
@@ -70,7 +70,7 @@ public class GLAnim {
 	}
 
 
-	public void draw(GL10 gl) {
+	public void draw(GL11 gl) {
 		synchronized(OpenglActivity.class){
 			for(int i = 0;i<_renderables.size();i++){
 				if(!_renderables.get(i)._state.containsKey(mResourceName)){
@@ -81,7 +81,7 @@ public class GLAnim {
 					 
 					if(_tiled){
 						int period = _period;
-						if(getResourceName().equals("walk") || getResourceName().equals("enemy/walk"))
+						if(getResourceName().equals("walk") || getResourceName().equals("soldier/walk"))
 							period = (int) (period / Constants.LEVEL_SPEED);
 						if(System.currentTimeMillis() - period > state.lastDraw){
 							state.lastDraw = System.currentTimeMillis();
@@ -92,7 +92,7 @@ public class GLAnim {
 						}
 					}
 
-					gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureName);
+					gl.glBindTexture(GL11.GL_TEXTURE_2D, mTextureName);
 					// Draw using verts or VBO verts.
 					gl.glPushMatrix();
 					gl.glLoadIdentity();
@@ -108,7 +108,7 @@ public class GLAnim {
 
 						gl.glTranslatef(
 								_renderables.get(i).x + _offsetX- _frames.get(state.currentindex).imageAnchor.first,
-								_renderables.get(i).y +_offsetY  + _frames.get(state.currentindex).imageAnchor.second , 
+								_renderables.get(i).y +_offsetY  - _frames.get(state.currentindex).floorPos , 
 								0);
 
 					}catch (Exception e){e.printStackTrace();}
@@ -160,7 +160,7 @@ public class GLAnim {
 	}
 
 	/*
-	protected void finalDraw(GL10 gl, Grid grid){
+	protected void finalDraw(GL11 gl, Grid grid){
 		grid.draw(gl, true, false);
 	}
 	 */

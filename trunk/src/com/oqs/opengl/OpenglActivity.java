@@ -35,7 +35,7 @@ public class OpenglActivity extends Activity {
 	public ArrayList<GLLayerLoop> foregroundSprites = new ArrayList<GLLayerLoop>();
 	private SimpleGLRenderer spriteRenderer;
 	private Player _player;
-	private ArrayList<Enemy> _enemies = new ArrayList<Enemy>();
+	private ArrayList<Soldier> _enemies = new ArrayList<Soldier>();
 	private FrameRateCounter _frameRateCounter = null;
 
 	@Override
@@ -117,14 +117,14 @@ public class OpenglActivity extends Activity {
 		all.add(bullet.getSprite());
 		all.add(GLBullets.get().getSprite());
 
-		_enemies.add(new Enemy(this));
+		_enemies.add(new Soldier(this));
 		all.addAll(_enemies.get(0).getSprites());
 		_timer = new Timer();
 		_timer.schedule(new TimerTask() {
 
 			@Override
 			public void run() {
-					_enemies.add(new Enemy(OpenglActivity.this));	
+					_enemies.add(new Soldier(OpenglActivity.this));	
 				
 				Constants.LEVEL_SPEED = Constants.LEVEL_SPEED+0.02;
 			}

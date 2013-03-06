@@ -4,12 +4,13 @@ import java.util.concurrent.Semaphore;
 
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGL11;
+import javax.microedition.khronos.egl.EGL11;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLContext;
 import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.egl.EGLSurface;
 import javax.microedition.khronos.opengles.GL;
-import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.opengles.GL11;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -56,6 +57,8 @@ public class GLSurfaceView extends SurfaceView implements SurfaceHolder.Callback
         mGLThread = new GLThread(renderer);
         mGLThread.start();
     }
+    
+   
 
     public void surfaceCreated(SurfaceHolder holder) {
         mGLThread.surfaceCreated();
@@ -99,7 +102,25 @@ public class GLSurfaceView extends SurfaceView implements SurfaceHolder.Callback
      * @param r the runnable to be run on the GL rendering thread.
      */
     public void setEvent(Runnable r) {
-        mGLThread.setEvent(r);
+    	MoverThread mt = new MoverThread();
+    	mt.mover = r;
+    	mt.start();
+        //mGLThread.setEvent(r);
+    }
+    
+    public class MoverThread extends Thread{
+    	public Runnable mover;
+    	 @Override
+         public void run() {
+    		 while(true){
+    		 mover.run();
+    		 try {
+				sleep(5);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+    		 }
+    	 }
     }
 
     @Override
@@ -132,14 +153,14 @@ public class GLSurfaceView extends SurfaceView implements SurfaceHolder.Callback
          * typically happen when the device awakes after going to sleep.
          * Set your textures here.
          */
-        void surfaceCreated(GL10 gl);
+        void surfaceCreated(GL11 gl);
         
         /**
          * Called when the rendering thread is about to shut down.  This is a
          * good place to release OpenGL ES resources (textures, buffers, etc).
          * @param gl
          */
-        void shutdown(GL10 gl);
+        void shutdown(GL11 gl);
         
         /**
          * Surface changed size.
@@ -149,12 +170,12 @@ public class GLSurfaceView extends SurfaceView implements SurfaceHolder.Callback
          * @param width
          * @param height
          */
-        void sizeChanged(GL10 gl, int width, int height);
+        void sizeChanged(GL11 gl, int width, int height);
         /**
          * Draw the current frame.
          * @param gl
          */
-        void drawFrame(GL10 gl);
+        void drawFrame(GL11 gl);
     }
 
     /**
@@ -179,7 +200,7 @@ public class GLSurfaceView extends SurfaceView implements SurfaceHolder.Callback
             /*
              * Get to the default display.
              */
-            mEglDisplay = mEgl.eglGetDisplay(EGL10.EGL_DEFAULT_DISPLAY);
+            mEglDisplay = mEgl.eglGetDisplay(EGL11.EGL_DEFAULT_DISPLAY);
 
             /*
              * We can now initialize EGL for that display
@@ -198,7 +219,7 @@ public class GLSurfaceView extends SurfaceView implements SurfaceHolder.Callback
             * OpenGL context is a somewhat heavy object.
             */
             mEglContext = mEgl.eglCreateContext(mEglDisplay, mEglConfig,
-                    EGL10.EGL_NO_CONTEXT, null);
+                    EGL11.EGL_NO_CONTEXT, null);
 
             mEglSurface = null;
         }
@@ -217,8 +238,8 @@ public class GLSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                  * Unbind and destroy the old EGL surface, if
                  * there is one.
                  */
-                mEgl.eglMakeCurrent(mEglDisplay, EGL10.EGL_NO_SURFACE,
-                        EGL10.EGL_NO_SURFACE, EGL10.EGL_NO_CONTEXT);
+                mEgl.eglMakeCurrent(mEglDisplay, EGL11.EGL_NO_SURFACE,
+                        EGL11.EGL_NO_SURFACE, EGL11.EGL_NO_CONTEXT);
                 mEgl.eglDestroySurface(mEglDisplay, mEglSurface);
             }
 
@@ -261,9 +282,9 @@ public class GLSurfaceView extends SurfaceView implements SurfaceHolder.Callback
 
         public void finish() {
             if (mEglSurface != null) {
-                mEgl.eglMakeCurrent(mEglDisplay, EGL10.EGL_NO_SURFACE,
-                        EGL10.EGL_NO_SURFACE,
-                        EGL10.EGL_NO_CONTEXT);
+                mEgl.eglMakeCurrent(mEglDisplay, EGL11.EGL_NO_SURFACE,
+                        EGL11.EGL_NO_SURFACE,
+                        EGL11.EGL_NO_CONTEXT);
                 mEgl.eglDestroySurface(mEglDisplay, mEglSurface);
                 mEglSurface = null;
             }
@@ -333,7 +354,7 @@ public class GLSurfaceView extends SurfaceView implements SurfaceHolder.Callback
             int[] configSpec = mRenderer.getConfigSpec();
             mEglHelper.start(configSpec);
 
-            GL10 gl = null;
+            GL11 gl = null;
             boolean tellRendererSurfaceCreated = true;
             boolean tellRendererSurfaceChanged = true;
 
@@ -350,7 +371,7 @@ public class GLSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                 boolean needStart = false;
                 synchronized (this) {
                     if (mEvent != null) {
-                        mEvent.run();
+                        //mEvent.run();
                     }
                     if (mPaused) {
                         mEglHelper.finish();
@@ -375,7 +396,7 @@ public class GLSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                     changed = true;
                 }
                 if (changed) {
-                    gl = (GL10) mEglHelper.createSurface(mHolder);
+                    gl = (GL11) mEglHelper.createSurface(mHolder);
                     tellRendererSurfaceChanged = true;
                 }
                 if (tellRendererSurfaceCreated) {

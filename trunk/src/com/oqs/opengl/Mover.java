@@ -28,7 +28,7 @@ public class Mover implements Runnable {
 	private Renderable[] _renderables;
 	private long mLastTime;
 	private Colisioner _colisioner;
-	private ArrayList<Enemy> _enemies;
+	private ArrayList<Soldier> _enemies;
 	private ArrayList<Renderable> _bulletList;
 
 	static float SPEED_OF_GRAVITY = 150.0f;
@@ -114,7 +114,7 @@ public class Mover implements Runnable {
 
 	}
 
-	public void setRenderables(Renderable[] renderables, ArrayList<Enemy> enemies,  ArrayList<Renderable> bulletList) {
+	public void setRenderables(Renderable[] renderables, ArrayList<Soldier> enemies,  ArrayList<Renderable> bulletList) {
 		_bulletList = bulletList;
 		_enemies = enemies;
 		_renderables = renderables;

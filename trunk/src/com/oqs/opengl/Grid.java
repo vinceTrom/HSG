@@ -7,7 +7,7 @@ import java.nio.CharBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
-import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.opengles.GL11;
 import javax.microedition.khronos.opengles.GL11;
 
 /**
@@ -73,7 +73,7 @@ class Grid {
         	mTexCoordBuffer = mFixedTexCoordBuffer;
         	mColorBuffer = mFixedColorBuffer;
         	mCoordinateSize = FIXED_SIZE;
-        	mCoordinateType = GL10.GL_FIXED;
+        	mCoordinateType = GL11.GL_FIXED;
         	
         } else {
         	mFloatVertexBuffer = ByteBuffer.allocateDirect(FLOAT_SIZE * size * 3)
@@ -88,7 +88,7 @@ class Grid {
         	mTexCoordBuffer = mFloatTexCoordBuffer;
         	mColorBuffer = mFloatColorBuffer;
         	mCoordinateSize = FLOAT_SIZE;
-        	mCoordinateType = GL10.GL_FLOAT;
+        	mCoordinateType = GL11.GL_FLOAT;
         }
         
         
@@ -150,7 +150,7 @@ class Grid {
         final int texIndex = index * 2;
         final int colorIndex = index * 4;
         
-        if (mCoordinateType == GL10.GL_FLOAT) {
+        if (mCoordinateType == GL11.GL_FLOAT) {
         	mFloatVertexBuffer.put(posIndex, x);
         	mFloatVertexBuffer.put(posIndex + 1, y);
         	mFloatVertexBuffer.put(posIndex + 2, z);
@@ -181,27 +181,27 @@ class Grid {
         }
     }
 
-    public static void beginDrawing(GL10 gl, boolean useTexture, boolean useColor) {
-        gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+    public static void beginDrawing(GL11 gl, boolean useTexture, boolean useColor) {
+        gl.glEnableClientState(GL11.GL_VERTEX_ARRAY);
         
         if (useTexture) {
-            gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-            gl.glEnable(GL10.GL_TEXTURE_2D);
+            gl.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
+            gl.glEnable(GL11.GL_TEXTURE_2D);
         } else {
-            gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-            gl.glDisable(GL10.GL_TEXTURE_2D);
+            gl.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
+            gl.glDisable(GL11.GL_TEXTURE_2D);
         }
         
         if (useColor) {
-            gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+            gl.glEnableClientState(GL11.GL_COLOR_ARRAY);
         } else {
-            gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
+            gl.glDisableClientState(GL11.GL_COLOR_ARRAY);
         }
     }
     
     
-    public void draw(GL10 gl, boolean useTexture, boolean useColor) {
-        if (!mUseHardwareBuffers) {
+    public void draw(GL11 gl, boolean useTexture, boolean useColor) {
+       if(true){// if (!mUseHardwareBuffers) {
             gl.glVertexPointer(3, mCoordinateType, 0, mVertexBuffer);
     
             if (useTexture) {
@@ -212,9 +212,10 @@ class Grid {
                 gl.glColorPointer(4, mCoordinateType, 0, mColorBuffer);
             }
     
-            gl.glDrawElements(GL10.GL_TRIANGLES, mIndexCount,
-                    GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
-        } else {
+            gl.glDrawElements(GL11.GL_TRIANGLES, mIndexCount,
+                    GL11.GL_UNSIGNED_SHORT, mIndexBuffer);
+        }
+       /*else {
             GL11 gl11 = (GL11)gl;
             // draw using hardware buffers
             gl11.glBindBuffer(GL11.GL_ARRAY_BUFFER, mVertBufferIndex);
@@ -236,13 +237,12 @@ class Grid {
             
             gl11.glBindBuffer(GL11.GL_ARRAY_BUFFER, 0);
             gl11.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, 0);
-
-
         }
+        */
     }
     
-    public static void endDrawing(GL10 gl) {
-        gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+    public static void endDrawing(GL11 gl) {
+        gl.glDisableClientState(GL11.GL_VERTEX_ARRAY);
     }
     
     public boolean usingHardwareBuffers() {
@@ -265,7 +265,7 @@ class Grid {
     /**
      * Deletes the hardware buffers allocated by this object (if any).
      */
-    public void releaseHardwareBuffers(GL10 gl) {
+    public void releaseHardwareBuffers(GL11 gl) {
         if (mUseHardwareBuffers) {
             if (gl instanceof GL11) {
                 GL11 gl11 = (GL11)gl;
@@ -294,7 +294,7 @@ class Grid {
      * not guaranteed to be supported on every device.
      * @param gl  A pointer to the OpenGL ES context.
      */
-    public void generateHardwareBuffers(GL10 gl) {
+    public void generateHardwareBuffers(GL11 gl) {
         if (!mUseHardwareBuffers) {
             if (gl instanceof GL11) {
                 GL11 gl11 = (GL11)gl;
@@ -378,7 +378,7 @@ class Grid {
 	}
 
 	public boolean getFixedPoint() {
-		return (mCoordinateType == GL10.GL_FIXED);
+		return (mCoordinateType == GL11.GL_FIXED);
 	}
 
 }
