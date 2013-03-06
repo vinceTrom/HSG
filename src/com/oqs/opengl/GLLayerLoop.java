@@ -1,6 +1,6 @@
 package com.oqs.opengl;
 
-import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.opengles.GL11;
 
 import android.util.Log;
 
@@ -14,7 +14,7 @@ public class GLLayerLoop extends Renderable{
 	}
 
 	@Override
-	protected void finalDraw(GL10 gl, Grid grid){
+	protected void finalDraw(GL11 gl, Grid grid){
 		if(x+_sprite.textureWidth<OpenglActivity._screenWidth){
 			grid.draw(gl, true, false);
 

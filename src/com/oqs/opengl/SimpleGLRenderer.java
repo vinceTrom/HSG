@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import javax.microedition.khronos.egl.EGL10;
-import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.egl.EGL11;
+import javax.microedition.khronos.opengles.GL11;
 import javax.microedition.khronos.opengles.GL11;
 import javax.microedition.khronos.opengles.GL11Ext;
 
@@ -32,7 +32,7 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 	private GLAnim[] mSprites;
 	private GLAnim[] mbackgrounds;
 	private GLAnim[] mplayer;
-	private ArrayList<Enemy> _enemies; //We have a tab of ennemies,so a tab of ennemies of tab of anims 
+	private ArrayList<Soldier> _enemies; //We have a tab of ennemies,so a tab of ennemies of tab of anims 
 	public ArrayList<GLBullets> _bullets = new ArrayList<GLBullets>();
 
 	private GLAnim[] mforegrounds;
@@ -62,11 +62,11 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 	public int[] getConfigSpec() {
 		// We don't need a depth buffer, and don't care about our
 		// color depth.
-		int[] configSpec = { EGL10.EGL_DEPTH_SIZE, 0, EGL10.EGL_NONE };
+		int[] configSpec = { EGL11.EGL_DEPTH_SIZE, 0, EGL11.EGL_NONE };
 		return configSpec;
 	}
 
-	public void setSprites(GLAnim[] backs, Player _player,ArrayList<Enemy> _enemies2, GLAnim[] foreground, GLAnim[] total) {
+	public void setSprites(GLAnim[] backs, Player _player,ArrayList<Soldier> _enemies2, GLAnim[] foreground, GLAnim[] total) {
 		GLAnim[] gl = new GLAnim[0];
 		mbackgrounds = backs;
 		mplayer =  _player.getSprites().toArray(gl);
@@ -89,10 +89,10 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 
 	/** Draws the sprites. */
 	@Override
-	public void drawFrame(GL10 gl) {
+	public void drawFrame(GL11 gl) {
 		if (mSprites != null) {
 
-				gl.glMatrixMode(GL10.GL_MODELVIEW);
+				gl.glMatrixMode(GL11.GL_MODELVIEW);
 
 				if (mUseVerts) {
 					Grid.beginDrawing(gl, true, false);
@@ -154,7 +154,7 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 
 	/* Called when the size of the window changes. */
 	@Override
-	public void sizeChanged(GL10 gl, int width, int height) {
+	public void sizeChanged(GL11 gl, int width, int height) {
 		gl.glViewport(0, 0, width, height);
 
 		/*
@@ -162,15 +162,15 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 		 * draw, but usually a new projection needs to be set when the viewport
 		 * is resized.
 		 */
-		gl.glMatrixMode(GL10.GL_PROJECTION);
+		gl.glMatrixMode(GL11.GL_PROJECTION);
 		gl.glLoadIdentity();
 		gl.glOrthof(0.0f, width, 0.0f, height, 0.0f, 1.0f);
 
-		gl.glShadeModel(GL10.GL_FLAT);
-		gl.glEnable(GL10.GL_BLEND);
-		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		gl.glShadeModel(GL11.GL_FLAT);
+		gl.glEnable(GL11.GL_BLEND);
+		gl.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		gl.glColor4x(0x10000, 0x10000, 0x10000, 0x10000);
-		gl.glEnable(GL10.GL_TEXTURE_2D);
+		gl.glEnable(GL11.GL_TEXTURE_2D);
 	}
 
 	/**
@@ -180,26 +180,26 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 	 * texture data and (when using VBOs) hardware vertex arrays.
 	 */
 	@Override
-	public void surfaceCreated(GL10 gl) {
+	public void surfaceCreated(GL11 gl) {
 		/*
 		 * Some one-time OpenGL initialization can be made here probably based
 		 * on features of this particular context
 		 */
-		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
+		gl.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_FASTEST);
 
 		gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-		gl.glShadeModel(GL10.GL_FLAT);
-		gl.glDisable(GL10.GL_DEPTH_TEST);
-		gl.glEnable(GL10.GL_TEXTURE_2D);
+		gl.glShadeModel(GL11.GL_FLAT);
+		gl.glDisable(GL11.GL_DEPTH_TEST);
+		gl.glEnable(GL11.GL_TEXTURE_2D);
 		/*
 		 * By default, OpenGL enables features that improve quality but reduce
 		 * performance. One might want to tweak that especially on software
 		 * renderer.
 		 */
-		gl.glDisable(GL10.GL_DITHER);
-		gl.glDisable(GL10.GL_LIGHTING);
+		gl.glDisable(GL11.GL_DITHER);
+		gl.glDisable(GL11.GL_LIGHTING);
 
-		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+		gl.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
 		if (mSprites != null) {
 
@@ -250,7 +250,7 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 	 * release OpenGL ES resources.
 	 * @param gl
 	 */
-	public void shutdown(GL10 gl) {
+	public void shutdown(GL11 gl) {
 		if (mSprites != null) {
 
 			String lastFreedResource = "";
@@ -276,23 +276,23 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 	 * Loads a bitmap into OpenGL and sets up the common parameters for 
 	 * 2D texture maps. 
 	 */
-	protected int loadBitmap(Context context, GL10 gl, String resourceName) {
+	protected int loadBitmap(Context context, GL11 gl, String resourceName) {
 		int textureName = -1;
 		if (context != null && gl != null) {
 			gl.glGenTextures(1, mTextureNameWorkspace, 0);
 
 			textureName = mTextureNameWorkspace[0];
-			gl.glBindTexture(GL10.GL_TEXTURE_2D, textureName);
+			gl.glBindTexture(GL11.GL_TEXTURE_2D, textureName);
 
-			gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
-			gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
+			gl.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
+			gl.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
 
-			gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_CLAMP_TO_EDGE);
-			gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_CLAMP_TO_EDGE);
+			gl.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP_TO_EDGE);
+			gl.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP_TO_EDGE);
 
-			gl.glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, GL10.GL_REPLACE);
+			gl.glTexEnvf(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_REPLACE);
 			int error = gl.glGetError();
-			if (error != GL10.GL_NO_ERROR) {
+			if (error != GL11.GL_NO_ERROR) {
 				Log.e("SpriteMethodTest", "Texture Load GLError1: " + error);
 			}
 			Log.d("", "resourceID: "+resourceName);
@@ -321,28 +321,28 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 			}
 
 			error = gl.glGetError();
-			if (error != GL10.GL_NO_ERROR) {
+			if (error != GL11.GL_NO_ERROR) {
 				Log.e("SpriteMethodTest", "Texture Load GLError1.5: " + error);
 			}
 			int[] maxTextureSize = new int[1];
-			gl.glGetIntegerv(GL10.GL_MAX_TEXTURE_SIZE, maxTextureSize, 0);
+			gl.glGetIntegerv(GL11.GL_MAX_TEXTURE_SIZE, maxTextureSize, 0);
 			Log.d("", "width: "+bitmap.getWidth());
 			Log.d("", "height: "+bitmap.getHeight()+"   max:"+maxTextureSize[0]);
 
 			int[] tmp = new int[1];
 			gl.glGenTextures(1, tmp, 0);
 
-			gl.glBindTexture(GL10.GL_TEXTURE_2D, textureName);
+			gl.glBindTexture(GL11.GL_TEXTURE_2D, textureName);
 
-			GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
+			GLUtils.texImage2D(GL11.GL_TEXTURE_2D, 0, bitmap, 0);
 
 
-			//gl.glBlendFunc(GL10.GL_ONE, GL10.GL_ONE_MINUS_SRC_ALPHA);
+			//gl.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-			//gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+			//gl.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
 			error = gl.glGetError();
-			if (error != GL10.GL_NO_ERROR) {
+			if (error != GL11.GL_NO_ERROR) {
 				Log.e("SpriteMethodTest", "Texture Load GLError2: " + error);
 			}
 
@@ -353,12 +353,12 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 
 			bitmap.recycle();
 
-			((GL11) gl).glTexParameteriv(GL10.GL_TEXTURE_2D, 
+			((GL11) gl).glTexParameteriv(GL11.GL_TEXTURE_2D, 
 					GL11Ext.GL_TEXTURE_CROP_RECT_OES, mCropWorkspace, 0);
 
 
 			error = gl.glGetError();
-			if (error != GL10.GL_NO_ERROR) {
+			if (error != GL11.GL_NO_ERROR) {
 				Log.e("SpriteMethodTest", "Texture Load GLError: " + error);
 			}
 

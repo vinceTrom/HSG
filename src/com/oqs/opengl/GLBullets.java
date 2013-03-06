@@ -38,7 +38,7 @@ public class GLBullets {
 	}
 /*
 	@Override
-	protected void finalDraw(GL10 gl, Grid grid){
+	protected void finalDraw(GL11 gl, Grid grid){
 		for(int j=0;j<_posList.size();j++){
 			if(_posList.get(j)[0]>OpenglActivity._screenWidth){
 				_posList.remove(j);

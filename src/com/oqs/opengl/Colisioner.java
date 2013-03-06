@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Colisioner {
 
-	private ArrayList<Enemy> _enemies = new ArrayList<Enemy>();
+	private ArrayList<Soldier> _enemies = new ArrayList<Soldier>();
 	public void testColisionWithBulletAndEnemy(Renderable bullet) {
 
 		for(int i=0;i<_enemies.size();i++){
@@ -17,7 +17,7 @@ public class Colisioner {
 
 	}
 
-	public void addEnemies(ArrayList<Enemy> enemies) {//anims d ennemis qui cours
+	public void addEnemies(ArrayList<Soldier> enemies) {//anims d ennemis qui cours
 		_enemies = enemies;
 	}
 
