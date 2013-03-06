@@ -35,8 +35,8 @@ public class GLAnim {
 
 	private int _offsetX = 0;
 	private int _offsetY = 0;
-	
-	public static  long _currentTimeMillis = 0;
+
+	public static long _currentTimeMillis = 0;
 
 	/*
 	public GLAnim(String resourceName, boolean tiled) {
@@ -73,18 +73,17 @@ public class GLAnim {
 
 
 	public void draw(GL11 gl) {
-		synchronized(OpenglActivity.class){
 			for(int i = 0;i<_renderables.size();i++){
 				final Renderable renderable = _renderables.get(i);
-				
+
 				if(!renderable._state.containsKey(mResourceName)){
 					renderable._state.put(mResourceName, new RenderableAnimState());
 				}
-				
+
 				if(renderable.musDrawThisAnim(getResourceName())){
-					 final RenderableAnimState state = renderable._state.get(mResourceName);
-					 
-					if(_tiled){
+					final RenderableAnimState state = renderable._state.get(mResourceName);
+
+					if(_tiled){//TODO deplacer ça dans le mover
 						int period = _period;
 						if(getResourceName().equals("walk") || getResourceName().equals("soldier/walk"))
 							period = (int) (period / Constants.LEVEL_SPEED);
@@ -101,34 +100,24 @@ public class GLAnim {
 					// Draw using verts or VBO verts.
 					gl.glPushMatrix();
 					gl.glLoadIdentity();
-					try{
-						/*
-						if(getResourceName().equals("walk")){
-							Log.d("", "walk x=" +(_renderables.get(i).x + _offsetX- _frames.get(state.currentindex).imageAnchor.first));
-							Log.d("","walk width: "+_renderables.get(i).width);
-						}
-						*/
-						final Picture pic = _frames.get(state.currentindex);
-
-						gl.glTranslatef(
-								renderable.x + _offsetX- pic.imageAnchor.first,
-								renderable.y +_offsetY  - pic.floorPos , 
-								0);
-
-					}catch (Exception e){e.printStackTrace();}
+					
+					final Picture pic = _frames.get(state.currentindex);
+					gl.glTranslatef(
+							renderable.x + _offsetX- pic.imageAnchor.first,
+							renderable.y +_offsetY  - pic.floorPos , 
+							0);
 
 					renderable.finalDraw(gl, mGrid[state.currentindex]);
 					gl.glPopMatrix();
 				}
 			}
-		}
 	}
 
 
 	public void setPictures(ArrayList<Picture> ls){
 		_frames = ls;
 	}
-	
+
 	public ArrayList<Picture> getFrames(){
 		return _frames;
 	}
