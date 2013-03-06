@@ -1,12 +1,12 @@
 package com.oqs.opengl;
 
-import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.opengles.GL11;
 
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.Log;
 
-public class Enemy extends Character{
+public class Soldier extends Character{
 
 	public static final int WALK = 1;
 	public static final int DIE1 = 2;
@@ -14,9 +14,9 @@ public class Enemy extends Character{
 	public static final int DIE3 = 3;
 
 	private boolean _isdead = false;
-	private static final String FILENAME = "enemy/soldier.xml";
+	private static final String FILENAME = "soldier/soldier.xml";
 
-	public Enemy(Context ctx) {
+	public Soldier(Context ctx) {
 		super(ctx, FILENAME);	
 		_playerState = WALK;
 	}
@@ -50,12 +50,12 @@ public class Enemy extends Character{
 		y = Constants.GROUND_LEVEL;
 		setXVelocity(-0.35f-0.35f*Constants.LEVEL_SPEED);
 		for(int i = 0;i<_sprites.size();i++){
-			if(_sprites.get(i).getResourceName().equals("enemy/walk")){
+			if(_sprites.get(i).getResourceName().equals("soldier/walk")){
 				_sprites.get(i).textureHeight =(int) (0.5f*OpenglActivity._screenHeight);
 			}
-			if(_sprites.get(i).getResourceName().equals("enemy/die1") ||
-					_sprites.get(i).getResourceName().equals("enemy/die2")
-					||_sprites.get(i).getResourceName().equals("enemy/die3")){
+			if(_sprites.get(i).getResourceName().equals("soldier/die1") ||
+					_sprites.get(i).getResourceName().equals("soldier/die2")
+					||_sprites.get(i).getResourceName().equals("soldier/die3")){
 				_sprites.get(i).loop = false;
 			}
 		}
@@ -95,22 +95,22 @@ public class Enemy extends Character{
 	}
 
 	@Override
-	protected void finalDraw(GL10 gl, Grid grid) {
+	protected void finalDraw(GL11 gl, Grid grid) {
 		grid.draw(gl, true, false);		
 	}
 
 	@Override
 	public boolean musDrawThisAnim(String resourceName) {
-		if(_playerState == WALK && resourceName.equals("enemy/walk"))
+		if(_playerState == WALK && resourceName.equals("soldier/walk"))
 			return true;
 		else
-			if(_playerState == DIE1 && resourceName.equals("enemy/die1"))
+			if(_playerState == DIE1 && resourceName.equals("soldier/die1"))
 				return true;
 			else
-				if(_playerState == DIE2 && resourceName.equals("enemy/die2"))
+				if(_playerState == DIE2 && resourceName.equals("soldier/die2"))
 					return true;
 				else
-					if(_playerState == DIE3 && resourceName.equals("enemy/die3"))
+					if(_playerState == DIE3 && resourceName.equals("soldier/die3"))
 						return true;
 		return false;
 	}
@@ -118,10 +118,10 @@ public class Enemy extends Character{
 	private GLAnim getCurrentAnim(){
 		String anim = "";
 		switch (_playerState) {
-		case WALK:anim = "enemy/walk";break;
-		case DIE1:anim = "enemy/die1";break;
-		case DIE2:anim = "enemy/die2";break;
-		case DIE3:anim = "enemy/die3";break;
+		case WALK:anim = "soldier/walk";break;
+		case DIE1:anim = "soldier/die1";break;
+		case DIE2:anim = "soldier/die2";break;
+		case DIE3:anim = "soldier/die3";break;
 		default:
 			break;
 		}
