@@ -35,7 +35,7 @@
             <image x="72" y="0" width="67" height="75" anchorX="31" anchorY="8" fireanchorX="65" fireanchorY="32" floorpos="8"/>
             <image x="139" y="0" width="67" height="75" anchorX="31" anchorY="8" fireanchorX="65" fireanchorY="32" floorpos="8"/>
             <image x="206" y="0" width="67" height="76" anchorX="31" anchorY="8" fireanchorX="65" fireanchorY="33" floorpos="9"/>
-            <image x="273" y="1" width="67" height="75" anchorX="31" anchorY="7" fireanchorX="65" fireanchorY="33" floorpos="8"/>
+            <image x="273" y="1" width="67" height="75" anchorX="31" anchorY="7" fireanchorX="65" fireanchorY="33" floorpos="9"/>
             <image x="341" y="0" width="67" height="72" anchorX="30" anchorY="8" fireanchorX="65" fireanchorY="29" floorpos="5"/>
             <image x="409" y="0" width="70" height="70" anchorX="31" anchorY="8" fireanchorX="65" fireanchorY="27" floorpos="3"/>
         </animation>
@@ -48,7 +48,7 @@
         </animation>
         
         <animation name="walk" period="80" size="0.3">
-            <image x="3" y="72" width="68" height="66" anchorX="33" anchorY="6" fireanchorX="67" fireanchorY="25" floorpos="1"/>
+            <image x="3" y="72" width="68" height="66" anchorX="33" anchorY="6" fireanchorX="67" fireanchorY="25" floorpos="2"/>
             <image x="71" y="72" width="68" height="66" anchorX="32" anchorY="7" fireanchorX="66" fireanchorY="25" floorpos="1"/>
             <image x="139" y="72" width="68" height="66" anchorX="33" anchorY="7" fireanchorX="67" fireanchorY="25" floorpos="1"/>
             <image x="208" y="72" width="68" height="66" anchorX="33" anchorY="7" fireanchorX="66" fireanchorY="25" floorpos="1"/>
@@ -56,24 +56,23 @@
             <image x="345" y="72" width="68" height="66" anchorX="35" anchorY="7" fireanchorX="67" fireanchorY="25" floorpos="1"/>
             <image x="413" y="72" width="70" height="66" anchorX="36" anchorY="7" fireanchorX="66" fireanchorY="25" floorpos="1"/>
             <image x="3" y="140" width="70" height="66" anchorX="37" anchorY="7" fireanchorX="69" fireanchorY="25" floorpos="1"/>
-            <image x="73" y="139" width="69" height="66" anchorX="36" anchorY="7" fireanchorX="68" fireanchorY="25" floorpos="1"/>
-            <image x="142" y="139" width="69" height="66" anchorX="36" anchorY="8" fireanchorX="68" fireanchorY="25" floorpos="1"/>
-            <image x="212" y="141" width="68" height="66" anchorX="35" anchorY="6" fireanchorX="67" fireanchorY="25" floorpos="1"/>
-            <image x="280" y="139" width="69" height="66" anchorX="36" anchorY="8" fireanchorX="68" fireanchorY="25" floorpos="1"/>
-            <image x="350" y="139" width="67" height="66" anchorX="33" anchorY="8" fireanchorX="66" fireanchorY="25" floorpos="1"/>
+            <image x="73" y="140" width="69" height="66" anchorX="36" anchorY="24" fireanchorX="68" fireanchorY="25" floorpos="2"/>
+            <image x="142" y="140" width="69" height="66" anchorX="36" anchorY="8" fireanchorX="68" fireanchorY="25" floorpos="1"/>
+            <image x="212" y="140" width="68" height="66" anchorX="35" anchorY="6" fireanchorX="67" fireanchorY="25" floorpos="1"/>
+            <image x="280" y="140" width="69" height="66" anchorX="36" anchorY="8" fireanchorX="68" fireanchorY="25" floorpos="1"/>
+            <image x="350" y="140" width="67" height="66" anchorX="33" anchorY="8" fireanchorX="66" fireanchorY="25" floorpos="1"/>
             <image x="418" y="140" width="70" height="66" anchorX="33" anchorY="7" fireanchorX="67" fireanchorY="25" floorpos="1"/>
             <image x="4" y="207" width="67" height="66" anchorX="32" anchorY="7" fireanchorX="66" fireanchorY="25" floorpos="1"/>
             <image x="71" y="207" width="70" height="66" anchorX="32" anchorY="7" fireanchorX="66" fireanchorY="25" floorpos="1"/>
         </animation>
         <animation name="jump" period="80" size="0.4">
-             <image x="5" y="18" width="67" height="88" anchorX="31" anchorY="10" fireanchorX="65" fireanchorY="43" floorpos="19"/>
+            <image x="5" y="18" width="67" height="88" anchorX="31" anchorY="10" fireanchorX="65" fireanchorY="43" floorpos="19"/>
             <image x="72" y="19" width="67" height="85" anchorX="31" anchorY="9" fireanchorX="65" fireanchorY="41" floorpos="17"/>
             <image x="139" y="22" width="67" height="78" anchorX="31" anchorY="6" fireanchorX="65" fireanchorY="37" floorpos="13"/>
             <image x="207" y="21" width="65" height="75" anchorX="30" anchorY="7" fireanchorX="64" fireanchorY="33" floorpos="9"/>
             <image x="273" y="21" width="66" height="75" anchorX="31" anchorY="7" fireanchorX="65" fireanchorY="33" floorpos="9"/>
             <image x="340" y="20" width="66" height="75" anchorX="31" anchorY="8" fireanchorX="65" fireanchorY="32" floorpos="8"/>
             <image x="407" y="20" width="66" height="72" anchorX="31" anchorY="8" fireanchorX="65" fireanchorY="29" floorpos="5"/> 
-
         </animation>
     </animations>
 </player>
