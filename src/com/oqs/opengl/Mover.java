@@ -57,6 +57,7 @@ public class Mover implements Runnable {
 			time = SystemClock.uptimeMillis();
 			timeDelta = time - mLastTime;
 			timeDeltaSeconds = mLastTime > 0.0f ? timeDelta / 1000.0f : 0.0f;
+			//timeDeltaSeconds = (float) 0.012;
 			mLastTime = time;
 
 			renderNb = _renderables.length;

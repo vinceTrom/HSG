@@ -124,7 +124,7 @@ public class OpenglActivity extends Activity {
 
 			@Override
 			public void run() {
-					//_enemies.add(new Soldier(OpenglActivity.this));	
+					_enemies.add(new Soldier(OpenglActivity.this));	
 				
 				Constants.LEVEL_SPEED = Constants.LEVEL_SPEED*1.05;
 			}
