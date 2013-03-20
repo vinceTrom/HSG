@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import javax.microedition.khronos.egl.EGL11;
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 import javax.microedition.khronos.opengles.GL11;
 import javax.microedition.khronos.opengles.GL11Ext;
@@ -89,7 +91,7 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 
 	/** Draws the sprites. */
 	@Override
-	public void drawFrame(GL11 gl) {
+	public void drawFrame(GL10 gl) {
 		if (mSprites != null) {
 			GLAnim._currentTimeMillis = System.currentTimeMillis();
 
@@ -108,8 +110,8 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 				for(int x = 0; x < _enemies.size(); x++) {
 
 					for(int y =0;y<_enemies.get(x).getSprites().size();y++)
-					_enemies.get(x).getSprites().get(y).draw(gl);
-					
+						_enemies.get(x).getSprites().get(y).draw(gl);
+
 				}
 			}
 
@@ -122,7 +124,7 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 
 			GLBullets.get().getSprite().draw(gl);
 
-			
+
 			final Player player= ((Player) mplayer[0].getCharacter());			
 			if(player.isShooting()){
 				final Picture currentPlayerPic = player.getCurrentPlayerAnim().getFrames().get(player._state.get(player.getCurrentAnimName()).currentindex);
@@ -156,7 +158,7 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 
 	/* Called when the size of the window changes. */
 	@Override
-	public void sizeChanged(GL11 gl, int width, int height) {
+	public void sizeChanged(GL10 gl, int width, int height) {
 		gl.glViewport(0, 0, width, height);
 
 		/*
@@ -182,7 +184,9 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 	 * texture data and (when using VBOs) hardware vertex arrays.
 	 */
 	@Override
-	public void surfaceCreated(GL11 gl) {
+	public void surfaceCreated(GL10 gl) {
+
+
 		/*
 		 * Some one-time OpenGL initialization can be made here probably based
 		 * on features of this particular context
@@ -278,7 +282,7 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 	 * Loads a bitmap into OpenGL and sets up the common parameters for 
 	 * 2D texture maps. 
 	 */
-	protected int loadBitmap(Context context, GL11 gl, String resourceName) {
+	protected int loadBitmap(Context context, GL10 gl, String resourceName) {
 		int textureName = -1;
 		if (context != null && gl != null) {
 			gl.glGenTextures(1, mTextureNameWorkspace, 0);
@@ -379,6 +383,8 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 		return null;
 
 	}
+
+
 
 
 

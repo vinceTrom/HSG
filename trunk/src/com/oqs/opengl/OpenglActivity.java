@@ -88,7 +88,7 @@ public class OpenglActivity extends Activity {
 		//final int robotCount = 4;//ANIM.equals("all")?12:2;//callingIntent.getIntExtra("spriteCount", 10);
 		final boolean useVerts = true;
 		final boolean useHardwareBuffers = 
-				callingIntent.getBooleanExtra("useHardwareBuffers", false);
+				callingIntent.getBooleanExtra("useHardwareBuffers", true);//useHardwareBuffers could improve perfs
 
 
 		// We need to know the width and height of the display pretty soon,
@@ -124,9 +124,9 @@ public class OpenglActivity extends Activity {
 
 			@Override
 			public void run() {
-					_enemies.add(new Soldier(OpenglActivity.this));	
+					//_enemies.add(new Soldier(OpenglActivity.this));	
 				
-				Constants.LEVEL_SPEED = Constants.LEVEL_SPEED+0.02;
+				Constants.LEVEL_SPEED = Constants.LEVEL_SPEED*1.05;
 			}
 		}, 5000, 4000);
 
@@ -164,6 +164,7 @@ public class OpenglActivity extends Activity {
 		final fpsRun fpsRun = new fpsRun();
 		fpsRun.fpsUI = fpsUI;
 		_frameRateCounter = new FrameRateCounter();
+		/*
 		_frameRateCounter.setFrameRateListener(new FrameRateListener() {
 
 			@Override
@@ -172,6 +173,7 @@ public class OpenglActivity extends Activity {
 				runOnUiThread(fpsRun);
 			}
 		});
+		*/
 	}
 private StringBuilder stgbuild = new StringBuilder();
 private static final String txtheader = "FPS: ";

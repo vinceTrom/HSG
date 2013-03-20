@@ -7,6 +7,7 @@ import java.nio.CharBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
+import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 import javax.microedition.khronos.opengles.GL11;
 
@@ -181,7 +182,7 @@ class Grid {
         }
     }
 
-    public static void beginDrawing(GL11 gl, boolean useTexture, boolean useColor) {
+    public static void beginDrawing(GL10 gl, boolean useTexture, boolean useColor) {
         gl.glEnableClientState(GL11.GL_VERTEX_ARRAY);
         
         if (useTexture) {
@@ -200,8 +201,8 @@ class Grid {
     }
     
     
-    public void draw(GL11 gl, boolean useTexture, boolean useColor) {
-       if(true){// if (!mUseHardwareBuffers) {
+    public void draw(GL10 gl, boolean useTexture, boolean useColor) {
+        if (!mUseHardwareBuffers) {
             gl.glVertexPointer(3, mCoordinateType, 0, mVertexBuffer);
     
             if (useTexture) {
@@ -214,8 +215,7 @@ class Grid {
     
             gl.glDrawElements(GL11.GL_TRIANGLES, mIndexCount,
                     GL11.GL_UNSIGNED_SHORT, mIndexBuffer);
-        }
-       /*else {
+        }else {
             GL11 gl11 = (GL11)gl;
             // draw using hardware buffers
             gl11.glBindBuffer(GL11.GL_ARRAY_BUFFER, mVertBufferIndex);
@@ -238,10 +238,10 @@ class Grid {
             gl11.glBindBuffer(GL11.GL_ARRAY_BUFFER, 0);
             gl11.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, 0);
         }
-        */
+        
     }
     
-    public static void endDrawing(GL11 gl) {
+    public static void endDrawing(GL10 gl) {
         gl.glDisableClientState(GL11.GL_VERTEX_ARRAY);
     }
     
@@ -294,7 +294,7 @@ class Grid {
      * not guaranteed to be supported on every device.
      * @param gl  A pointer to the OpenGL ES context.
      */
-    public void generateHardwareBuffers(GL11 gl) {
+    public void generateHardwareBuffers(GL10 gl) {
         if (!mUseHardwareBuffers) {
             if (gl instanceof GL11) {
                 GL11 gl11 = (GL11)gl;
