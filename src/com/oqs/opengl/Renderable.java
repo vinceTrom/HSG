@@ -2,6 +2,7 @@ package com.oqs.opengl;
 
 import java.util.HashMap;
 
+import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
 import android.graphics.Rect;
@@ -29,7 +30,7 @@ public abstract class Renderable {
 		velocityY = OpenglActivity._screenHeight*velocity;
 
 	}
-	protected abstract void finalDraw(GL11 gl, Grid grid);
+	protected abstract void finalDraw(GL10 gl, Grid grid);
 	
 	public Rect getBoundRect() {
 		return new Rect((int)x, (int)(y-height), (int)(x+width),(int) (y));
