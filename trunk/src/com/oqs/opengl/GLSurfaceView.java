@@ -213,11 +213,14 @@ public class GLSurfaceView extends SurfaceView implements SurfaceHolder.Callback
 		holder.setType(SurfaceHolder.SURFACE_TYPE_GPU);
 
 	}
+	private Runnable mover ;
 	public void setEvent(Runnable r) {
+		mover = r;
+		/*
 		MoverThread mt = new MoverThread();
 		mt.mover = r;
 		mt.start();
-		//mGLThread.setEvent(r);
+		*/
 	}
 	public class MoverThread extends Thread{
 		public Runnable mover;
@@ -1320,6 +1323,7 @@ public class GLSurfaceView extends SurfaceView implements SurfaceHolder.Callback
 							stopEglLocked();
 						}
 						mGL.glFinish();
+						mover.run();
 
 					}
 					if (wantRenderNotification) {
