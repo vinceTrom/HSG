@@ -29,7 +29,8 @@ public class FrameRateCounter {
 				},PERIOD, PERIOD);
 			}
 		}else{
-			_timer.cancel();
+			if(_timer != null)
+				_timer.cancel();
 			_timer = null;
 		}
 	}

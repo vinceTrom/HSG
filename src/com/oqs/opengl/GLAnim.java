@@ -22,9 +22,7 @@ public class GLAnim {
 	// The id of the original resource that mTextureName is based on.
 	private String mResourceName;
 	protected Grid[] mGrid;
-	//private int currentindex = 0;
 	public boolean loop = true;
-	//private long lastDraw=0;
 	private boolean _tiled = true;
 	private ArrayList<Picture> _frames = null;
 	private int _period = 80;
@@ -81,19 +79,29 @@ public class GLAnim {
 				renderable._state.put(mResourceName, new RenderableAnimState());
 			}
 
-			if(renderable.musDrawThisAnim(getResourceName())){
+			if(renderable.mustDraw() && renderable.musDrawThisAnim(getResourceName())){
 				final RenderableAnimState state = renderable._state.get(mResourceName);
 
-				if(_tiled){//TODO deplacer ça dans le mover
+				if(_tiled){
 					int period = _period;
 					if(getResourceName().equals("walk") || getResourceName().equals("soldier/walk"))
 						period = (int) (period / Constants.LEVEL_SPEED);
 					if(_currentTimeMillis - period > state.lastDraw){
 						state.lastDraw = _currentTimeMillis;
+
+						if(state.currentindex == mGrid.length-1)
+							if(getResourceName().contains("tan"))
+								renderable.animFinished(getResourceName());
+						if(state.currentindex == mGrid.length-1)
+							if(getResourceName().contains("yawn"))
+								renderable.animFinished(getResourceName());
+
 						if(loop)
 							state.currentindex = (state.currentindex+1)%mGrid.length;
 						else
 							state.currentindex = Math.min(state.currentindex+1,mGrid.length-1);
+
+
 					}
 				}
 
@@ -107,20 +115,20 @@ public class GLAnim {
 						renderable.x + _offsetX- pic.imageAnchor.first,
 						renderable.y +_offsetY  - pic.floorPos , 
 						0);
-/*
+				/*
 				if(getResourceName().equals("back"))
 					willdrawback(getResourceName());
 				if(getResourceName().equals("mainback"))
 					willdrawmainback(getResourceName());
 				if(getResourceName().equals("first"))
 					willdrawfirst(getResourceName());
-*/
+				 */
 				renderable.finalDraw(gl, mGrid[state.currentindex]);
 				gl.glPopMatrix();
 			}
 		}
 	}
-/*
+	/*
 	private void willdrawback(String s){
 		int a = s.length();
 	}
@@ -132,7 +140,7 @@ public class GLAnim {
 	private void willdrawfirst(String s){
 		int a = s.length();
 	}
-*/
+	 */
 
 	public void setPictures(ArrayList<Picture> ls){
 		_frames = ls;

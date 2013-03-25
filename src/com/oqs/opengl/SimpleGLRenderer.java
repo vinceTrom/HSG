@@ -133,10 +133,9 @@ public class SimpleGLRenderer implements GLSurfaceView.Renderer {
 				int deltaX = (int) (p.first - currentPlayerPic.imageAnchor.first);
 				int deltaY =0;
 				if(player._state.get("armfire")!= null){
-					deltaY = (int) (p.second);
-					deltaY = deltaY + currentPlayerPic.imageAnchor.second;
+					deltaY = deltaY + currentPlayerPic.floorPos;
 				}
-				getAnim("armfire").setOffsetPos(deltaX, deltaY);
+				getAnim("armfire").setOffsetPos(deltaX, - deltaY);
 				getAnim("armfire").draw(gl);
 			}
 

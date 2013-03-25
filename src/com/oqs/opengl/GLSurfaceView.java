@@ -213,32 +213,13 @@ public class GLSurfaceView extends SurfaceView implements SurfaceHolder.Callback
 		holder.setType(SurfaceHolder.SURFACE_TYPE_GPU);
 
 	}
-	private Runnable mover ;
+	
+	private Runnable _mover ;
+	
 	public void setEvent(Runnable r) {
-		mover = r;
-		/*
-		MoverThread mt = new MoverThread();
-		mt.mover = r;
-		mt.start();
-		*/
+		_mover = r;
 	}
-	public class MoverThread extends Thread{
-		public Runnable mover;
-		@Override
-		public void run() {
-			while(true){
-				synchronized (sGLThreadManager) {
-					mover.run();
-				}
-					try {
-						sleep(11);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				
-			}
-		}
-	}
+
 	/**
 	 * Set the glWrapper. If the glWrapper is not null, its
 	 * {@link GLWrapper#wrap(GL)} method is called
@@ -1323,7 +1304,7 @@ public class GLSurfaceView extends SurfaceView implements SurfaceHolder.Callback
 							stopEglLocked();
 						}
 						mGL.glFinish();
-						mover.run();
+						_mover.run();
 
 					}
 					if (wantRenderNotification) {

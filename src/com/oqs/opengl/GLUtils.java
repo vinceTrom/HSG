@@ -86,7 +86,7 @@ public class GLUtils {
 		}
 
 		if(anim.getAttributes().get("y") != null){
-			glanim.getCharacter().y = Float.parseFloat(anim.getAttributes().get("y"))*OpenglActivity._screenHeight;
+			glanim.getCharacter().y = Float.parseFloat(anim.getAttributes().get("y"))*Level1._screenHeight;
 		}
 
 		/*
@@ -112,7 +112,7 @@ public class GLUtils {
 			float Yratio = pictures.get(frameindex).height/SPRITE_HEIGHT;
 			Grid picGrid = new Grid(2, 2, false);
 
-			int textureheight = (int) ((pictures.get(frameindex).height/maxheightPic)*picSizeOnScreenRatio*OpenglActivity._screenHeight);
+			int textureheight = (int) ((pictures.get(frameindex).height/maxheightPic)*picSizeOnScreenRatio*Level1._screenHeight);
 			float ratio = (textureheight/(float)pictures.get(frameindex).height);
 			int texturewidth = (int) (ratio*pictures.get(frameindex).width);
 			averageWidth = averageWidth+texturewidth;

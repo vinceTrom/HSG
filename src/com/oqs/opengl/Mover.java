@@ -33,7 +33,7 @@ public class Mover implements Runnable {
 
 	static float SPEED_OF_GRAVITY = 150.0f;
 
-	public Mover(OpenglActivity openglActivity, int _screenHeight) {
+	public Mover(int _screenHeight) {
 		_colisioner = new Colisioner();
 		SPEED_OF_GRAVITY = (float) (0.9*_screenHeight);
 		time = 0;

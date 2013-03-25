@@ -8,41 +8,18 @@ import android.view.View.OnClickListener;
 
 public class LaunchActivity extends Activity{
 
-	private String currentAnim= "nope";
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
-		/*
-		Spinner	spinner = ((Spinner)findViewById(R.id.spinner));
+		setContentView(R.layout.splash);
 		
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-	            this, R.array.anims_array, android.R.layout.simple_spinner_item);
-	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    spinner.setAdapter(adapter);
-		
-		
-		((Spinner)findViewById(R.id.spinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-				currentAnim = (String) ((TextView)arg1).getText();				
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {}
-		});
-
-*/
-		
-		findViewById(R.id.launch).setOnClickListener(new OnClickListener() {
-			
+		findViewById(R.id.layout).setOnClickListener(new OnClickListener() {	
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(LaunchActivity.this, OpenglActivity.class);
-				intent.putExtra("anim",currentAnim);
-				startActivity(intent);			
+				Intent intent = new Intent(LaunchActivity.this, GLSplash.class);
+				startActivity(intent);	
+				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+				finish();
 			}
 		});
 	}
