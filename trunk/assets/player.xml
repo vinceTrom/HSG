@@ -39,12 +39,11 @@
             <image x="341" y="0" width="67" height="72" anchorX="30" anchorY="8" fireanchorX="65" fireanchorY="29" floorpos="5"/>
             <image x="409" y="0" width="70" height="70" anchorX="31" anchorY="8" fireanchorX="65" fireanchorY="27" floorpos="3"/>
         </animation>
-        <animation name="armfire" period="80" size="0.18">
-          <image x="38" y="3" width="32" height="38" anchorX="1" anchorY="19" fireanchorX="0" fireanchorY="0" floorpos="0"/>   
-            <image x="87" y="7" width="57" height="24" anchorX="2" anchorY="12" fireanchorX="0" fireanchorY="0" floorpos="0"/>
-            <image x="180" y="3" width="37" height="37" anchorX="0" anchorY="19" fireanchorX="0" fireanchorY="0" floorpos="0"/>
-            <image x="236" y="10" width="54" height="20" anchorX="1" anchorY="11" fireanchorX="0" fireanchorY="0" floorpos="0"/>
-              
+      <animation name="armfire" period="90" size="0.18">
+            <image x="38" y="3" width="32" height="38" anchorX="1" anchorY="19" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="87" y="3" width="57" height="38" anchorX="2" anchorY="12" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="180" y="3" width="37" height="38" anchorX="0" anchorY="35" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="236" y="3" width="54" height="38" anchorX="1" anchorY="-5" fireanchorX="0" fireanchorY="0" floorpos="0"/>
         </animation>
         
         <animation name="walk" period="80" size="0.3">

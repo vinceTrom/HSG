@@ -22,7 +22,7 @@ public class Colisioner {
 	}
 
 	public boolean testIfOutsideOfTheScreen(Renderable renderable) {
-		return renderable.x-300>OpenglActivity._screenWidth || renderable.x+200<0;
+		return renderable.x-300>Level1._screenWidth || renderable.x+200<0;
 
 	}
 

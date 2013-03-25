@@ -16,14 +16,14 @@ public class GLLayerLoop extends Renderable{
 
 	@Override
 	protected void finalDraw(GL10 gl, Grid grid){
-		if(x+_sprite.textureWidth<OpenglActivity._screenWidth){
+		if(x+_sprite.textureWidth<Level1._screenWidth){
 			grid.draw(gl, true, false);
 
 			float tx = x;
 			x = _sprite.textureWidth;
 			gl.glTranslatef(x, 0, 0);
 			grid.draw(gl, true, false);
-			if(tx+2*_sprite.textureWidth<OpenglActivity._screenWidth){
+			if(tx+2*_sprite.textureWidth<Level1._screenWidth){
 				x = _sprite.textureWidth;
 				gl.glTranslatef(x, 0, 0);
 				grid.draw(gl, true, false);
@@ -39,6 +39,11 @@ public class GLLayerLoop extends Renderable{
 
 	public GLAnim getSprite() {
 		return _sprite;
+	}
+
+	@Override
+	public boolean mustDraw() {
+		return true;
 	}
 
 	

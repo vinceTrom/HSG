@@ -11,4 +11,9 @@ public class GLBullet extends Renderable{
 		grid.draw(gl, true, false);
 	}
 
+	@Override
+	public boolean mustDraw() {
+		return true;
+	}
+
 }

@@ -1,6 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <soldier >
 <animations>
+<animation name="dancing3" period="80">
+            <image x="2" y="0" width="37" height="52" anchorX="6" anchorY="50" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="44" y="0" width="39" height="52" anchorX="5" anchorY="50" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="86" y="0" width="33" height="53" anchorX="3" anchorY="50" fireanchorX="0" fireanchorY="0" floorpos="3"/>
+            <image x="124" y="1" width="33" height="51" anchorX="2" anchorY="49" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="161" y="0" width="36" height="51" anchorX="4" anchorY="50" fireanchorX="0" fireanchorY="0" floorpos="1"/>
+            <image x="199" y="0" width="33" height="52" anchorX="3" anchorY="50" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="240" y="0" width="36" height="52" anchorX="4" anchorY="50" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="282" y="0" width="34" height="52" anchorX="2" anchorY="50" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="318" y="0" width="35" height="52" anchorX="3" anchorY="50" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="359" y="0" width="33" height="52" anchorX="2" anchorY="50" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="399" y="0" width="34" height="52" anchorX="2" anchorY="50" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+        </animation>
+        <animation name="dancing2" period="80">
+            <image x="2" y="0" width="26" height="41" anchorX="11" anchorY="5" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="31" y="0" width="31" height="44" anchorX="16" anchorY="5" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="63" y="0" width="33" height="37" anchorX="17" anchorY="5" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="99" y="1" width="34" height="41" anchorX="17" anchorY="4" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="136" y="0" width="34" height="43" anchorX="17" anchorY="5" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="173" y="0" width="29" height="42" anchorX="14" anchorY="5" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="205" y="0" width="32" height="41" anchorX="16" anchorY="5" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+        </animation>
+        <animation name="dancing1" period="80">
+            <image x="2" y="0" width="37" height="41" anchorX="14" anchorY="5" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="39" y="0" width="39" height="44" anchorX="14" anchorY="5" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="79" y="0" width="44" height="37" anchorX="16" anchorY="6" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="124" y="1" width="44" height="41" anchorX="18" anchorY="6" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="168" y="0" width="41" height="43" anchorX="18" anchorY="6" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="208" y="0" width="39" height="42" anchorX="17" anchorY="5" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="247" y="0" width="36" height="41" anchorX="14" anchorY="5" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="284" y="0" width="40" height="39" anchorX="13" anchorY="5" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="325" y="0" width="43" height="37" anchorX="14" anchorY="6" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="368" y="0" width="40" height="39" anchorX="14" anchorY="7" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="409" y="0" width="39" height="40" anchorX="15" anchorY="6" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="449" y="0" width="40" height="44" anchorX="15" anchorY="5" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+        </animation>
+        <animation name="calling" period="80">
+            <image x="6" y="0" width="26" height="41" anchorX="21" anchorY="41" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="35" y="0" width="26" height="41" anchorX="21" anchorY="41" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="62" y="0" width="27" height="41" anchorX="22" anchorY="41" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="90" y="1" width="26" height="40" anchorX="21" anchorY="40" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="124" y="0" width="26" height="41" anchorX="21" anchorY="41" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="153" y="0" width="27" height="41" anchorX="21" anchorY="41" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="183" y="0" width="27" height="41" anchorX="22" anchorY="41" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="212" y="0" width="29" height="41" anchorX="21" anchorY="41" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="244" y="0" width="26" height="41" anchorX="20" anchorY="41" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="271" y="0" width="29" height="41" anchorX="21" anchorY="41" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="300" y="0" width="30" height="41" anchorX="25" anchorY="41" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="331" y="0" width="33" height="41" anchorX="25" anchorY="41" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="365" y="0" width="28" height="41" anchorX="22" anchorY="41" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+        </animation>
+<animation name="tanning" period="220" size="0.12">
+    <!--  
+            <image x="7" y="0" width="42" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="57" y="0" width="44" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="109" y="0" width="44" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            -->
+            <image x="159" y="0" width="44" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="209" y="0" width="42" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="259" y="0" width="43" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="308" y="0" width="43" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="357" y="0" width="42" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="407" y="0" width="42" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="457" y="0" width="43" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="506" y="0" width="43" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="556" y="0" width="43" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="607" y="0" width="42" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            
+            <image x="607" y="0" width="42" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="556" y="0" width="43" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="506" y="0" width="43" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+    		<image x="457" y="0" width="43" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="407" y="0" width="42" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="357" y="0" width="42" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="308" y="0" width="43" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="259" y="0" width="43" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="209" y="0" width="42" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="159" y="0" width="44" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            </animation>
+            <animation name="yawning" period="150" size="0.12">
+           
+            <image x="159" y="0" width="44" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="109" y="0" width="44" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="57" y="0" width="44" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="7" y="0" width="42" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            
+             <image x="7" y="0" width="42" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="57" y="0" width="44" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            <image x="109" y="0" width="44" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>          
+            <image x="159" y="0" width="44" height="36" anchorX="0" anchorY="0" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+            </animation>
+        <animation name="biker" period="80" size="0.18">
+            <image x="4" y="0" width="58" height="51" anchorX="34" anchorY="51" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="66" y="0" width="59" height="51" anchorX="35" anchorY="51" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="131" y="0" width="60" height="51" anchorX="35" anchorY="51" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="195" y="1" width="55" height="50" anchorX="35" anchorY="50" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="259" y="0" width="57" height="52" anchorX="36" anchorY="52" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="325" y="0" width="55" height="52" anchorX="35" anchorY="52" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+            <image x="384" y="0" width="60" height="52" anchorX="32" anchorY="52" fireanchorX="0" fireanchorY="0" floorpos="0"/>
+        </animation>
         <animation name="die1" size="0.2" period="70">
             <image x="8" y="7" width="37" height="43" anchorX="16" anchorY="7" fireanchorX="0" fireanchorY="0" floorpos="0"/>
             <image x="48" y="7" width="30" height="43" anchorX="12" anchorY="7" fireanchorX="0" fireanchorY="0" floorpos="0"/>

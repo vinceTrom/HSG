@@ -23,11 +23,11 @@ public abstract class Renderable {
 	public HashMap<String,  RenderableAnimState> _state = new HashMap<String, RenderableAnimState>();
 
 	public void setXVelocity(double d){
-		velocityX = OpenglActivity._screenHeight*d;
+		velocityX = Level1._screenHeight*d;
 	}
 
 	public void setYVelocity(float velocity){
-		velocityY = OpenglActivity._screenHeight*velocity;
+		velocityY = Level1._screenHeight*velocity;
 
 	}
 	protected abstract void finalDraw(GL10 gl, Grid grid);
@@ -53,5 +53,11 @@ public abstract class Renderable {
 
 	public boolean musDrawThisAnim(String resourceName) {
 		return true;
+	}
+
+	public abstract boolean mustDraw();
+
+	public void animFinished(String resourceName) {
+		
 	}
 }
