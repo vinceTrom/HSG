@@ -70,7 +70,6 @@ public class GLAnim {
 		_offsetY = offsetY;
 	}
 
-
 	public void draw(GL10 gl) {
 		for(int i = 0;i<_renderables.size();i++){
 			final Renderable renderable = _renderables.get(i);
@@ -88,13 +87,17 @@ public class GLAnim {
 						period = (int) (period / Constants.LEVEL_SPEED);
 					if(_currentTimeMillis - period > state.lastDraw){
 						state.lastDraw = _currentTimeMillis;
+					//	if(getResourceName().contains("soldier"))
+						//	Log.d("", "draw de "+getResourceName()+ " curentinddex:"+state.currentindex + "sur "+(mGrid.length-1));
 
-						if(state.currentindex == mGrid.length-1)
+						if(state.currentindex == mGrid.length-1 && !state.animFinished){
 							if(getResourceName().contains("tan"))
 								renderable.animFinished(getResourceName());
-						if(state.currentindex == mGrid.length-1)
 							if(getResourceName().contains("yawn"))
 								renderable.animFinished(getResourceName());
+							state.animFinished = true;
+						}
+							
 
 						if(loop)
 							state.currentindex = (state.currentindex+1)%mGrid.length;
@@ -187,6 +190,12 @@ public class GLAnim {
 	 */
 	public void initAnim(){
 		getCharacter()._state.get(mResourceName).currentindex = 0;
+		getCharacter()._state.get(mResourceName).animFinished = false;
+	}
+	
+	public void initAnim(Character character){
+		character._state.get(mResourceName).currentindex = 0;
+		character._state.get(mResourceName).animFinished = false;
 	}
 
 
