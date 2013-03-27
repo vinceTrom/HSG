@@ -4,6 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -15,6 +16,7 @@ public class GLSplash extends Scene{
 
 	private Timer _timer;
 	private SplashSoldier tanningSoldier;
+	private SplashSoldier tanningSoldier2;
 	private Handler _handler = new Handler();
 
 	@Override
@@ -37,23 +39,34 @@ public class GLSplash extends Scene{
 		tanningSoldier = new SplashSoldier(this){
 			@Override
 			public void animFinished(String resourceName) {
-
-				if(resourceName.equals(SplashSoldier.TANNING_ANIM_PATH))
-					_handler.postDelayed(launchYawn, 2000);
-				if(resourceName.equals(SplashSoldier.YAWNING_ANIM_PATH))
-					_handler.postDelayed(launchDrink, 3000);
-
+				double random = Math.random();
+				long delay = (long) (Math.random()*3000+2000); 
+				if(random<0.4)
+					_handler.postDelayed(launchDrink, delay);
+				else
+					_handler.postDelayed(launchYawn, delay);
 			}
 		};
-		tanningSoldier._playerState = SplashSoldier.TANN;
-		tanningSoldier.x = 300;
-		tanningSoldier.y = 300;
-		/*
-		SplashSoldier yawningSoldier = new SplashSoldier(this);
-		yawningSoldier._playerState = SplashSoldier.YAWN;
-		yawningSoldier.x = 500;
-		yawningSoldier.y = 300;
-		 */
+		tanningSoldier._playerState = SplashSoldier.DRINK;
+		tanningSoldier.x = _screenHeight*0.5f;
+		tanningSoldier.y = _screenHeight*0.44f;
+		
+		tanningSoldier2 = new SplashSoldier(this){
+			@Override
+			public void animFinished(String resourceName) {
+				double random = Math.random();
+				long delay = (long) (Math.random()*3000+2000); 
+				if(random<0.37)
+					_handler.postDelayed(launchDrink2, delay);
+				else
+					_handler.postDelayed(launchYawn2, delay);
+			}
+		};
+		tanningSoldier2._playerState = SplashSoldier.YAWN;
+		tanningSoldier2.x = _screenHeight*1.52f;
+		tanningSoldier2.y = _screenHeight*0.29f;
+		 
+		
 		_timer = new Timer();
 		_timer.schedule(new TimerTask() {			
 			@Override
@@ -65,11 +78,12 @@ public class GLSplash extends Scene{
 				bikingSoldier.setXVelocity(-0.35f);
 				_enemies.add(bikingSoldier);
 			}
-		}, 1000, 10000);		
+		}, 1000, 10000);	
+		
 
 
 		_enemies.add(tanningSoldier);
-		//_enemies.add(yawningSoldier);
+		_enemies.add(tanningSoldier2);
 
 		launchLogoAnim();
 	}
@@ -77,14 +91,40 @@ public class GLSplash extends Scene{
 	private Runnable launchYawn  = new Runnable() {
 		@Override
 		public void run() {
+			Log.d("","run: launchYawn1");
+			tanningSoldier.getAnim(SplashSoldier.DRINKING_ANIM_PATH).initAnim(tanningSoldier);
+			tanningSoldier.getAnim(SplashSoldier.YAWNING_ANIM_PATH).initAnim(tanningSoldier);
 			tanningSoldier._playerState = SplashSoldier.YAWN;			
+		}
+	};
+	
+	private Runnable launchYawn2  = new Runnable() {
+		@Override
+		public void run() {
+			Log.d("","run: launchYawn2");
+			tanningSoldier2.getAnim(SplashSoldier.DRINKING_ANIM_PATH).initAnim(tanningSoldier2);
+			tanningSoldier2.getAnim(SplashSoldier.YAWNING_ANIM_PATH).initAnim(tanningSoldier2);
+			tanningSoldier2._playerState = SplashSoldier.YAWN;			
 		}
 	};
 
 	private Runnable launchDrink  = new Runnable() {
 		@Override
 		public void run() {
-			tanningSoldier._playerState = SplashSoldier.TANN;			
+			Log.d("","run: launchDrink1");
+			tanningSoldier.getAnim(SplashSoldier.YAWNING_ANIM_PATH).initAnim(tanningSoldier);
+			tanningSoldier.getAnim(SplashSoldier.DRINKING_ANIM_PATH).initAnim(tanningSoldier);
+			tanningSoldier._playerState = SplashSoldier.DRINK;			
+		}
+	};
+	
+	private Runnable launchDrink2  = new Runnable() {
+		@Override
+		public void run() {
+			Log.d("","run: launchDrink2");
+			tanningSoldier2.getAnim(SplashSoldier.YAWNING_ANIM_PATH).initAnim(tanningSoldier2);
+			tanningSoldier2.getAnim(SplashSoldier.DRINKING_ANIM_PATH).initAnim(tanningSoldier2);
+			tanningSoldier2._playerState = SplashSoldier.DRINK;			
 		}
 	};
 

@@ -4,11 +4,11 @@ import android.content.Context;
 
 public class SplashSoldier extends Soldier{
 
-	public static final int TANN = 6;
+	public static final int DRINK = 6;
 	public static final int YAWN = 7;
 	public static final int BIKE = 8;
 
-	public static final String TANNING_ANIM_PATH = "soldier/tanning";
+	public static final String DRINKING_ANIM_PATH = "soldier/tanning";
 	public static final String YAWNING_ANIM_PATH = "soldier/yawning";
 	public static final String BIKING_ANIM_PATH = "soldier/biker";
 
@@ -24,7 +24,7 @@ public class SplashSoldier extends Soldier{
 
 	@Override
 	public boolean musDrawThisAnim(String resourceName) {
-		if(_playerState == TANN && resourceName.equals(TANNING_ANIM_PATH))
+		if(_playerState == DRINK && resourceName.equals(DRINKING_ANIM_PATH))
 			return true;
 		else if(_playerState == YAWN && resourceName.equals(YAWNING_ANIM_PATH))
 			return true;
