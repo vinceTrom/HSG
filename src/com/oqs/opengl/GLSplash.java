@@ -65,6 +65,20 @@ public class GLSplash extends Scene{
 		tanningSoldier2._playerState = SplashSoldier.YAWN;
 		tanningSoldier2.x = _screenHeight*1.52f;
 		tanningSoldier2.y = _screenHeight*0.29f;
+		
+		
+		SplashSoldier dancing3Soldier1 = new SplashSoldier(GLSplash.this);
+		dancing3Soldier1._playerState = SplashSoldier.DANCE3;
+		dancing3Soldier1.x = _screenHeight*0.45f;
+		dancing3Soldier1.y = _screenHeight*0.2f;
+		_enemies.add(dancing3Soldier1);
+		
+		
+		SplashSoldier dancing3Soldier2 = new SplashSoldier(GLSplash.this);
+		dancing3Soldier2._playerState = SplashSoldier.DANCE3;
+		dancing3Soldier2.x = _screenHeight*1.3f;
+		dancing3Soldier2.y = _screenHeight*0.47f;
+		_enemies.add(dancing3Soldier2);
 		 
 		
 		_timer = new Timer();
@@ -78,7 +92,12 @@ public class GLSplash extends Scene{
 				bikingSoldier.setXVelocity(-0.35f);
 				_enemies.add(bikingSoldier);
 			}
-		}, 1000, 10000);	
+		}, 1000, 10000);
+		
+		
+
+				
+
 		
 
 

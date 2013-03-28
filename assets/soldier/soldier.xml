@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <soldier >
 <animations>
-<animation name="dancing3" period="80">
+<animation name="dancing3" period="110" size = "0.20">
             <image x="2" y="0" width="37" height="52" anchorX="6" anchorY="50" fireanchorX="0" fireanchorY="0" floorpos="2"/>
             <image x="44" y="0" width="39" height="52" anchorX="5" anchorY="50" fireanchorX="0" fireanchorY="0" floorpos="2"/>
             <image x="86" y="0" width="33" height="53" anchorX="3" anchorY="50" fireanchorX="0" fireanchorY="0" floorpos="3"/>
@@ -37,7 +37,7 @@
             <image x="409" y="0" width="39" height="40" anchorX="15" anchorY="6" fireanchorX="0" fireanchorY="0" floorpos="0"/>
             <image x="449" y="0" width="40" height="44" anchorX="15" anchorY="5" fireanchorX="0" fireanchorY="0" floorpos="0"/>
         </animation>
-        <animation name="calling" period="80">
+        <animation name="calling" period="120" size="0.20">
             <image x="6" y="0" width="26" height="41" anchorX="21" anchorY="41" fireanchorX="0" fireanchorY="0" floorpos="0"/>
             <image x="35" y="0" width="26" height="41" anchorX="21" anchorY="41" fireanchorX="0" fireanchorY="0" floorpos="0"/>
             <image x="62" y="0" width="27" height="41" anchorX="22" anchorY="41" fireanchorX="0" fireanchorY="0" floorpos="0"/>
