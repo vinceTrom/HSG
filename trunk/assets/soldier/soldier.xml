@@ -101,7 +101,7 @@
             <image x="325" y="0" width="55" height="52" anchorX="35" anchorY="52" fireanchorX="0" fireanchorY="0" floorpos="0"/>
             <image x="384" y="0" width="60" height="52" anchorX="32" anchorY="52" fireanchorX="0" fireanchorY="0" floorpos="0"/>
         </animation>
-        <animation name="die1" size="0.2" period="70">
+        <animation name="die1" size="0.16" period="70">
             <image x="8" y="7" width="37" height="43" anchorX="16" anchorY="7" fireanchorX="0" fireanchorY="0" floorpos="0"/>
             <image x="48" y="7" width="30" height="43" anchorX="12" anchorY="7" fireanchorX="0" fireanchorY="0" floorpos="0"/>
             <image x="85" y="8" width="30" height="42" anchorX="10" anchorY="6" fireanchorX="0" fireanchorY="0" floorpos="0"/>
@@ -113,7 +113,7 @@
             <image x="303" y="24" width="30" height="25" anchorX="9" anchorY="-10" fireanchorX="0" fireanchorY="0" floorpos="0"/>
             <image x="335" y="32" width="33" height="18" anchorX="8" anchorY="-18" fireanchorX="0" fireanchorY="0" floorpos="0"/>
         </animation>
-        <animation name="die2" size="0.2" period="50">
+        <animation name="die2" size="0.16" period="50">
             <image x="6" y="11" width="37" height="45" anchorX="16" anchorY="12" fireanchorX="0" fireanchorY="0" floorpos="0"/>
             <image x="45" y="11" width="37" height="45" anchorX="17" anchorY="12" fireanchorX="0" fireanchorY="0" floorpos="0"/>
             <image x="84" y="11" width="37" height="45" anchorX="18" anchorY="12" fireanchorX="0" fireanchorY="0" floorpos="0"/>
@@ -130,7 +130,7 @@
             <image x="189" y="93" width="48" height="22" anchorX="28" anchorY="-12" fireanchorX="0" fireanchorY="0" floorpos="1"/>
             <image x="247" y="92" width="48" height="23" anchorX="28" anchorY="-11" fireanchorX="0" fireanchorY="0" floorpos="1"/>
         </animation>
-        <animation name="die3" size="0.2" period="60">
+        <animation name="die3" size="0.16" period="60">
             <image x="12" y="0" width="32" height="49" anchorX="12" anchorY="11" fireanchorX="0" fireanchorY="0" floorpos="0"/>
             <image x="44" y="0" width="30" height="49" anchorX="11" anchorY="11" fireanchorX="0" fireanchorY="0" floorpos="0"/>
             <image x="74" y="0" width="37" height="49" anchorX="17" anchorY="11" fireanchorX="0" fireanchorY="0" floorpos="0"/>
@@ -147,7 +147,7 @@
             <image x="208" y="90" width="50" height="18" anchorX="22" anchorY="-19" fireanchorX="0" fireanchorY="0" floorpos="-1"/>
             <image x="267" y="90" width="49" height="18" anchorX="22" anchorY="-19" fireanchorX="0" fireanchorY="0" floorpos="-1"/>
         </animation>
-        <animation name="walk" size="0.2" period="80">
+        <animation name="walk" size="0.16" period="80">
             <image x="2" y="0" width="37" height="39" anchorX="14" anchorY="5" fireanchorX="0" fireanchorY="0" floorpos="1"/>
             <image x="39" y="0" width="39" height="39" anchorX="14" anchorY="5" fireanchorX="0" fireanchorY="0" floorpos="1"/>
             <image x="79" y="0" width="44" height="37" anchorX="16" anchorY="6" fireanchorX="0" fireanchorY="0" floorpos="-2"/>

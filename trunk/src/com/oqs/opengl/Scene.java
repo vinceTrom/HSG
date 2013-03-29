@@ -65,7 +65,7 @@ public abstract class Scene extends Activity{
 
 		// This list of things to move. It points to the same content as the
 		// sprite list except for the background.
-		Constants.LEVEL_SPEED = 1;
+		Constants.LEVEL_SPEED = 2;
 		Constants.GROUND_LEVEL = (int) (0.07f*_screenHeight);
 		createLevelAnims();
 		_player = new Player(this);
