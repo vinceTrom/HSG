@@ -50,10 +50,26 @@ public class Level1 extends Scene {
 	@Override
 	public void init() {
 
-		findViewById(R.id.jumpbtn).setOnClickListener(new OnClickListener() {			
+		findViewById(R.id.jumpbtn).setOnTouchListener(new View.OnTouchListener() {			
 			@Override
-			public void onClick(View v) {_player.jump();Log.d("", "JUMP ARROUND");}		
+			public boolean onTouch(View v, MotionEvent event) {
+				if(event.getAction() == MotionEvent.ACTION_UP){
+					_player.stopJump();
+				}else{
+					if(event.getAction() == MotionEvent.ACTION_DOWN)
+						_player.jump();
+				}
+				return true;
+			}
 		});
+		/*.setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				_player.jump();
+				Log.d("", "JUMP ARROUND");
+				}		
+		});
+		*/
 		findViewById(R.id.shootbtn).setOnTouchListener(new View.OnTouchListener() {			
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {

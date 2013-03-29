@@ -4,6 +4,8 @@ package com.oqs.opengl;
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
+import com.oqs.opengl.Mover.SpecialAction;
+
 
 import android.content.Context;
 import android.os.Handler;
@@ -17,7 +19,7 @@ public class Player extends Character {
 	public static final int JUMP = 2;
 	public static final int JUMP_TWO = 5;
 	public static final int FALL = 3;
-	
+
 	private static final String WALK_ANIM_PATH = "walk";
 	private static final String JUMP_ANIM_PATH = "jump";
 	private static final String FALL_ANIM_PATH = "fall";
@@ -30,14 +32,14 @@ public class Player extends Character {
 		super(ctx, "player.xml");
 		_playerState = WALK;
 	}
-	
+
 	public void setVisibility(boolean visible){
 		_isVisible = visible;
 	}
 
 
 	protected void initAnims() {
-		x = (int) (0.22f*Level1._screenHeight);
+		x = (int) (0.32f*Level1._screenHeight);
 		y = Constants.GROUND_LEVEL;
 		for(int i=0;i<_sprites.size();i++){
 
@@ -88,19 +90,39 @@ public class Player extends Character {
 
 	}
 
+	Runnable triggerRun = new Runnable() {
+		@Override
+		public void run() {
+			stopJump();						
+		}
+	};
+	SpecialAction trigger =	new Mover.SpecialAction() {
+		@Override
+		public Runnable launchOnTrigger() {
+			return  triggerRun;
+		}
 
+		@Override
+		public boolean isTriggered() {
+			return y>Level1._screenHeight*0.58;
+		}
+	};
 
 	public void jump() {
-		if(_playerState==WALK){
+		if(_playerState==WALK || _playerState==JUMP){
 			_playerState = JUMP;
+			setYVelocity(1.6f);		
+			Mover.addTrigger(this, trigger);
+
+		}
+
+	}
+
+	public void stopJump(){
+		if(_playerState==JUMP){
+			//setYVelocity(0);
 			applyGravity = true;
-			setYVelocity(0.9f);
-		}else{
-			if(_playerState==JUMP){
-				_playerState = JUMP_TWO;
-				velocityY = 0.9f;
-				setYVelocity(0.9f);
-			}
+			//fall();
 		}
 	}
 
@@ -136,7 +158,7 @@ public class Player extends Character {
 			bullet.y = (float) (y+p.second+(Math.random()*height*0.2f)-height*0.1f);
 			bullet.x = x+p.first-GLBullets.get().getSprite().getFrames().get(0).width;
 			bullet.setXVelocity(4f);
-				GLBullets.get().addBullet(bullet);
+			GLBullets.get().addBullet(bullet);
 			//((GLBullets)getAnim("bullet")).newBullet((int) (player.x-player.getAnchor().first+player.textureWidth*1),(int) (player.y-player.getAnchor().second+player.textureHeight*0.38+Math.random()*OpenglActivity._screenHeight/20));
 			_handler.postDelayed(this, 170);
 		}

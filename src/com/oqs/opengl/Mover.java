@@ -1,6 +1,7 @@
 package com.oqs.opengl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import android.os.SystemClock;
@@ -30,12 +31,14 @@ public class Mover implements Runnable {
 	private Colisioner _colisioner;
 	private ArrayList<Soldier> _enemies;
 	private ArrayList<Renderable> _bulletList;
+	
+	private static HashMap<Renderable, SpecialAction> _actions = new HashMap<Renderable, Mover.SpecialAction>();
 
 	static float SPEED_OF_GRAVITY = 150.0f;
 
 	public Mover(int _screenHeight) {
 		_colisioner = new Colisioner();
-		SPEED_OF_GRAVITY = (float) (0.9*_screenHeight);
+		SPEED_OF_GRAVITY = (float) (10*_screenHeight);
 		time = 0;
 		timeDelta = 0;
 		timeDeltaSeconds =0;
@@ -103,6 +106,12 @@ public class Mover implements Runnable {
 					if(player.y < Constants.GROUND_LEVEL && player._playerState == Player.FALL)
 						player.fallFinished();
 				}
+				
+				if(_actions.containsKey(object))
+					if(_actions.get(object).isTriggered()){
+						_actions.get(object).launchOnTrigger().run();
+						_actions.remove(object);
+					}
 
 				loop1index++;
 			}
@@ -134,6 +143,15 @@ public class Mover implements Runnable {
 		for(int i=0;i<_renderables.length;i++){
 			_colisioner.addEnemies(enemies);
 		}
+	}
+	
+	public static void addTrigger(Renderable renderable, SpecialAction action){
+		_actions.put(renderable, action);
+	}
+	
+	public interface SpecialAction{
+		public boolean isTriggered();
+		public Runnable launchOnTrigger();
 	}
 
 }
