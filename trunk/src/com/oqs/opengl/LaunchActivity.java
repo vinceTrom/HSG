@@ -16,7 +16,7 @@ public class LaunchActivity extends Activity{
 		findViewById(R.id.layout).setOnClickListener(new OnClickListener() {	
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(LaunchActivity.this, Level1.class);
+				Intent intent = new Intent(LaunchActivity.this, GLSplash.class);
 				startActivity(intent);	
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				finish();
