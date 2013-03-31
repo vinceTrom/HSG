@@ -12,7 +12,7 @@ public class SplashSoldier extends Soldier{
 	public static final int DANCE3 = 11;
 	public static final int CALLING1 = 12;
 	public static final int CALLING2 = 13;
-
+	public static final int OUTHOUSE = 14;
 
 	public static final String DRINKING_ANIM_PATH = "soldier/tanning";
 	public static final String YAWNING_ANIM_PATH = "soldier/yawning";
@@ -22,6 +22,7 @@ public class SplashSoldier extends Soldier{
 	public static final String DANCING3_ANIM_PATH = "soldier/dancing3";
 	public static final String CALLING1_ANIM_PATH = "soldier/calling";
 	public static final String CALLING2_ANIM_PATH = "soldier/calling2";
+	public static final String OUTHOUSE_ANIM_PATH = "soldier/outhouse";
 
 	public SplashSoldier(Context ctx) {
 		super(ctx);
@@ -29,6 +30,8 @@ public class SplashSoldier extends Soldier{
 			if(anim.getResourceName().contains("tann"))
 				anim.loop = false;
 			if(anim.getResourceName().contains("yawn"))
+				anim.loop = false;
+			if(anim.getResourceName().contains("outhouse"))
 				anim.loop = false;
 		}
 	}
@@ -50,6 +53,8 @@ public class SplashSoldier extends Soldier{
 		else if(_playerState == CALLING1 && resourceName.equals(CALLING1_ANIM_PATH))
 			return true;
 		else if(_playerState == CALLING2 && resourceName.equals(CALLING2_ANIM_PATH))
+			return true;
+		else if(_playerState == OUTHOUSE && resourceName.equals(OUTHOUSE_ANIM_PATH))
 			return true;
 		return false;
 	}

@@ -79,6 +79,12 @@ public class GLSplash extends Scene{
 		dancing3Soldier2.x = _screenHeight*1.3f;
 		dancing3Soldier2.y = _screenHeight*0.47f;
 		_enemies.add(dancing3Soldier2);
+		
+		SplashSoldier outhouseSoldier = new SplashSoldier(GLSplash.this);
+		outhouseSoldier._playerState = SplashSoldier.OUTHOUSE;
+		outhouseSoldier.x = _screenHeight*0.2f;
+		outhouseSoldier.y = _screenHeight*0.2f;
+		_enemies.add(outhouseSoldier);
 		 
 		
 		_timer = new Timer();
@@ -93,13 +99,6 @@ public class GLSplash extends Scene{
 				_enemies.add(bikingSoldier);
 			}
 		}, 1000, 10000);
-		
-		
-
-				
-
-		
-
 
 		_enemies.add(tanningSoldier);
 		_enemies.add(tanningSoldier2);
