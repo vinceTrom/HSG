@@ -13,6 +13,7 @@ public class SplashSoldier extends Soldier{
 	public static final int CALLING1 = 12;
 	public static final int CALLING2 = 13;
 	public static final int OUTHOUSE = 14;
+	public static final int OUTHOUSEFALLING = 15;
 
 	public static final String DRINKING_ANIM_PATH = "soldier/tanning";
 	public static final String YAWNING_ANIM_PATH = "soldier/yawning";
@@ -23,6 +24,7 @@ public class SplashSoldier extends Soldier{
 	public static final String CALLING1_ANIM_PATH = "soldier/calling";
 	public static final String CALLING2_ANIM_PATH = "soldier/calling2";
 	public static final String OUTHOUSE_ANIM_PATH = "soldier/outhouse";
+	public static final String OUTHOUSEFALLING_ANIM_PATH = "soldier/outhousefalling";
 
 	public SplashSoldier(Context ctx) {
 		super(ctx);
@@ -55,6 +57,8 @@ public class SplashSoldier extends Soldier{
 		else if(_playerState == CALLING2 && resourceName.equals(CALLING2_ANIM_PATH))
 			return true;
 		else if(_playerState == OUTHOUSE && resourceName.equals(OUTHOUSE_ANIM_PATH))
+			return true;
+		else if(_playerState == OUTHOUSEFALLING && resourceName.equals(OUTHOUSEFALLING_ANIM_PATH))
 			return true;
 		return false;
 	}
