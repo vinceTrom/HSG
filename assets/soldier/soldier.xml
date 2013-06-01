@@ -2,6 +2,9 @@
 <soldier >
 <animations>
     <animation name="outhouse" period="100" size="0.27">
+        <image x="17" y="9" width="53" height="65" anchorX="3" anchorY="62" fireanchorX="0" fireanchorY="0" floorpos="2"/>
+    </animation>
+    <animation name="outhousefalling" period="100" size="0.27">
             <image x="17" y="9" width="53" height="65" anchorX="3" anchorY="62" fireanchorX="0" fireanchorY="0" floorpos="2"/>
             <image x="84" y="8" width="55" height="67" anchorX="5" anchorY="63" fireanchorX="0" fireanchorY="0" floorpos="3"/>
             <image x="156" y="9" width="54" height="65" anchorX="3" anchorY="62" fireanchorX="0" fireanchorY="0" floorpos="2"/>

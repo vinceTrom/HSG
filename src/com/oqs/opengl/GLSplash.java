@@ -80,11 +80,20 @@ public class GLSplash extends Scene{
 		dancing3Soldier2.y = _screenHeight*0.47f;
 		_enemies.add(dancing3Soldier2);
 		
-		SplashSoldier outhouseSoldier = new SplashSoldier(GLSplash.this);
+		final SplashSoldier outhouseSoldier = new SplashSoldier(GLSplash.this);
 		outhouseSoldier._playerState = SplashSoldier.OUTHOUSE;
 		outhouseSoldier.x = _screenHeight*0.2f;
 		outhouseSoldier.y = _screenHeight*0.2f;
 		_enemies.add(outhouseSoldier);
+		
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				outhouseSoldier._playerState = SplashSoldier.OUTHOUSEFALLING;				
+			}
+		}, 5000);
 		 
 		
 		_timer = new Timer();
